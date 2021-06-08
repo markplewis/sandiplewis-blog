@@ -1,13 +1,22 @@
 {
   "name": "sandi-plewis-blog",
   "version": "1.0.0",
+  "scriptsComments": {
+    "next-dev": "`next dev` starts the application in development mode with hot-code reloading, error reporting, and more",
+    "next-build": "`next build` creates an optimized production build of the application",
+    "next-start": "`next start` starts the application in production mode. The application should be compiled with `next build` first",
+    "next-export": "`next export` allows you to export your app to static HTML, which can be run standalone without the need of a Node.js server",
+    "sanity-build": "`sanity build` builds the current Sanity configuration to a static bundle",
+    "sanity-start": "`sanity start` start the development server for Sanity Studio (run this command within the studio folder)"
+  },
   "scripts": {
-    "dev": "next",
-    "build": "npm run build:sanity && pwd && npm run build:web",
-    "build:web": "next build",
-    "start:web": "next start",
-    "build:sanity": "cd studio && sanity build ../public/studio -y && cd ..",
-    "start:sanity": "cp .env ./studio/.env.development && cd studio && sanity start",
+    "next-dev": "next dev",
+    "next-build": "next build",
+    "next-start": "next start",
+    "next-export": "next build && next export",
+    "sanity-build": "cd studio && sanity build ../public/studio -y && cd ..",
+    "sanity-start": "cp .env.local ./studio/.env.development && cd studio && sanity start",
+    "build": "npm run sanity-build && pwd && npm run next-build",
     "postinstall": "lerna bootstrap"
   },
   "dependencies": {

@@ -5,6 +5,7 @@ import Intro from '../components/intro'
 import Layout from '../components/layout'
 import { getAllPostsForHome } from '../lib/api'
 import Head from 'next/head'
+import Image from 'next/image'
 import { CMS_NAME } from '../lib/constants'
 
 export default function Index({ allPosts, preview }) {
@@ -18,6 +19,12 @@ export default function Index({ allPosts, preview }) {
         </Head>
         <Container>
           <Intro />
+          <Image
+            src="/images/sandi-plewis.jpg"
+            width={200}
+            height={300}
+            alt="Sandi Plewis"
+          />
           {heroPost && (
             <HeroPost
               title={heroPost.title}
