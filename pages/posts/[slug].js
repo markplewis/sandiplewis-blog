@@ -56,6 +56,11 @@ export default function Post({ post, morePosts, preview }) {
 }
 
 export async function getStaticProps({ params, preview = false }) {
+  // If context.preview is true, append "/preview" to the API endpoint
+  // to request draft data instead of published data. This will vary
+  // based on which headless CMS you're using.
+  // See: https://nextjs.org/docs/advanced-features/preview-mode#fetch-preview-data
+  
   const data = await getPostAndMorePosts(params.slug, preview)
   return {
     props: {

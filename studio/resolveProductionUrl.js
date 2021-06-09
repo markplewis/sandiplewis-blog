@@ -1,4 +1,4 @@
-const previewSecret = "mrwj2khbwjbu9f" // SANITY_PREVIEW_SECRET
+const previewSecret = process.env.SANITY_STUDIO_PREVIEW_SECRET;
 const projectUrl = 'http://localhost:3000'
 
 export default function resolveProductionUrl(document) {
