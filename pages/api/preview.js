@@ -15,6 +15,7 @@ export default async function preview(req, res) {
 
   return res.status(401).json({ post: post })
 
+  // Temporarily commented out!
   /*
   // If the slug doesn't exist prevent preview mode from being enabled
   if (!post) {

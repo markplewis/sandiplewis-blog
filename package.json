@@ -17,26 +17,27 @@
     "sanity-dev": "cp .env.local ./studio/.env.development && cd studio && sanity start",
     "sanity-build": "cd studio && sanity build ../public/studio -y && cd ..",
     "build": "npm run sanity-build && pwd && npm run next-build",
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap",
+    "check": "npx npm-check -s -u"
   },
   "dependencies": {
-    "@sanity/block-content-to-react": "^2.0.7",
-    "@sanity/client": "^2.8.0",
+    "@sanity/block-content-to-react": "^3.0.0",
+    "@sanity/client": "^2.10.5",
     "@sanity/image-url": "^0.140.19",
     "classnames": "^2.2.6",
-    "date-fns": "^2.15.0",
-    "next": "^10.2.0",
-    "next-sanity": "^0.1.5",
+    "date-fns": "^2.22.1",
+    "next": "^10.2.3",
+    "next-sanity": "^0.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.3.6",
-    "swr": "^0.5.5"
+    "react-hook-form": "^7.8.3",
+    "swr": "^0.5.6"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",
-    "@sanity/cli": "^2.0.5",
+    "@sanity/cli": "^2.10.5",
     "lerna": "^4.0.0",
     "postcss-preset-env": "^6.7.0",
-    "tailwindcss": "^2.1.2"
+    "tailwindcss": "^2.1.4"
   }
 }
