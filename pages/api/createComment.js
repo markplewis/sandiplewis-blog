@@ -1,7 +1,12 @@
 import sanityClient from '@sanity/client'
+
+// TODO: why not this?
+// import {commentClient} from './sanity.server'
+
 const config = {
-  dataset: process.env.SANITY_STUDIO_API_DATASET,
+  dataset: process.env.SANITY_STUDIO_API_DATASET || 'production',
   projectId: process.env.SANITY_STUDIO_API_PROJECT_ID,
+  apiVersion: '2021-03-25',
   useCdn: process.env.NODE_ENV === 'production',
   token: process.env.SANITY_API_TOKEN,
 }
