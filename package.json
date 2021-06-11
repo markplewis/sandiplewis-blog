@@ -1,22 +1,23 @@
 {
   "name": "sandi-plewis-blog",
   "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "author": "Mark Plewis <mplewis1@gmail.com>",
+  "license": "UNLICENSED",
   "scriptsComments": {
-    "next-dev": "`next dev` starts the application in development mode with hot-code reloading, error reporting, and more",
-    "next-build": "`next build` creates an optimized production build of the application",
-    "next-start": "`next start` starts the application in production mode. The application should be compiled with `next build` first",
-    "next-export": "`next export` allows you to export your app to static HTML, which can be run standalone without the need of a Node.js server",
-    "sanity-dev": "`sanity start` start the development server for Sanity Studio (run this command within the studio folder)",
-    "sanity-build": "`sanity build` builds the current Sanity configuration to a static bundle"
+    "start": "Starts both applications (Sanity Studio and Next.js) in development mode",
+    "sanity-dev": "Starts Sanity Studio's development server (the `sanity start` command runs within the `studio` folder)",
+    "next-dev": "`Starts the Next.js application in development mode with hot-code reloading, error reporting, etc.",
+    "build": "Vercel CI build command: creates optimized production builds of both applications (Sanity Studio and Next.js)",
+    "sanity-build": "Builds the current Sanity configuration to a static bundle"
   },
   "scripts": {
-    "next-dev": "next dev",
-    "next-build": "next build",
-    "next-start": "next start",
-    "next-export": "next build && next export",
+    "start": "concurrently -k -n sanity,next \"npm:sanity-dev\" \"next dev\"",
     "sanity-dev": "cp .env.local ./studio/.env.development && cd studio && sanity start",
+    "next-dev": "next dev",
+    "build": "npm run sanity-build && pwd && next build",
     "sanity-build": "cd studio && sanity build ../public/studio -y && cd ..",
-    "build": "npm run sanity-build && pwd && npm run next-build",
     "postinstall": "lerna bootstrap",
     "check": "npx npm-check -s -u"
   },
@@ -25,6 +26,7 @@
     "@sanity/client": "^2.10.5",
     "@sanity/image-url": "^0.140.19",
     "classnames": "^2.2.6",
+    "concurrently": "^6.2.0",
     "date-fns": "^2.22.1",
     "next": "^10.2.3",
     "next-sanity": "^0.2.0",

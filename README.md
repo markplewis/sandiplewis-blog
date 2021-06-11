@@ -34,3 +34,8 @@ sanity upgrade
 ```
 
 Unfortunately, Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to delete `yarn.lock`, `package-lock.json` and `node_modules`, then run `npm install`. See: https://github.com/sanity-io/sanity/issues/1510
+
+### CLI documentation
+
+- Next.js: https://nextjs.org/docs/api-reference/cli
+- Sanity: https://www.sanity.io/docs/cli
