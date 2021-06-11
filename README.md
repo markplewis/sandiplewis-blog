@@ -32,3 +32,5 @@ Then you'll be able to upgrade Sanity Studio as follows:
 cd studio
 sanity upgrade
 ```
+
+Unfortunately, Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to delete `yarn.lock`, `package-lock.json` and `node_modules`, then run `npm install`. See: https://github.com/sanity-io/sanity/issues/1510
