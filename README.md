@@ -22,18 +22,32 @@ The blog will be running at `http://localhost:3000`, the Studio will run at `htt
 
 ### Upgrading Sanity Studio
 
-You'll first need to globally install the [Sanity CLI](https://www.sanity.io/docs/cli):
-```
+You'll first need to globally install the [Sanity CLI](https://www.sanity.io/docs/cli) (you can also upgrade the CLI via the same command):
+
+```bash
 npm install -g @sanity/cli
 ```
 
-Then you'll be able to upgrade Sanity Studio as follows:
-```
+Then you'll be able to upgrade both of the projects as follows:
+
+```bash
+# Next.js project
+sanity upgrade
+
+# Sanity Studio project
 cd studio
 sanity upgrade
 ```
 
-Unfortunately, Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to delete `yarn.lock`, `package-lock.json` and `node_modules`, then run `npm install`. See: https://github.com/sanity-io/sanity/issues/1510
+Unfortunately, [until this issue has been resolved](https://github.com/sanity-io/sanity/issues/1510), Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to perform some cleanup, as follows:
+
+```bash
+rm yarn.lock
+rm -rf node_modules
+npm install
+```
+
+This should be done in any directory where `sanity upgrade` was run.
 
 ### CLI documentation
 
