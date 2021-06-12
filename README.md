@@ -22,6 +22,8 @@ The blog will be running at `http://localhost:3000`, the Studio will run at `htt
 
 ### Upgrading Sanity Studio
 
+Sanity release notes can be found here: https://github.com/sanity-io/sanity/releases
+
 You'll first need to globally install the [Sanity CLI](https://www.sanity.io/docs/cli) (you can also upgrade the CLI via the same command):
 
 ```bash
