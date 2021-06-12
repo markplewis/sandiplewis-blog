@@ -34,7 +34,15 @@ npm run next-dev
 npm run sanity-dev
 ```
 
+It's worth noting that, when running the applications locally, the `.env.local` file gets copied into the `studio` directory so that Sanity Studio can share the environment variables defined within it.
+
 The Next.js application will run at `http://localhost:3000` and Sanity Studio will run at `http://localhost:3333`.
+
+### Production builds
+
+Whenever a Vercel build is initiated, Vercel runs `npm run build`, which creates optimized production builds of both applications (see the script comments in `package.json` for more information). This generates a `.next` directory and a `public/studio` directory for the Next.js and Sanity Studio applications, respectively. Vercel then deploys these files to the production server.
+
+If you run `npm run build` locally, you'll see the statically-built HTML files, etc. in the `.next/server/pages/` directory.
 
 ### Upgrading Sanity Studio
 
