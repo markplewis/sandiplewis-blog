@@ -3,7 +3,7 @@
 This repository contains two separate applications:
 
 1. A [Next.js](https://nextjs.org) application that serves as the front-end for [www.sandiplewis.com](https://www.sandiplewis.com).
-2. A [Sanity Studio](https://www.sanity.io)-powered CMS that provides content for the front-end application to consume, via the Sanity API.
+2. A [Sanity](https://www.sanity.io)-powered CMS that provides content for the front-end application to consume, via the Sanity API.
 
 This project uses [Vercel](https://vercel.com) for continuous integration and delivery (CI/CD).
 
@@ -31,11 +31,8 @@ npm start
 Or you can run each application separately via:
 
 ```bash
-# Sanity Studio
-npm run sanity-dev
-
-# Next.js
 npm run next-dev
+npm run sanity-dev
 ```
 
 The blog will run at `http://localhost:3000` and the Studio will run at `http://localhost:3333`.
