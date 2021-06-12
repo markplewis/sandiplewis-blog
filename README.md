@@ -9,16 +9,15 @@ This project uses [Vercel](https://vercel.com) for continuous integration and de
 
 ### Installation
 
-Duplicate the `.env.local.example` file and rename it to `.env.local`. Then, copy and paste the listed environment variables, tokens, IDs and secrets from your [Sanity Studio dashboard](https://manage.sanity.io) and your [Vercel project dashboard](https://vercel.com).
+Duplicate the `.env.local.example` file and rename it to `.env.local`. Then, copy and paste the listed environment variables, tokens, IDs and secrets from your [Vercel project dashboard](https://vercel.com). See `.env.local.example` for more information.
 
-Once those environment variables are ready, run the following commands to install each project's dependencies:
+Once the environment variables are ready, run the following command to install the project dependencies:
 
 ```bash
 npm install
-
-cd studio
-npm install
 ```
+
+Because this project uses [Lerna](https://lerna.js.org/), running `npm install` in the root directory will subsequently trigger an `npm install` within the `studio` folder, so both applications' dependencies will be installed.
 
 ### Startup
 
@@ -35,13 +34,14 @@ npm run next-dev
 npm run sanity-dev
 ```
 
-The blog will run at `http://localhost:3000` and the Studio will run at `http://localhost:3333`.
+The Next.js application will run at `http://localhost:3000` and Sanity Studio will run at `http://localhost:3333`.
 
 ### Upgrading Sanity Studio
 
-First, you'll need to globally install the [Sanity CLI](https://www.sanity.io/docs/cli) (you can also upgrade the CLI via the same command):
+First, you'll need to globally install the [Sanity CLI](https://www.sanity.io/docs/cli):
 
 ```bash
+# Install or upgrade Sanity CLI
 npm install -g @sanity/cli
 ```
 
@@ -56,17 +56,20 @@ cd studio
 sanity upgrade
 ```
 
-Unfortunately, [until this issue has been resolved](https://github.com/sanity-io/sanity/issues/1510), Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to perform some cleanup in each directory where `sanity upgrade` was run:
+Unfortunately, [until this issue has been resolved](https://github.com/sanity-io/sanity/issues/1510), Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to perform some cleanup:
 
 ```bash
+# Remove superfluous yarn.lock files
 rm yarn.lock
-rm -rf node_modules
+rm studio/yarn.lock
+
+# Update package-lock.json to match package.json again
 npm install
 ```
 
 Sanity release notes can be found here: https://github.com/sanity-io/sanity/releases
 
-### Lerna
+### Why use Lerna?
 
 This repo contains two separate apps, both of which have dependencies that need to be installed during each Vercel build/deployment. One way to manage this would be to add the following script to the root-level `package.json` file:
 
@@ -76,7 +79,7 @@ This repo contains two separate apps, both of which have dependencies that need 
 }
 ```
 
-However, we've decided to manage the package installation portion of our build process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.
+However, we've decided to manage this process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.
 
 ### CLI documentation
 

@@ -15,7 +15,7 @@
     "sanity-build": "Builds the current Sanity configuration to a static bundle"
   },
   "scripts": {
-    "start": "concurrently -k -n sanity,next \"npm:sanity-dev\" \"next dev\"",
+    "start": "concurrently -k -c cyan,yellow -n sanity,next \"npm:sanity-dev\" \"next dev\"",
     "sanity-dev": "cp .env.local ./studio/.env.development && cd studio && sanity start",
     "next-dev": "next dev",
     "build": "npm run sanity-build && pwd && next build",
