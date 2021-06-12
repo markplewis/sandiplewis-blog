@@ -39,3 +39,15 @@ Unfortunately, Sanity will generate a `yarn.lock` file, which will likely be out
 
 - Next.js: https://nextjs.org/docs/api-reference/cli
 - Sanity: https://www.sanity.io/docs/cli
+
+### Lerna
+
+This repo contains two separate apps, both with dependencies that need to be installed during each Vercel build/deployment. One way to manage this would be to add the following script to the root-level `package.json` file:
+
+```
+"scripts": {
+  "postinstall": "cd studio && npm install",
+}
+```
+
+However, we've decided to manage this part of our build process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.

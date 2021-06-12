@@ -2,8 +2,10 @@
   "name": "sandi-plewis-blog",
   "version": "1.0.0",
   "private": true,
-  "description": "",
+  "description": "Blog website for Sandi Plewis",
+  "homepage": "https://www.sandiplewis.com",
   "author": "Mark Plewis <mplewis1@gmail.com>",
+  "repository": "github:markplewis/sandiplewis-blog",
   "license": "UNLICENSED",
   "scriptsComments": {
     "start": "Starts both applications (Sanity Studio and Next.js) in development mode",

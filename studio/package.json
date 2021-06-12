@@ -1,14 +1,13 @@
 {
   "name": "sandi-plewis-sanity-studio",
-  "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "package.json",
+	"private": true,
+  "description": "Sanity Studio CMS for Sandi Plewis' blog",
+	"homepage": "https://www.sandiplewis.com",
   "author": "Mark Plewis <mplewis1@gmail.com>",
+	"repository": "github:markplewis/sandiplewis-blog",
   "license": "UNLICENSED",
-  "keywords": [
-    "sanity"
-  ],
+	"main": "package.json",
 	"scripts": {
     "check": "npx npm-check -s -u"
   },
