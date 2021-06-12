@@ -1,30 +1,48 @@
-# Next.js blog with comment section
+# Sandi Plewis' blog
 
-This is a demo of how to add a simple comment section to blog post using [Next.js](https://nextjs.org), [Sanity.io](https://www.sanity.io), and [Vercel](https://vercel.com).
+This repository contains two separate applications:
 
-### Running the front-end
+1. A [Next.js](https://nextjs.org) application that serves as the front-end for [www.sandiplewis.com](https://www.sandiplewis.com).
+2. A [Sanity Studio](https://www.sanity.io)-powered CMS that provides content for the front-end application to consume, via the Sanity API.
 
-Rename the `.env.test` file to `.env` and store the environment variables that Next and Sanity will use to pull data from the Sanity API. You can get or create the tokens, ids, and secrets from [manage.sanity.io](https://manage.sanity.io).
+This project uses [Vercel](https://vercel.com) for continuous integration and delivery (CI/CD).
 
-Once those env variables are ready, you can run the following commands to get Next's development server up and running:
+### Installation
+
+Duplicate the `.env.local.example` file and rename it to `.env.local`. Then, copy and paste the listed environment variables, tokens, IDs and secrets from your [Sanity Studio dashboard](https://manage.sanity.io) and your [Vercel project dashboard](https://vercel.com).
+
+Once those environment variables are ready, run the following commands to install each project's dependencies:
 
 ```bash
 npm install
 
-# Run the frontend
-npm run dev
-
-# Run the Studio
-npm run start:sanity
+cd studio
+npm install
 ```
 
-The blog will be running at `http://localhost:3000`, the Studio will run at `http://localhost:3333`.
+### Startup
+
+You can fire up both the Next.js and Sanity Studio development servers via:
+
+```bash
+npm start
+```
+
+Or you can run each application separately via:
+
+```bash
+# Sanity Studio
+npm run sanity-dev
+
+# Next.js
+npm run next-dev
+```
+
+The blog will run at `http://localhost:3000` and the Studio will run at `http://localhost:3333`.
 
 ### Upgrading Sanity Studio
 
-Sanity release notes can be found here: https://github.com/sanity-io/sanity/releases
-
-You'll first need to globally install the [Sanity CLI](https://www.sanity.io/docs/cli) (you can also upgrade the CLI via the same command):
+First, you'll need to globally install the [Sanity CLI](https://www.sanity.io/docs/cli) (you can also upgrade the CLI via the same command):
 
 ```bash
 npm install -g @sanity/cli
@@ -41,7 +59,7 @@ cd studio
 sanity upgrade
 ```
 
-Unfortunately, [until this issue has been resolved](https://github.com/sanity-io/sanity/issues/1510), Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to perform some cleanup, as follows:
+Unfortunately, [until this issue has been resolved](https://github.com/sanity-io/sanity/issues/1510), Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to perform some cleanup in each directory where `sanity upgrade` was run:
 
 ```bash
 rm yarn.lock
@@ -49,21 +67,21 @@ rm -rf node_modules
 npm install
 ```
 
-This should be done in any directory where `sanity upgrade` was run.
+Sanity release notes can be found here: https://github.com/sanity-io/sanity/releases
+
+### Lerna
+
+This repo contains two separate apps, both of which have dependencies that need to be installed during each Vercel build/deployment. One way to manage this would be to add the following script to the root-level `package.json` file:
+
+```
+"scripts": {
+  "postinstall": "cd studio && npm install"
+}
+```
+
+However, we've decided to manage the package installation portion of our build process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.
 
 ### CLI documentation
 
 - Next.js: https://nextjs.org/docs/api-reference/cli
 - Sanity: https://www.sanity.io/docs/cli
-
-### Lerna
-
-This repo contains two separate apps, both with dependencies that need to be installed during each Vercel build/deployment. One way to manage this would be to add the following script to the root-level `package.json` file:
-
-```
-"scripts": {
-  "postinstall": "cd studio && npm install",
-}
-```
-
-However, we've decided to manage this part of our build process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.
