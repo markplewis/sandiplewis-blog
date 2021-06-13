@@ -12,6 +12,9 @@ const config = {
 }
 const client = sanityClient(config)
 
+// See: https://nextjs.org/learn/basics/api-routes/creating-api-routes
+// And: https://nextjs.org/learn/basics/api-routes/api-routes-details
+
 export default async function createComment(req, res) {
   const { _id, name, email, comment} = JSON.parse(req.body)
   try {

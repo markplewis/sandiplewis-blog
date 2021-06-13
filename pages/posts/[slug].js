@@ -11,7 +11,7 @@ import Layout from '../../components/layout'
 import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api'
 import PostTitle from '../../components/post-title'
 import Head from 'next/head'
-import { CMS_NAME } from '../../lib/constants'
+import { SITE_TITLE } from '../../lib/constants'
 import Form from '../../components/form'
 
 export default function Post({ post, morePosts, preview }) {
@@ -30,7 +30,7 @@ export default function Post({ post, morePosts, preview }) {
             <article>
               <Head>
                 <title>
-                  {post.title} | Next.js Blog Example with {CMS_NAME}
+                  {post.title} | {SITE_TITLE}
                 </title>
                 {/* <meta property="og:image" content={post.ogImage.url} /> */}
               </Head>
@@ -81,6 +81,7 @@ export async function getStaticPaths() {
           slug: post.slug,
         },
       })) || [],
+    // See: https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required
     fallback: true,
   }
 }
