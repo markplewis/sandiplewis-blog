@@ -13,19 +13,25 @@ import markdownStyles from './markdown-styles.module.css'
 export default function PostBody({ content }) {
   const serializers = {
     types: {
-      image: props => (
-        // <figure className="customized">
-        //   <img
-        //     src={imageBuilder(props.node.asset).width(1240).height(540).url()}
-        //     alt={props.node.alt}
-        //   />
-        //   <figcaption>{props.node.caption}</figcaption>
-        // </figure>
-        <img className="customized"
-          src={imageBuilder(props.node.asset).width(1240).height(540).url()}
-          alt={props.node.alt}
-        />
-      )
+      image: ({ node }) => {
+        // TODO: how to get expanded asset object with metadata, etc., like we're doing in `CoverImage`
+        // const img = imageBuilder(node.asset).width(1240).height(540);
+        // console.log("PostBody", {node, img});
+        return node.caption ? (
+          <figure className="customized">
+            <img
+              src={imageBuilder(node.asset).width(1240).height(540).url()}
+              alt={node.alt}
+            />
+            <figcaption>{node.caption}</figcaption>
+          </figure>
+        ) : (
+          <img className="customized"
+            src={imageBuilder(node.asset).width(1240).height(540).url()}
+            alt={node.alt}
+          />
+        )
+      }
     }
   }
   return (
