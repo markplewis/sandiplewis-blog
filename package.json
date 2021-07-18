@@ -9,15 +9,15 @@
   "license": "UNLICENSED",
   "scriptsComments": {
     "start": "Starts both applications (Sanity Studio and Next.js) in development mode",
-    "sanity-dev": "Starts Sanity Studio's development server (the `sanity start` command runs within the `studio` folder)",
-    "next-dev": "`Starts the Next.js application in development mode with hot-code reloading, error reporting, etc.",
+    "sanity-start": "Starts Sanity Studio's development server (the `sanity start` command runs within the `studio` folder)",
+    "next-start": "`Starts the Next.js application in development mode with hot-code reloading, error reporting, etc.",
     "build": "Vercel CI build command: creates optimized production builds of both applications (Sanity Studio and Next.js)",
     "sanity-build": "Builds the current Sanity configuration to a static bundle"
   },
   "scripts": {
-    "start": "concurrently -k -c cyan,yellow -n sanity,next \"npm:sanity-dev\" \"next dev\"",
-    "sanity-dev": "cp .env.local ./studio/.env.development && cd studio && sanity start",
-    "next-dev": "next dev",
+    "start": "concurrently -k -c cyan,yellow -n sanity,next \"npm:sanity-start\" \"next dev\"",
+    "sanity-start": "cp .env.local ./studio/.env.development && cd studio && sanity start",
+    "next-start": "next dev",
     "build": "npm run sanity-build && pwd && next build",
     "sanity-build": "cd studio && sanity build ../public/studio -y && cd ..",
     "postinstall": "lerna bootstrap",

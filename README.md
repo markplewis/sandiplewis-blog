@@ -30,8 +30,8 @@ npm start
 Or you can run each application separately via:
 
 ```bash
-npm run next-dev
-npm run sanity-dev
+npm run next-start
+npm run sanity-start
 ```
 
 It's worth noting that, when running the applications locally, the `.env.local` file gets copied into the `studio` directory so that Sanity Studio can share the environment variables defined within it.
