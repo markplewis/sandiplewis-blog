@@ -12,7 +12,10 @@
     "sanity-start": "Starts Sanity Studio's development server (the `sanity start` command runs within the `studio` folder)",
     "next-start": "`Starts the Next.js application in development mode with hot-code reloading, error reporting, etc.",
     "build": "Vercel CI build command: creates optimized production builds of both applications (Sanity Studio and Next.js)",
-    "sanity-build": "Builds the current Sanity configuration to a static bundle"
+    "sanity-build": "Builds the current Sanity configuration to a static bundle",
+    "postinstall": "Runs `npm install` inside of the `studio` directory",
+    "check": "Checks for outdated NPM packages",
+    "lint": "Runs ESLint"
   },
   "scripts": {
     "start": "concurrently -k -c cyan,yellow -n sanity,next \"npm:sanity-start\" \"next dev\"",
@@ -21,27 +24,33 @@
     "build": "npm run sanity-build && pwd && next build",
     "sanity-build": "cd studio && sanity build ../public/studio -y && cd ..",
     "postinstall": "lerna bootstrap",
-    "check": "npx npm-check -s -u"
+    "check": "npx npm-check -s -u",
+    "lint": "next lint"
   },
   "dependencies": {
     "@sanity/block-content-to-react": "^3.0.0",
-    "@sanity/client": "^2.11.0",
+    "@sanity/client": "^2.13.0",
     "@sanity/image-url": "^0.140.19",
     "classnames": "^2.2.6",
     "concurrently": "^6.2.0",
     "date-fns": "^2.22.1",
-    "next": "^10.2.3",
-    "next-sanity": "^0.2.0",
+    "next": "^11.0.1",
+    "next-sanity": "^0.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.8.4",
+    "react-hook-form": "^7.11.1",
     "swr": "^0.5.6"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",
-    "@sanity/cli": "^2.11.0",
+    "@sanity/cli": "^2.13.0",
+    "eslint": "^7.31.0",
+    "eslint-config-next": "^11.0.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "lerna": "^4.0.0",
     "postcss-preset-env": "^6.7.0",
-    "tailwindcss": "^2.1.4"
+    "prettier": "^2.3.2",
+    "tailwindcss": "^2.2.4"
   }
 }

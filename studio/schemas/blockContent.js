@@ -8,7 +8,7 @@
  *    type: 'blockContent'
  *  }
  */
-export default {
+const BlockContentSchema = {
   title: 'Block Content',
   name: 'blockContent',
   type: 'array',
@@ -70,3 +70,4 @@ export default {
     }
   ]
 }
+export default BlockContentSchema;

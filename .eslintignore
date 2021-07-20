@@ -1,0 +1,5 @@
+.next
+.vscode
+build
+node_modules
+public/studio

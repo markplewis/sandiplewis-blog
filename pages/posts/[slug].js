@@ -60,7 +60,7 @@ export async function getStaticProps({ params, preview = false }) {
   // to request draft data instead of published data. This will vary
   // based on which headless CMS you're using.
   // See: https://nextjs.org/docs/advanced-features/preview-mode#fetch-preview-data
-  
+
   const data = await getPostAndMorePosts(params.slug, preview)
   return {
     props: {

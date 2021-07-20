@@ -13,12 +13,14 @@ import markdownStyles from './markdown-styles.module.css'
 export default function PostBody({ content }) {
   const serializers = {
     types: {
+      // eslint-disable-next-line react/display-name
       image: ({ node }) => {
         // TODO: how to get expanded asset object with metadata, etc., like we're doing in `CoverImage`
         // const img = imageBuilder(node.asset).width(1240).height(540);
         // console.log("PostBody", {node, img});
         return node.caption ? (
           <figure className="customized">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageBuilder(node.asset).width(1240).height(540).url()}
               alt={node.alt}
@@ -26,6 +28,7 @@ export default function PostBody({ content }) {
             <figcaption>{node.caption}</figcaption>
           </figure>
         ) : (
+          // eslint-disable-next-line @next/next/no-img-element
           <img className="customized"
             src={imageBuilder(node.asset).width(1240).height(540).url()}
             alt={node.alt}
