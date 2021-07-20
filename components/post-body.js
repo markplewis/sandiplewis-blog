@@ -1,6 +1,6 @@
-import BlockContent from '@sanity/block-content-to-react'
-import { imageBuilder } from '../lib/sanity'
-import markdownStyles from './markdown-styles.module.css'
+import BlockContent from "@sanity/block-content-to-react";
+import { imageBuilder } from "../lib/sanity";
+import markdownStyles from "./markdown-styles.module.css";
 
 // https://www.sanity.io/docs/image-url
 // https://www.sanity.io/docs/presenting-block-text
@@ -21,25 +21,29 @@ export default function PostBody({ content }) {
         return node.caption ? (
           <figure className="customized">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imageBuilder(node.asset).width(1240).height(540).url()}
-              alt={node.alt}
-            />
+            <img src={imageBuilder(node.asset).width(1240).height(540).url()} alt={node.alt} />
             <figcaption>{node.caption}</figcaption>
           </figure>
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img className="customized"
+          <img
+            className="customized"
             src={imageBuilder(node.asset).width(1240).height(540).url()}
             alt={node.alt}
           />
-        )
+        );
       }
     }
-  }
+  };
   return (
     <div className="max-w-2xl mx-auto">
-      <BlockContent blocks={content} serializers={serializers} projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID} dataset={process.env.NEXT_PUBLIC_SANITY_DATASET} className={markdownStyles.markdown} />
+      <BlockContent
+        blocks={content}
+        serializers={serializers}
+        projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
+        dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
+        className={markdownStyles.markdown}
+      />
     </div>
-  )
+  );
 }

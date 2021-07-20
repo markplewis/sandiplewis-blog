@@ -7,6 +7,14 @@ This repository contains two separate applications:
 
 This project uses [Vercel](https://vercel.com) for continuous integration and delivery (CI/CD).
 
+### VSCode plugins
+
+You'll want to install the following VSCode plugins:
+
+- [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
 ### Installation
 
 Duplicate the `.env.local.example` file and rename it to `.env.local`. Then, copy and paste the listed environment variables, tokens, IDs and secrets from your [Vercel project dashboard](https://vercel.com). See `.env.local.example` for more information.
