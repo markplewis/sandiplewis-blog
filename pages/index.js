@@ -1,12 +1,12 @@
-import Container from "../components/container";
-import MoreStories from "../components/more-stories";
-import HeroPost from "../components/hero-post";
-import Intro from "../components/intro";
-import Layout from "../components/layout";
-import { getAllPostsForHome } from "../lib/api";
+import Container from "components/container";
+import MoreStories from "components/more-stories";
+import HeroPost from "components/hero-post";
+import Intro from "components/intro";
+import Layout from "components/layout";
+import { getAllPostsForHome } from "lib/api";
 import Head from "next/head";
 import Image from "next/image";
-import { SITE_TITLE } from "../lib/constants";
+import { SITE_TITLE } from "lib/constants";
 
 export default function Index({ allPosts, preview }) {
   const heroPost = allPosts[0];

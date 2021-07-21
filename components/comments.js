@@ -1,4 +1,4 @@
-import Date from "./date";
+import Date from "components/date";
 
 export default function Comments({ comments = [] }) {
   return (

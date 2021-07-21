@@ -1,6 +1,6 @@
 import BlockContent from "@sanity/block-content-to-react";
-import { imageBuilder } from "../lib/sanity";
-import markdownStyles from "./markdown-styles.module.css";
+import { imageBuilder } from "lib/sanity";
+import markdownStyles from "components/markdown-styles.module.css";
 
 // https://www.sanity.io/docs/image-url
 // https://www.sanity.io/docs/presenting-block-text

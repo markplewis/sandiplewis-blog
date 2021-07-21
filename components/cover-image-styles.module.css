@@ -1,5 +1,7 @@
 .swatchGroup {
   margin-right: 20px;
+  padding-right: 20px;
+  border-right: 1px solid #999;
   display: inline-block;
 }
 .swatchGroup p {
@@ -11,4 +13,7 @@
   margin: 0 10px 10px 0;
   display: inline-block;
   vertical-align: top;
+}
+.winner p {
+  background-color: rgba(0, 128, 0, 0.1); /* green */
 }
