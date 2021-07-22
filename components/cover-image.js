@@ -1,4 +1,4 @@
-import cn from "classnames";
+import Image from "next/image";
 import Link from "next/link";
 import { imageBuilder } from "lib/sanity";
 import { hexToRGB, hexToHSL, HSLToRGB, luminance, contrastRatio } from "utils/color";
@@ -89,12 +89,6 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
     const baseBgColor = `hsl(${bg.h}deg, ${bg.s}%, ${bg.l}%)`;
     const compBgColor = `hsl(${bgComp.h}deg, ${bgComp.s}%, ${bgComp.l}%)`;
 
-    console.log(
-      testResults(bgFloatBlack),
-      testResults(bgFloatWhite),
-      testResults(bgCompFloatBlack),
-      testResults(bgCompFloatWhite)
-    );
     const baseBlackWins = testResults(bgFloatBlack).length > testResults(bgFloatWhite).length;
     const compBlackWins =
       testResults(bgCompFloatBlack).length > testResults(bgCompFloatWhite).length;
@@ -160,15 +154,21 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
     );
   });
 
+  // See: https://nextjs.org/docs/api-reference/next/image
+  // Can't produce <picture> elements (no art direction)
   const image = (
-    <img
+    <Image
+      src={imageBuilder(imageObject).width(1240).height(540).url()}
       width={1240}
       height={540}
+      sizes="(max-width: 800px) 100vw, 800px"
+      layout="responsive"
       alt={imageObject.alt}
-      className={cn("shadow-small", {
-        "hover:shadow-medium transition-shadow duration-200": slug
-      })}
-      src={imageBuilder(imageObject).width(1240).height(540).url()}
+      quality={75}
+      priority={false}
+      placeholder="blur"
+      // Data URL generated here: https://png-pixel.com/
+      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
     />
   );
 
