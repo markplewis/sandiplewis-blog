@@ -63,9 +63,34 @@ const BlockContentSchema = {
       fields: [
         {
           title: "Alternative Text",
+          description: "A short description of the photo (for screen readers)",
           name: "alt",
           type: "string",
+          validation: Rule => Rule.required(),
           options: {
+            isHighlighted: true
+          }
+        },
+        {
+          title: "Caption",
+          description: "An optional caption to display alongside the photo",
+          name: "caption",
+          type: "text",
+          rows: 3,
+          options: {
+            isHighlighted: true
+          }
+        },
+        {
+          title: "Alignment",
+          name: "alignment",
+          type: "string",
+          options: {
+            list: [
+              { title: "Left", value: "left" },
+              { title: "Right", value: "right" },
+              { title: "Center", value: "center" }
+            ],
             isHighlighted: true
           }
         }

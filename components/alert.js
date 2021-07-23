@@ -14,6 +14,7 @@ export default function Alert({ preview }) {
           {preview ? (
             <>
               This page is a preview.{" "}
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a
                 href="/api/exit-preview"
                 className="underline hover:text-cyan duration-200 transition-colors">

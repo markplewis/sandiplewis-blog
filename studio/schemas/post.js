@@ -33,8 +33,10 @@ const PostSchema = {
       fields: [
         {
           title: "Alternative Text",
+          description: "A short description of the photo (for screen readers)",
           name: "alt",
           type: "string",
+          validation: Rule => Rule.required(),
           options: {
             isHighlighted: true
           }

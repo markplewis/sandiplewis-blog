@@ -157,19 +157,22 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
   // See: https://nextjs.org/docs/api-reference/next/image
   // Can't produce <picture> elements (no art direction)
   const image = (
-    <Image
-      src={imageBuilder(imageObject).width(1240).height(540).url()}
-      width={1240}
-      height={540}
-      sizes="(max-width: 800px) 100vw, 800px"
-      layout="responsive"
-      alt={imageObject.alt}
-      quality={75}
-      priority={false}
-      placeholder="blur"
-      // Data URL generated here: https://png-pixel.com/
-      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-    />
+    <>
+      <Image
+        src={imageBuilder(imageObject).width(1240).height(540).url()}
+        width={1240}
+        height={540}
+        sizes="(max-width: 800px) 100vw, 800px"
+        layout="responsive"
+        alt={imageObject.alt}
+        // quality={75}
+        // priority={false}
+        placeholder="blur"
+        // Data URL generated here: https://png-pixel.com/
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+      />
+      {imageMeta?.creditLine ? `Credit: ${imageMeta.creditLine}` : ""}
+    </>
   );
 
   return (
