@@ -33,7 +33,7 @@
     "@sanity/image-url": "^0.140.19",
     "classnames": "^2.2.6",
     "concurrently": "^6.2.0",
-    "date-fns": "^2.22.1",
+    "date-fns": "^2.23.0",
     "next": "^11.0.1",
     "next-sanity": "^0.3.0",
     "nprogress": "^0.2.0",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",
-    "@sanity/cli": "^2.13.0",
+    "@sanity/cli": "^2.13.1",
     "eslint": "^7.31.0",
     "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.3.0",
@@ -52,6 +52,6 @@
     "lerna": "^4.0.0",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.3.2",
-    "tailwindcss": "^2.2.4"
+    "tailwindcss": "^2.2.7"
   }
 }

@@ -14,6 +14,8 @@ import Head from "next/head";
 import { SITE_TITLE } from "lib/constants";
 import Form from "components/form";
 
+// This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
+
 export default function Post({ post, morePosts, preview }) {
   const router = useRouter();
   if (!router.isFallback && !post?.slug) {
@@ -56,6 +58,8 @@ export default function Post({ post, morePosts, preview }) {
   );
 }
 
+// See: https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
+
 export async function getStaticProps({ params, preview = false }) {
   // If context.preview is true, append "/preview" to the API endpoint
   // to request draft data instead of published data. This will vary
@@ -72,6 +76,8 @@ export async function getStaticProps({ params, preview = false }) {
     revalidate: 1
   };
 }
+
+// See: https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
 
 export async function getStaticPaths() {
   const allPosts = await getAllPostsWithSlug();

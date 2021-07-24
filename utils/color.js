@@ -7,11 +7,11 @@ const whiteLuminance = luminance(255, 255, 255);
 // https://www.sarasoueidan.com/blog/hex-rgb-to-hsl/#hsl-and-color-harmonies
 // https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
 
-export function hexToRGB(H) {
-  // Convert hex to RGB first
-  let r = 0,
-    g = 0,
-    b = 0;
+function hexToRGB(H) {
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
   if (H.length == 4) {
     r = "0x" + H[1] + H[1];
     g = "0x" + H[2] + H[2];
@@ -24,28 +24,33 @@ export function hexToRGB(H) {
   return { r, g, b };
 }
 
-export function hexToHSL(H) {
+function hexToHSL(H) {
   let { r, g, b } = hexToRGB(H);
-  // Then to HSL
   r /= 255;
   g /= 255;
   b /= 255;
-  let cmin = Math.min(r, g, b),
-    cmax = Math.max(r, g, b),
-    delta = cmax - cmin,
-    h = 0,
-    s = 0,
-    l = 0;
 
-  if (delta == 0) h = 0;
-  else if (cmax == r) h = ((g - b) / delta) % 6;
-  else if (cmax == g) h = (b - r) / delta + 2;
-  else h = (r - g) / delta + 4;
+  let cmin = Math.min(r, g, b);
+  let cmax = Math.max(r, g, b);
+  let delta = cmax - cmin;
+  let h = 0;
+  let s = 0;
+  let l = 0;
 
+  if (delta == 0) {
+    h = 0;
+  } else if (cmax == r) {
+    h = ((g - b) / delta) % 6;
+  } else if (cmax == g) {
+    h = (b - r) / delta + 2;
+  } else {
+    h = (r - g) / delta + 4;
+  }
   h = Math.round(h * 60);
 
-  if (h < 0) h += 360;
-
+  if (h < 0) {
+    h += 360;
+  }
   l = (cmax + cmin) / 2;
   s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
   s = +(s * 100).toFixed(1);
@@ -54,17 +59,17 @@ export function hexToHSL(H) {
   return { h, s, l };
 }
 
-export function HSLToRGB(h, s, l) {
+function HSLToRGB(h, s, l) {
   // Must be fractions of 1
   s /= 100;
   l /= 100;
 
-  let c = (1 - Math.abs(2 * l - 1)) * s,
-    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
-    m = l - c / 2,
-    r = 0,
-    g = 0,
-    b = 0;
+  let c = (1 - Math.abs(2 * l - 1)) * s;
+  let x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  let m = l - c / 2;
+  let r = 0;
+  let g = 0;
+  let b = 0;
 
   if (0 <= h && h < 60) {
     r = c;
@@ -98,8 +103,8 @@ export function HSLToRGB(h, s, l) {
   return { r, g, b };
 }
 
-export function luminance(r, g, b) {
-  var a = [r, g, b].map(function (v) {
+function luminance(r, g, b) {
+  let a = [r, g, b].map(v => {
     v /= 255;
     return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
   });
@@ -108,10 +113,8 @@ export function luminance(r, g, b) {
 
 // https://stackoverflow.com/a/11832950/1243086
 // https://sciencing.com/convert-fraction-ratio-8430467.html
-export function contrastRatio(bgLuminance, fgLuminance) {
-  // return bgLuminance > fgLuminance
-  //   ? (fgLuminance + 0.05) / (bgLuminance + 0.05)
-  //   : (bgLuminance + 0.05) / (fgLuminance + 0.05);
+
+function contrastRatio(bgLuminance, fgLuminance) {
   const num1 = bgLuminance > fgLuminance ? fgLuminance + 0.05 : bgLuminance + 0.05;
   const num2 = bgLuminance > fgLuminance ? bgLuminance + 0.05 : fgLuminance + 0.05;
   return {
@@ -127,52 +130,33 @@ function getPaletteData(palette) {
       if (!palette || !palette[key]) {
         return null;
       }
-      const bgHSL = hexToHSL(palette[key].background);
-      const bgRGB = hexToRGB(palette[key].background);
-      const bgLuminance = luminance(bgRGB.r, bgRGB.g, bgRGB.b);
+      const baseHSL = hexToHSL(palette[key].background);
+      const baseRGB = hexToRGB(palette[key].background);
+      const baseLuminance = luminance(baseRGB.r, baseRGB.g, baseRGB.b);
 
       // Complimentary colour
-      const bgCompHSL = {
-        h: bgHSL.h - 180,
-        s: bgHSL.s,
-        l: bgHSL.l
+      const compHSL = {
+        h: baseHSL.h - 180,
+        s: baseHSL.s,
+        l: baseHSL.l
       };
-      const bgCompRGB = HSLToRGB(...Object.values(bgCompHSL));
-      const bgCompLuminance = luminance(...Object.values(bgCompRGB));
+      const compRGB = HSLToRGB(...Object.values(compHSL));
+      const compLuminance = luminance(...Object.values(compRGB));
 
       return {
         key,
-        bg: {
-          ...bgHSL,
-          luminance: bgLuminance
+        base: {
+          ...baseHSL,
+          luminance: baseLuminance
         },
-        bgComp: {
-          ...bgCompHSL,
-          luminance: bgCompLuminance
+        comp: {
+          ...compHSL,
+          luminance: compLuminance
         }
       };
     })
     .filter(obj => obj);
 }
-
-const pass = <span style={{ color: "green" }}>PASS</span>;
-const fail = <span style={{ color: "red" }}>FAIL</span>;
-
-const stats = (num, base = true) => {
-  return (
-    <p>
-      <strong>{base ? "Base" : "Complimentary"}</strong>
-      <br />
-      AA lg (3:1) {num < 1 / 3 ? pass : fail}
-      <br />
-      AA sm (4.5:1) {num < 1 / 4.5 ? pass : fail}
-      <br />
-      AAA lg (4.5:1) {num < 1 / 4.5 ? pass : fail}
-      <br />
-      AAA sm (7:1) {num < 1 / 7 ? pass : fail}
-    </p>
-  );
-};
 
 const testResults = num => {
   return [num < 1 / 3, num < 1 / 4.5, num < 1 / 4.5, num < 1 / 7].filter(v => v);
@@ -182,104 +166,97 @@ export function getColorData(palette) {
   const paletteData = getPaletteData(palette);
   const colorData = {};
 
-  const swatches = paletteData.map(({ key, bg, bgComp }) => {
+  paletteData.forEach(({ key, base, comp }) => {
     // Black
-    const { float: bgFloatBlack, ratio: bgRatioBlack } = contrastRatio(
-      bg.luminance,
+    const { float: baseFloatBlack, ratio: baseRatioBlack } = contrastRatio(
+      base.luminance,
       blackLuminance
     );
-    const { float: bgCompFloatBlack, ratio: bgCompRatioBlack } = contrastRatio(
-      bgComp.luminance,
+    const { float: compFloatBlack, ratio: compRatioBlack } = contrastRatio(
+      comp.luminance,
       blackLuminance
     );
     // White
-    const { float: bgFloatWhite, ratio: bgRatioWhite } = contrastRatio(
-      bg.luminance,
+    const { float: baseFloatWhite, ratio: baseRatioWhite } = contrastRatio(
+      base.luminance,
       whiteLuminance
     );
-    const { float: bgCompFloatWhite, ratio: bgCompRatioWhite } = contrastRatio(
-      bgComp.luminance,
+    const { float: compFloatWhite, ratio: compRatioWhite } = contrastRatio(
+      comp.luminance,
       whiteLuminance
     );
 
-    const baseBgColor = `hsl(${bg.h}deg, ${bg.s}%, ${bg.l}%)`;
-    const compBgColor = `hsl(${bgComp.h}deg, ${bgComp.s}%, ${bgComp.l}%)`;
+    const baseBgColor = `hsl(${base.h}deg, ${base.s}%, ${base.l}%)`;
+    const compBgColor = `hsl(${comp.h}deg, ${comp.s}%, ${comp.l}%)`;
 
-    const baseBlackWins = testResults(bgFloatBlack).length > testResults(bgFloatWhite).length;
-    const compBlackWins =
-      testResults(bgCompFloatBlack).length > testResults(bgCompFloatWhite).length;
+    const baseBlackPreferred =
+      testResults(baseFloatBlack).length > testResults(baseFloatWhite).length;
+
+    const compBlackPreferred =
+      testResults(compFloatBlack).length > testResults(compFloatWhite).length;
 
     colorData[key] = {
       base: {
         background: baseBgColor,
-        foreground: baseBlackWins ? "black" : "white"
+        foreground: baseBlackPreferred ? "black" : "white",
+        ratio: baseBlackPreferred ? baseRatioBlack : baseRatioWhite,
+        float: baseBlackPreferred ? baseFloatBlack : baseFloatWhite
       },
-      complimentary: {
+      comp: {
         background: compBgColor,
-        foreground: compBlackWins ? "black" : "white"
+        foreground: compBlackPreferred ? "black" : "white",
+        ratio: compBlackPreferred ? compRatioBlack : compRatioWhite,
+        float: compBlackPreferred ? compFloatBlack : compFloatWhite
       }
     };
+  });
 
+  return colorData;
+}
+
+const pass = <span style={{ textTransform: "uppercase", color: "green" }}>Pass</span>;
+const fail = <span style={{ textTransform: "uppercase", color: "red" }}>Fail</span>;
+
+const stats = (num, label) => {
+  return (
+    <div>
+      <p>
+        <strong>{label}</strong>
+      </p>
+      AA lg (3:1) {num < 1 / 3 ? pass : fail}
+      <br />
+      AA sm (4.5:1) {num < 1 / 4.5 ? pass : fail}
+      <br />
+      AAA lg (4.5:1) {num < 1 / 4.5 ? pass : fail}
+      <br />
+      AAA sm (7:1) {num < 1 / 7 ? pass : fail}
+    </div>
+  );
+};
+
+export function getSwatches(colorData) {
+  return Object.keys(colorData).map(key => {
     return (
-      <div key={key}>
+      <div key={key} className={swatchStyles.paletteGroup}>
         <p>
           <strong>{key}</strong>
         </p>
-
-        {/* Black text on base background colour */}
-        <div className={`${swatchStyles.swatchGroup} ${baseBlackWins ? swatchStyles.winner : ""}`}>
-          <div
-            className={swatchStyles.swatch}
-            style={{
-              backgroundColor: baseBgColor,
-              color: "black"
-            }}>
-            {bgRatioBlack}
-          </div>
-          {stats(bgFloatBlack)}
-        </div>
-
-        {/* White text on base background colour */}
-        <div className={`${swatchStyles.swatchGroup} ${baseBlackWins ? "" : swatchStyles.winner}`}>
-          <div
-            className={swatchStyles.swatch}
-            style={{
-              backgroundColor: baseBgColor,
-              color: "white"
-            }}>
-            {bgRatioWhite}
-          </div>
-          {stats(bgFloatWhite)}
-        </div>
-
-        {/* Black text on complimentary background colour */}
-        <div className={`${swatchStyles.swatchGroup} ${compBlackWins ? swatchStyles.winner : ""}`}>
-          <div
-            className={swatchStyles.swatch}
-            style={{
-              backgroundColor: compBgColor,
-              color: "black"
-            }}>
-            {bgCompRatioBlack}
-          </div>
-          {stats(bgCompFloatBlack, false)}
-        </div>
-
-        {/* White text on complimentary background colour */}
-        <div className={`${swatchStyles.swatchGroup} ${compBlackWins ? "" : swatchStyles.winner}`}>
-          <div
-            className={swatchStyles.swatch}
-            style={{
-              backgroundColor: compBgColor,
-              color: "white"
-            }}>
-            {bgCompRatioWhite}
-          </div>
-          {stats(bgCompFloatWhite, false)}
-        </div>
+        {Object.entries(colorData[key]).map(([label, { background, foreground, ratio, float }]) => {
+          return (
+            <div key={`${key}-${label}-${background}`} className={swatchStyles.swatchGroup}>
+              <div
+                className={swatchStyles.swatch}
+                style={{
+                  backgroundColor: background,
+                  color: foreground
+                }}>
+                {ratio}
+              </div>
+              {stats(float, label)}
+            </div>
+          );
+        })}
       </div>
     );
   });
-
-  return { colorData, swatches };
 }

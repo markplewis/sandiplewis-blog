@@ -1,17 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { imageBuilder } from "lib/sanity";
-import { getColorData } from "utils/color";
+import { getColorData, getSwatches } from "utils/color";
 import useDebug from "utils/useDebug";
 
 import swatchStyles from "components/cover-image-styles.module.css";
 
 export default function CoverImage({ title, imageObject, imageMeta, slug }) {
-  const { colorData, swatches } = getColorData(imageMeta?.metadata?.palette);
+  const colorData = getColorData(imageMeta?.metadata?.palette);
   const debug = useDebug();
-  const swatchOutput = debug ? <div>{swatches}</div> : null;
 
-  console.log("colorData", colorData);
+  const swatches = debug ? getSwatches(colorData) : null;
+  const swatchOutput = debug ? <div>{swatches}</div> : null;
 
   // See: https://nextjs.org/docs/api-reference/next/image
   // Can't produce <picture> elements (no art direction)
@@ -39,17 +39,18 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
               backgroundColor: colorData?.vibrant?.base?.background,
               color: colorData?.vibrant?.base?.foreground
             }}>
-            Base
+            {colorData?.vibrant?.base?.ratio}
           </div>
         ) : null}
-        {colorData?.vibrant?.complimentary ? (
+
+        {colorData?.vibrant?.comp ? (
           <div
             className={swatchStyles.swatch}
             style={{
-              backgroundColor: colorData?.vibrant?.complimentary?.background,
-              color: colorData?.vibrant?.complimentary?.foreground
+              backgroundColor: colorData?.vibrant?.comp?.background,
+              color: colorData?.vibrant?.comp?.foreground
             }}>
-            Comp
+            {colorData?.vibrant?.comp?.ratio}
           </div>
         ) : null}
       </div>
