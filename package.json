@@ -13,6 +13,7 @@
     "next-start": "`Starts the Next.js application in development mode with hot-code reloading, error reporting, etc.",
     "build": "Vercel CI build command: creates optimized production builds of both applications (Sanity Studio and Next.js)",
     "sanity-build": "Builds the current Sanity configuration to a static bundle",
+    "next-analyze": "Runs Webpack Bundle Analyzer",
     "postinstall": "Runs `npm install` inside of the `studio` directory",
     "check": "Checks for outdated NPM packages",
     "lint": "Runs ESLint"
@@ -23,11 +24,13 @@
     "next-start": "next dev",
     "build": "npm run sanity-build && pwd && next build",
     "sanity-build": "cd studio && sanity build ../public/studio -y && cd ..",
+    "next-analyze": "ANALYZE=true next build",
     "postinstall": "lerna bootstrap",
     "check": "npx npm-check -s -u",
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/bundle-analyzer": "^11.0.1",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^2.13.0",
     "@sanity/image-url": "^0.140.19",
