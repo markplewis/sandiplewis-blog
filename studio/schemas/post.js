@@ -13,6 +13,7 @@ const PostSchema = {
     {
       name: "slug",
       title: "Slug",
+      description: "This will appear in the page's URL",
       type: "slug",
       options: {
         source: "title",

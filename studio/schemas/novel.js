@@ -13,6 +13,7 @@ const NovelSchema = {
     {
       name: "slug",
       title: "Slug",
+      description: "This will appear in the page's URL",
       type: "slug",
       options: {
         source: "title",
@@ -29,6 +30,9 @@ const NovelSchema = {
       name: "images",
       title: "Images",
       type: "array",
+      options: {
+        layout: "grid"
+      },
       of: [
         {
           name: "image",
@@ -75,12 +79,6 @@ const NovelSchema = {
       name: "synopsis",
       title: "Synopsis",
       type: "blockContent"
-    },
-    {
-      name: "reviews",
-      title: "Reviews",
-      type: "array",
-      of: [{ type: "reference", to: { type: "review" } }]
     }
   ],
 
@@ -108,22 +106,5 @@ const NovelSchema = {
       });
     }
   }
-
-  // See: https://www.sanity.io/docs/previews-list-views
-  // preview: {
-  //   select: {
-  //     images: "images",
-  //     image: "images.0"
-  //   },
-  //   prepare(selection) {
-  //     const { images, image } = selection;
-
-  //     return {
-  //       title: `Gallery block of ${Object.keys(images).length} images`,
-  //       subtitle: `Alt text: ${image.alt}`,
-  //       media: image
-  //     };
-  //   }
-  // }
 };
 export default NovelSchema;

@@ -9,9 +9,9 @@ const CommentSchema = {
     },
     {
       title: "Approved",
+      description: "Comments won't show on the site without approval",
       name: "approved",
-      type: "boolean",
-      description: "Comments won't show on the site without approval"
+      type: "boolean"
     },
     {
       name: "email",
