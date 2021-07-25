@@ -26,8 +26,8 @@ const AuthorSchema = {
       }
     },
     {
-      name: "bio",
-      title: "Bio",
+      name: "biography",
+      title: "Biography",
       type: "array",
       of: [
         {

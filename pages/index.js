@@ -39,6 +39,7 @@ export default function Index({ allPosts, preview }) {
 }
 
 // See: https://nextjs.org/docs/basic-features/data-fetching
+// See: https://youtu.be/f1rF9YKm1Ms
 
 export async function getStaticProps({ preview = false }) {
   const allPosts = await getAllPostsForHome(preview);

@@ -1,3 +1,5 @@
+import client from "part:@sanity/base/client";
+
 const PostSchema = {
   name: "post",
   title: "Post",
@@ -24,6 +26,23 @@ const PostSchema = {
       to: { type: "author" }
     },
     {
+      name: "publishedAt",
+      title: "Published at",
+      type: "datetime"
+    },
+    {
+      name: "category",
+      title: "Category",
+      type: "reference",
+      to: { type: "category" }
+    },
+    // See: https://github.com/rosnovsky/sanity-plugin-autocomplete-tags
+    {
+      name: "tags",
+      title: "Tags",
+      type: "tags"
+    },
+    {
       name: "mainImage",
       title: "Main image",
       type: "image",
@@ -44,22 +63,23 @@ const PostSchema = {
       ]
     },
     {
-      name: "categories",
-      title: "Categories",
-      type: "array",
-      of: [{ type: "reference", to: { type: "category" } }]
-    },
-    {
-      name: "publishedAt",
-      title: "Published at",
-      type: "datetime"
-    },
-    {
       name: "body",
       title: "Body",
       type: "blockContent"
     }
   ],
+
+  // See: https://www.sanity.io/guides/getting-started-with-initial-values-for-new-documents
+  // And: https://www.sanity.io/docs/query-cheat-sheet
+  initialValue: async () => ({
+    publishedAt: new Date().toISOString(),
+    author: await client.fetch(`
+      *[_type == "author"][0]{
+        "_type": "reference",
+        "_ref": _id
+      }
+    `)
+  }),
 
   preview: {
     select: {
