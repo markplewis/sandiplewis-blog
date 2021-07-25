@@ -76,6 +76,15 @@ const NovelSchema = {
       ]
     },
     {
+      name: "overview",
+      title: "Overview",
+      description:
+        "A brief overview that will appear on the home page when this novel is featured there",
+      type: "array",
+      of: [{ type: "block" }]
+    },
+    // See: https://www.sanity.io/docs/block-type
+    {
       name: "synopsis",
       title: "Synopsis",
       type: "blockContent"
