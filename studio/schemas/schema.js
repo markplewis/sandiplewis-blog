@@ -9,6 +9,7 @@ import author from "./author";
 import blockContent from "./blockContent";
 import category from "./category";
 import comment from "./comment";
+import homePage from "./homePage";
 import novel from "./novel";
 import post from "./post";
 import review from "./review";
@@ -22,6 +23,7 @@ export default createSchema({
   types: schemaTypes.concat([
     // The following are document types which will appear
     // in the studio, in this order
+    homePage,
     post,
     category,
     novel,
