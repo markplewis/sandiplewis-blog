@@ -3,24 +3,16 @@ import Date from "components/date";
 import CoverImage from "components/cover-image";
 import Link from "next/link";
 
-export default function HeroPost({
-  title,
-  coverImage,
-  coverImageMeta,
-  date,
-  excerpt,
-  author,
-  slug
-}) {
+export default function HeroPost({ title, image, imageMeta, date, excerpt, author, slug }) {
   return (
     <section>
       <div className="mb-8 md:mb-16">
         <CoverImage
           slug={slug}
-          imageObject={coverImage}
-          imageMeta={coverImageMeta}
+          imageObject={image}
+          imageMeta={imageMeta}
           title={title}
-          url={coverImage}
+          url={image}
         />
       </div>
       <div className="md:grid md:grid-cols-2 md:col-gap-16 lg:col-gap-8 mb-20 md:mb-28">

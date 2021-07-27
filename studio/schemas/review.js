@@ -14,7 +14,7 @@ const ReviewSchema = {
       type: "text"
     },
     {
-      name: "reviewer",
+      name: "author",
       title: "Reviewer's name",
       type: "string"
     },
@@ -28,14 +28,14 @@ const ReviewSchema = {
   preview: {
     select: {
       title: "title",
-      reviewer: "reviewer",
+      author: "author",
       novel: "novel.title"
     },
     prepare(selection) {
-      const { title, reviewer, novel } = selection;
+      const { title, author, novel } = selection;
       return Object.assign({}, selection, {
         title: title,
-        subtitle: [reviewer && `by ${reviewer}`, novel && `(${novel})`].filter(v => v).join(" ")
+        subtitle: [author && `by ${author}`, novel && `(${novel})`].filter(v => v).join(" ")
       });
     }
   }

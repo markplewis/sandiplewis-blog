@@ -27,59 +27,88 @@ const NovelSchema = {
       to: { type: "author" }
     },
     {
-      name: "images",
-      title: "Images",
-      type: "array",
+      name: "image",
+      title: "Main image",
+      type: "image",
       options: {
-        layout: "grid"
+        hotspot: true
       },
-      of: [
+      fields: [
         {
-          name: "image",
-          title: "Image",
-          type: "image",
+          title: "Alternative Text",
+          description: "A short description of the photo (for screen readers)",
+          name: "alt",
+          type: "string",
+          validation: Rule => Rule.required(),
           options: {
-            hotspot: true
-          },
-          fields: [
-            {
-              title: "Alternative Text",
-              description: "A short description of the photo (for screen readers)",
-              name: "alt",
-              type: "string",
-              validation: Rule => Rule.required(),
-              options: {
-                isHighlighted: true
-              }
-            },
-            {
-              title: "Caption",
-              description: "An optional caption to display alongside the photo",
-              name: "caption",
-              type: "text",
-              rows: 3,
-              options: {
-                isHighlighted: true
-              }
-            },
-            {
-              title: "Link URL",
-              description: "URL of the page this image should link to",
-              name: "url",
-              type: "url",
-              options: {
-                isHighlighted: true
-              }
-            }
-          ]
+            isHighlighted: true
+          }
+        },
+        {
+          title: "Caption",
+          description: "An optional caption to display alongside the photo",
+          name: "caption",
+          type: "text",
+          rows: 3,
+          options: {
+            isHighlighted: true
+          }
         }
       ]
     },
+    // {
+    //   name: "images",
+    //   title: "Images",
+    //   type: "array",
+    //   options: {
+    //     layout: "grid"
+    //   },
+    //   of: [
+    //     {
+    //       name: "image",
+    //       title: "Image",
+    //       type: "image",
+    //       options: {
+    //         hotspot: true
+    //       },
+    //       fields: [
+    //         {
+    //           title: "Alternative Text",
+    //           description: "A short description of the photo (for screen readers)",
+    //           name: "alt",
+    //           type: "string",
+    //           validation: Rule => Rule.required(),
+    //           options: {
+    //             isHighlighted: true
+    //           }
+    //         },
+    //         {
+    //           title: "Caption",
+    //           description: "An optional caption to display alongside the photo",
+    //           name: "caption",
+    //           type: "text",
+    //           rows: 3,
+    //           options: {
+    //             isHighlighted: true
+    //           }
+    //         },
+    //         {
+    //           title: "Link URL",
+    //           description: "URL of the page this image should link to",
+    //           name: "url",
+    //           type: "url",
+    //           options: {
+    //             isHighlighted: true
+    //           }
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // },
     {
       name: "overview",
       title: "Overview",
-      description:
-        "A brief overview that will appear on the home page when this novel is featured there",
+      description: "A brief overview that will appear when this novel is featured on the home page",
       type: "array",
       of: [{ type: "block" }]
     },
@@ -87,6 +116,7 @@ const NovelSchema = {
     {
       name: "synopsis",
       title: "Synopsis",
+      description: "A full-length synopsis",
       type: "blockContent"
     }
   ],
@@ -106,7 +136,7 @@ const NovelSchema = {
     select: {
       title: "title",
       author: "author.name",
-      media: "images.0"
+      media: "image"
     },
     prepare(selection) {
       const { author } = selection;

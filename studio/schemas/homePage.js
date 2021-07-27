@@ -16,14 +16,14 @@ const HomePageSchema = {
       hidden: true
     },
     {
-      name: "featuredNovel",
+      name: "novel",
       title: "Featured novel",
       description: "A novel to feature on the home page",
       type: "reference",
       to: { type: "novel" }
     },
     {
-      name: "featuredReviews",
+      name: "reviews",
       title: "Featured reviews",
       description: "One or two of the featured novel's reviews",
       type: "array",

@@ -3,7 +3,7 @@ import ErrorPage from "next/error";
 import Container from "components/container";
 import PostBody from "components/post-body";
 import MoreStories from "components/more-stories";
-import Header from "components/header";
+// import Header from "components/header";
 import PostHeader from "components/post-header";
 import Comments from "components/comments";
 import SectionSeparator from "components/section-separator";
@@ -24,7 +24,7 @@ export default function Post({ post, morePosts, preview }) {
   return (
     <Layout preview={preview}>
       <Container>
-        <Header />
+        {/* <Header /> */}
         {router.isFallback ? (
           <PostTitle>Loading…</PostTitle>
         ) : (
@@ -38,8 +38,8 @@ export default function Post({ post, morePosts, preview }) {
               </Head>
               <PostHeader
                 title={post.title}
-                coverImage={post.coverImage}
-                coverImageMeta={post.coverImageMeta}
+                image={post.image}
+                imageMeta={post.imageMeta}
                 date={post.date}
                 author={post.author}
               />

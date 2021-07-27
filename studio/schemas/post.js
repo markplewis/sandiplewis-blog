@@ -44,7 +44,7 @@ const PostSchema = {
       type: "tags"
     },
     {
-      name: "mainImage",
+      name: "image",
       title: "Main image",
       type: "image",
       options: {
@@ -86,7 +86,7 @@ const PostSchema = {
     select: {
       title: "title",
       author: "author.name",
-      media: "mainImage"
+      media: "image"
     },
     prepare(selection) {
       const { author } = selection;
