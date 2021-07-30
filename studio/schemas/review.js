@@ -15,12 +15,12 @@ const ReviewSchema = {
     },
     {
       name: "author",
-      title: "Reviewer's name",
+      title: "Author of the review",
       type: "string"
     },
     {
       name: "novel",
-      title: "Novel being reviewed",
+      title: "Novel that was reviewed",
       type: "reference",
       to: { type: "novel" }
     }

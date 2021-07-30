@@ -1,4 +1,4 @@
-import client from "part:@sanity/base/client";
+import client from "../client";
 
 const NovelSchema = {
   name: "novel",

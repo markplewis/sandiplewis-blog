@@ -10,10 +10,9 @@ export default function Alert({ preview }) {
       })}>
       <Container>
         <div className="py-2 text-center text-sm">
-          {preview ? (
+          {/* {preview ? (
             <>
               This page is a preview.{" "}
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a
                 href="/api/exit-preview"
                 className="underline hover:text-cyan duration-200 transition-colors">
@@ -21,7 +20,7 @@ export default function Alert({ preview }) {
               </a>
               .
             </>
-          ) : null}
+          ) : null} */}
         </div>
       </Container>
     </div>

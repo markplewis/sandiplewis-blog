@@ -1,27 +1,70 @@
-import { useRouter } from "next/router";
 import ErrorPage from "next/error";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+import { SITE_TITLE } from "lib/constants";
+import { client, usePreviewSubscription } from "lib/sanity";
+
 import Container from "components/container";
 import PostBody from "components/post-body";
-import MoreStories from "components/more-stories";
-// import Header from "components/header";
+// // import MoreStories from "components/more-stories";
+// // import Header from "components/header";
 import PostHeader from "components/post-header";
 import Comments from "components/comments";
 import SectionSeparator from "components/section-separator";
 import Layout from "components/layout";
-import { getAllPostsWithSlug, getPostAndMorePosts } from "lib/api";
 import PostTitle from "components/post-title";
-import Head from "next/head";
-import { SITE_TITLE } from "lib/constants";
 import Form from "components/form";
 
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
 
-export default function Post({ post, morePosts, preview }) {
-  const router = useRouter();
-  if (!router.isFallback && !post?.slug) {
-    return <ErrorPage statusCode={404} />;
+const query = `
+  *[_type == "post" && slug.current == $slug][0] {
+    _id,
+    name,
+    title,
+    "date": publishedAt,
+    "slug": slug.current,
+    "image": image,
+    "imageMeta": image.asset->{...},
+    "author": author->{name, "picture": image.asset->url},
+    body,
+    "comments": *[
+      _type == "comment" &&
+      post._ref == ^._id &&
+      approved == true
+    ] {
+      _id,
+      name,
+      email,
+      comment,
+      _createdAt
+    }
   }
-  return (
+`;
+
+export default function Post({ data: initialData, preview }) {
+  const router = useRouter();
+
+  // If we wanted to, we could use Next's cookie-based preview mode
+  // instead or Sanity's live subscription-based preview feature:
+  // https://nextjs.org/docs/advanced-features/preview-mode#fetch-preview-data
+
+  // Documentation and references:
+  // https://www.npmjs.com/package/next-sanity/v/0.1.4
+  // https://www.sanity.io/blog/live-preview-with-nextjs
+
+  const { data: post } = usePreviewSubscription(query, {
+    params: {
+      slug: initialData?.slug
+    },
+    initialData,
+    enabled: preview
+  });
+
+  return !router.isFallback && !post?.slug ? (
+    <ErrorPage statusCode={404} />
+  ) : (
     <Layout preview={preview}>
       <Container>
         {/* <Header /> */}
@@ -50,7 +93,7 @@ export default function Post({ post, morePosts, preview }) {
             <Form _id={post._id} />
 
             <SectionSeparator />
-            {morePosts.length > 0 && <MoreStories posts={morePosts} />}
+            {/* {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
           </>
         )}
       </Container>
@@ -60,34 +103,27 @@ export default function Post({ post, morePosts, preview }) {
 
 // See: https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
 
-export async function getStaticProps({ params, preview = false }) {
-  // If context.preview is true, append "/preview" to the API endpoint
-  // to request draft data instead of published data. This will vary
-  // based on which headless CMS you're using.
-  // See: https://nextjs.org/docs/advanced-features/preview-mode#fetch-preview-data
-
-  const data = await getPostAndMorePosts(params.slug, preview);
+export async function getStaticProps({ params }) {
+  const data = await client.fetch(query, {
+    slug: params.slug
+  });
   return {
     props: {
-      preview,
-      post: data?.post || null,
-      morePosts: data?.morePosts || null
-    },
-    revalidate: 1
+      preview: true,
+      data
+    }
+    // revalidate: 1 // TODO: is this necessary?
   };
 }
 
 // See: https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
 
 export async function getStaticPaths() {
-  const allPosts = await getAllPostsWithSlug();
+  const paths = await client.fetch(
+    `*[_type == "post" && defined(slug.current)]{ "params": { "slug": slug.current } }`
+  );
   return {
-    paths:
-      allPosts?.map(post => ({
-        params: {
-          slug: post.slug
-        }
-      })) || [],
+    paths,
     // See: https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required
     fallback: true
   };

@@ -1,4 +1,14 @@
+// The contents of this file have been commented out because we're using Sanity's live
+// subscription-based preview feature instead of Next's cookie-based preview mode
+
+// https://github.com/sanity-io/next-sanity#live-real-time-preview
+// https://nextjs.org/docs/advanced-features/preview-mode#fetch-preview-data
+
+/*
 import { getPreviewPostBySlug } from "lib/api";
+
+// Sanity Studio makes requests to this endpoint while in preview mode.
+// See `studio/resolveProductionUrl.js`
 
 export default async function preview(req, res) {
   // Check the secret and next parameters
@@ -23,3 +33,4 @@ export default async function preview(req, res) {
   res.writeHead(307, { Location: `/posts/${post.slug}` });
   res.end();
 }
+*/

@@ -1,24 +1,15 @@
-import sanityClient from "@sanity/client";
+import { previewClient } from "lib/sanity";
 
-// TODO: why not this?
-// import {commentClient} from './sanity.server'
+// Next.js API route documentation:
+// https://nextjs.org/learn/basics/api-routes/creating-api-routes
+// https://nextjs.org/learn/basics/api-routes/api-routes-details
 
-const config = {
-  dataset: process.env.SANITY_STUDIO_API_DATASET || "production",
-  projectId: process.env.SANITY_STUDIO_API_PROJECT_ID,
-  apiVersion: "2021-03-25",
-  useCdn: process.env.NODE_ENV === "production",
-  token: process.env.SANITY_API_TOKEN
-};
-const client = sanityClient(config);
-
-// See: https://nextjs.org/learn/basics/api-routes/creating-api-routes
-// And: https://nextjs.org/learn/basics/api-routes/api-routes-details
+// Sanity Client API documentation: https://www.npmjs.com/package/@sanity/client
 
 export default async function createComment(req, res) {
   const { _id, name, email, comment } = JSON.parse(req.body);
   try {
-    await client.create({
+    await previewClient.create({
       _type: "comment",
       post: {
         _type: "reference",
