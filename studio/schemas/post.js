@@ -38,11 +38,20 @@ const PostSchema = {
       to: { type: "category" }
     },
     // See: https://github.com/rosnovsky/sanity-plugin-autocomplete-tags
-    {
-      name: "tags",
-      title: "Tags",
-      type: "tags"
-    },
+    // {
+    //   name: "tags",
+    //   title: "Tags",
+    //   type: "tags"
+    // },
+    // {
+    //   title: "Tags",
+    //   name: "tags",
+    //   type: "array",
+    //   of: [{ type: "string" }],
+    //   options: {
+    //     layout: "tags"
+    //   }
+    // },
     {
       name: "image",
       title: "Main image",

@@ -11,6 +11,7 @@ const query = `
     "slug": slug.current,
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     "image": image,
+    "imageMeta": image.asset->{...},
     overview,
     synopsis
   }

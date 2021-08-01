@@ -1,5 +1,6 @@
 import ErrorPage from "next/error";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { SITE_TITLE } from "lib/constants";
@@ -28,6 +29,7 @@ const query = `
     "image": image,
     "imageMeta": image.asset->{...},
     "author": author->{name, "picture": image.asset->url},
+    "category": category->{title, "slug": slug.current},
     body,
     "comments": *[
       _type == "comment" &&
@@ -62,6 +64,10 @@ export default function Post({ data: initialData, preview }) {
     enabled: preview
   });
 
+  // console.log("category", post.category);
+  // console.log("tags", post.tags);
+  // console.log("test", post.test);
+
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
@@ -86,6 +92,20 @@ export default function Post({ data: initialData, preview }) {
                 date={post.date}
                 author={post.author}
               />
+
+              {post?.category?.title && post?.category?.slug ? (
+                <>
+                  Category:{" "}
+                  <Link as={`/categories/${post.category.slug}`} href="/categories/[slug]">
+                    <a>{post.category.title}</a>
+                  </Link>
+                </>
+              ) : null}
+
+              {post.tags && post.tags.length ? (
+                <p>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
+              ) : null}
+
               <PostBody content={post.body} />
             </article>
 

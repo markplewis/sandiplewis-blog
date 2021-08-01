@@ -36,6 +36,7 @@ export default function Index({
           <title>{SITE_TITLE}</title>
         </Head>
         <Container>
+          <h2>Home page</h2>
           <div className="novel" style={{ border: "1px solid black", padding: "10px" }}>
             {novel?.image ? (
               <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">

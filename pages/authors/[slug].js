@@ -8,6 +8,7 @@ const query = `
     name,
     "slug": slug.current,
     "image": image,
+    "imageMeta": image.asset->{...},
     biography,
   }
 `;
