@@ -1,4 +1,5 @@
 import BlockContent from "@sanity/block-content-to-react";
+import config from "lib/config";
 import { imageBuilder } from "lib/sanity";
 import markdownStyles from "components/markdown-styles.module.css";
 
@@ -40,8 +41,8 @@ export default function PostBody({ content }) {
       <BlockContent
         blocks={content}
         serializers={serializers}
-        projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
-        dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
+        projectId={config.projectId}
+        dataset={config.dataset}
         className={markdownStyles.markdown}
       />
     </div>

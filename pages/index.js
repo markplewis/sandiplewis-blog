@@ -10,6 +10,7 @@ import {
   getFeaturedReviews,
   getRecentPosts
 } from "lib/api";
+import config from "lib/config";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,8 +57,8 @@ export default function Index({
             <p>{novel?.title}</p>
             <BlockContent
               blocks={novel?.overview}
-              projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
-              dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
+              projectId={config.projectId}
+              dataset={config.dataset}
             />
             <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
               <a>More</a>
@@ -125,8 +126,8 @@ export default function Index({
             <p>{author?.name}</p>
             <BlockContent
               blocks={author?.biography}
-              projectId={process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}
-              dataset={process.env.NEXT_PUBLIC_SANITY_DATASET}
+              projectId={config.projectId}
+              dataset={config.dataset}
             />
             <Link as={`/authors/${author?.slug}`} href="/authors/[slug]">
               <a>More</a>
