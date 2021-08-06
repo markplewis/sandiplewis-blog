@@ -37,24 +37,25 @@
     "classnames": "^2.2.6",
     "concurrently": "^6.2.0",
     "date-fns": "^2.23.0",
+    "modern-normalize": "^1.1.0",
     "next": "^11.0.1",
     "next-sanity": "^0.3.0",
     "nprogress": "^0.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hook-form": "^7.11.1",
+    "react-hook-form": "^7.12.2",
     "swr": "^0.5.6"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^4.0.3",
     "@sanity/cli": "^2.13.1",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "lerna": "^4.0.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.3.2",
-    "tailwindcss": "^2.2.7"
+    "postcss-pxtorem": "^6.0.0",
+    "prettier": "^2.3.2"
   }
 }

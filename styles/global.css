@@ -1,0 +1,87 @@
+/* Global styles */
+/* See: https://nextjs.org/docs/basic-features/built-in-css-support */
+
+:root {
+  --base-font-family: Helvetica, Arial, Verdana, sans-serif;
+  --base-font-color: #333;
+  --base-background-color: #fff;
+  --focus-outline-color: steelblue;
+}
+
+* {
+  line-height: inherit; /* Inherit value from modern-normalize.css */
+}
+
+body {
+  font-size: 100%; /* Default is 16px in most browsers */
+  font-family: var(--base-font-family);
+  color: var(--base-font-color);
+  background-color: var(--base-background-color);
+}
+
+/* See https://css-tricks.com/links-inline-svg-staying-target-events/ */
+a > svg,
+button > svg {
+  pointer-events: none;
+}
+
+/*
+Note: We could use "box-shadow" instead of "outline", but focus rings won't display
+correctly when an <a> wraps an <img> element, unless that <a> has "display: inline-block"
+applied. "box-shadow" is nice because it automatically follows the contours of the element's
+"border-radius", whereas "outline" does not (although there are plans to change this:
+https://bugs.chromium.org/p/chromium/issues/detail?id=81556), but we've opted to use "outline"
+in order to avoid having to apply "display: inline-block" to every <a> that wraps an <img>.
+*/
+:focus,
+:hover:focus {
+  outline: 2px solid var(--focus-outline-color);
+  outline-offset: 0;
+}
+
+/* Utilities */
+/* TODO: move these into a separate file? */
+
+/*
+Fix font rendering problems in various browsers
+(font-smoothing isn't part of the spec and therefore unsupported by autorpefixer)
+*/
+.u-font-rendering-fix {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+}
+
+.u-button-appearance-none {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  appearance: none;
+  display: block;
+}
+
+/*
+Hide only visually, but have it available for screen readers.
+Warning: elements containing focusable elements (e.g. links, buttons, etc.)
+should not be hidden in this way, because sighted keyboard users will not be
+able to see the focused element.
+http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+*/
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  /* TODO: Refactor this to avoid using clip, because it's deprecated */
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/clip */
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+/* Hide visually and also from screen readers */
+[hidden],
+.u-hidden {
+  display: none !important;
+}

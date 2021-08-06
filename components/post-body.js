@@ -2,7 +2,6 @@ import BlockContent from "@sanity/block-content-to-react";
 import Image from "next/image";
 import config from "lib/config";
 import { imageBuilder } from "lib/sanity";
-import markdownStyles from "components/markdown-styles.module.css";
 
 // https://www.sanity.io/docs/image-url
 // https://www.sanity.io/docs/presenting-block-text
@@ -53,7 +52,6 @@ export default function PostBody({ content }) {
         serializers={serializers}
         projectId={config.projectId}
         dataset={config.dataset}
-        className={markdownStyles.markdown}
       />
     </div>
   );

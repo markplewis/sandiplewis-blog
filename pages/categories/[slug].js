@@ -32,7 +32,6 @@ const query = `
 
 export default function Category({ category }) {
   const router = useRouter();
-  console.log(category?.posts);
 
   return !router.isFallback && !category?.slug ? (
     <ErrorPage statusCode={404} />

@@ -1,8 +1,10 @@
 import Router from "next/router";
 import NProgress from "nprogress";
 
+// Global styles
+import "modern-normalize/modern-normalize.css";
 import "nprogress/nprogress.css";
-import "styles/index.css";
+import "styles/global.css";
 
 // https://vpilip.com/next-js-page-loading-indicator-improve-ux-of-next-js-app/
 // https://usabilitypost.com/2013/08/19/new-ui-pattern-website-loading-bars/
