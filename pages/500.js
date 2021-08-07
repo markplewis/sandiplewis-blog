@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { SITE_TITLE } from "lib/constants";
-import Layout from "components/layout";
+import Layout from "components/Layout";
 
 // See: https://nextjs.org/docs/advanced-features/custom-error-page
 

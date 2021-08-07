@@ -1,9 +1,9 @@
-import swatchStyles from "components/cover-image-styles.module.css";
+import swatchStyles from "components/CoverImage.module.css";
 
 const blackLuminance = luminance(0, 0, 0);
 const whiteLuminance = luminance(255, 255, 255);
 
-// See: https://css-tricks.com/converting-color-spaces-in-javascript/#hex-to-hsl
+// https://css-tricks.com/converting-color-spaces-in-javascript/#hex-to-hsl
 // https://www.sarasoueidan.com/blog/hex-rgb-to-hsl/#hsl-and-color-harmonies
 // https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
 

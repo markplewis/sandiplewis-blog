@@ -6,15 +6,12 @@ import { useRouter } from "next/router";
 import { SITE_TITLE } from "lib/constants";
 import { client, usePreviewSubscription } from "lib/sanity";
 
-import PostBody from "components/post-body";
-// // import MoreStories from "components/more-stories";
-// // import Header from "components/header";
-import PostHeader from "components/post-header";
-import Comments from "components/comments";
-import SectionSeparator from "components/section-separator";
-import Layout from "components/layout";
-import PostTitle from "components/post-title";
-import Form from "components/form";
+import PostBody from "components/PostBody";
+import PostHeader from "components/PostHeader";
+import Comments from "components/Comments";
+import Layout from "components/Layout";
+import PostTitle from "components/PostTitle";
+import Form from "components/Form";
 
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
 
@@ -63,15 +60,11 @@ export default function Post({ data: initialData, preview }) {
     enabled: preview
   });
 
-  // console.log("category", post.category);
-  // console.log("tags", post.tags);
-  // console.log("test", post.test);
-
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
+    // TODO: pass page meta description, keywords, etc. to <Layout>
     <Layout>
-      {/* <Header /> */}
       {router.isFallback ? (
         <PostTitle>Loading…</PostTitle>
       ) : (
@@ -116,9 +109,6 @@ export default function Post({ data: initialData, preview }) {
 
           <Comments comments={post.comments} />
           <Form _id={post._id} />
-
-          <SectionSeparator />
-          {/* {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
         </>
       )}
     </Layout>

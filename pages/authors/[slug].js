@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { SITE_TITLE } from "lib/constants";
 import { client, usePreviewSubscription } from "lib/sanity";
 
-import Layout from "components/layout";
+import Layout from "components/Layout";
 
 const query = `
   *[_type == "author" && slug.current == $slug][0] {

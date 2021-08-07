@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { imageBuilder } from "lib/sanity";
+
 import { getColorData, getSwatches } from "utils/color";
 import useDebug from "utils/useDebug";
 
-import swatchStyles from "components/cover-image-styles.module.css";
+import swatchStyles from "components/CoverImage.module.css";
 
 export default function CoverImage({ title, imageObject, imageMeta, slug }) {
   const colorData = getColorData(imageMeta?.metadata?.palette);
@@ -60,7 +62,7 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
   );
 
   return (
-    <div className="-mx-5 sm:mx-0">
+    <div>
       {slug ? (
         <>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">

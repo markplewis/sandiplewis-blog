@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { SITE_TITLE } from "lib/constants";
 import { client } from "lib/sanity";
 
-import Layout from "components/layout";
+import Layout from "components/Layout";
 
 // TODO: get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references

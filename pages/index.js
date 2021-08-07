@@ -4,37 +4,23 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  // getAllPostsForHome,
-  getAuthorBio,
-  getFeaturedNovel,
-  getFeaturedReviews,
-  getRecentPosts
-} from "lib/api";
+import { getAuthorBio, getFeaturedNovel, getFeaturedReviews, getRecentPosts } from "lib/api";
 import config from "lib/config";
 import { SITE_TITLE } from "lib/constants";
 import { imageBuilder } from "lib/sanity";
 
-// import HeroPost from "components/hero-post";
-import Layout from "components/layout";
-// import MoreStories from "components/more-stories";
+import Layout from "components/Layout";
 
-export default function Index({
-  // allPosts,
-  novel,
-  reviews,
-  posts,
-  author
-}) {
-  // const heroPost = allPosts[0];
-  // const morePosts = allPosts.slice(1);
+export default function Index({ novel, reviews, posts, author }) {
   return (
     <>
       <Layout>
         <Head>
           <title>{SITE_TITLE}</title>
         </Head>
+
         <h2>Home page</h2>
+
         <div className="novel" style={{ border: "1px solid black", padding: "10px" }}>
           {novel?.image ? (
             <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
@@ -53,12 +39,15 @@ export default function Index({
               </a>
             </Link>
           ) : null}
+
           <p>{novel?.title}</p>
+
           <BlockContent
             blocks={novel?.overview}
             projectId={config.projectId}
             dataset={config.dataset}
           />
+
           <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
             <a>More</a>
           </Link>
@@ -132,22 +121,6 @@ export default function Index({
             <a>More</a>
           </Link>
         </div>
-
-        {/* Old stuff */}
-        {/*
-        <Image src="/images/sandi-plewis.jpg" width={200} height={300} alt="Sandi Plewis" />
-        {heroPost && (
-          <HeroPost
-            title={heroPost.title}
-            coverImage={heroPost.coverImage}
-            coverImageMeta={heroPost.coverImageMeta}
-            date={heroPost.date}
-            author={heroPost.author}
-            slug={heroPost.slug}
-            excerpt={heroPost.excerpt}
-          />
-        )}
-        {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
       </Layout>
     </>
   );
@@ -161,9 +134,8 @@ export async function getStaticProps({ preview = false }) {
   const reviews = await getFeaturedReviews(preview);
   const posts = await getRecentPosts(preview, 4);
   const author = await getAuthorBio(preview);
-  // const allPosts = await getAllPostsForHome(preview);
   return {
-    props: { novel, reviews, posts, author, preview },
-    revalidate: 1
+    props: { novel, reviews, posts, author, preview }
+    // revalidate: 1
   };
 }

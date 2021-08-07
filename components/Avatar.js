@@ -3,10 +3,9 @@ import Link from "next/link";
 
 export default function Avatar({ name, slug, picture }) {
   return (
-    <div className="flex items-center">
+    <div>
       {picture ? (
         <Image
-          className="w-12 h-12 rounded-full mr-4"
           src={picture}
           width={48}
           height={48}

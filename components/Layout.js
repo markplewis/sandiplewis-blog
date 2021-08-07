@@ -1,7 +1,7 @@
 import Head from "next/head";
 
-import Footer from "components/footer";
-import Header from "components/header";
+import Footer from "components/Footer";
+import Header from "components/Header";
 
 // See: https://nextjs.org/docs/basic-features/layouts
 
