@@ -1,7 +1,12 @@
 import ErrorPage from "next/error";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import { SITE_TITLE } from "lib/constants";
 import { client, usePreviewSubscription } from "lib/sanity";
+
+import Layout from "components/layout";
 
 const query = `
   *[_type == "novel" && slug.current == $slug][0] {
@@ -31,14 +36,19 @@ export default function Novel({ data: initialData, preview }) {
   return !router.isFallback && !novel?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <div>
+    <Layout>
+      <Head>
+        <title>
+          {novel?.title} | {SITE_TITLE}
+        </title>
+      </Head>
       <h2>{novel?.title}</h2>
       <p>
         <Link as={`/authors/${novel?.author?.slug}`} href="/authors/[slug]">
           <a>{novel?.author?.name}</a>
         </Link>
       </p>
-    </div>
+    </Layout>
   );
 }
 

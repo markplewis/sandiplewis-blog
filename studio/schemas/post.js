@@ -8,7 +8,8 @@ const PostSchema = {
     {
       name: "title",
       title: "Title",
-      type: "string"
+      type: "string",
+      validation: Rule => Rule.required()
     },
     {
       name: "slug",
@@ -18,7 +19,8 @@ const PostSchema = {
       options: {
         source: "title",
         maxLength: 96
-      }
+      },
+      validation: Rule => Rule.required()
     },
     {
       name: "author",
@@ -32,26 +34,12 @@ const PostSchema = {
       type: "datetime"
     },
     {
-      name: "category",
-      title: "Category",
-      type: "reference",
-      to: { type: "category" }
+      name: "categories",
+      title: "Categories",
+      type: "array",
+      of: [{ type: "reference", to: { type: "category" } }],
+      validation: Rule => Rule.unique()
     },
-    // See: https://github.com/rosnovsky/sanity-plugin-autocomplete-tags
-    // {
-    //   name: "tags",
-    //   title: "Tags",
-    //   type: "tags"
-    // },
-    // {
-    //   title: "Tags",
-    //   name: "tags",
-    //   type: "array",
-    //   of: [{ type: "string" }],
-    //   options: {
-    //     layout: "tags"
-    //   }
-    // },
     {
       name: "image",
       title: "Main image",
@@ -83,6 +71,7 @@ const PostSchema = {
   // And: https://www.sanity.io/docs/query-cheat-sheet
   initialValue: async () => ({
     publishedAt: new Date().toISOString(),
+    // First author in the database
     author: await client.fetch(`
       *[_type == "author"][0]{
         "_type": "reference",

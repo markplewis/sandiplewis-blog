@@ -19,7 +19,7 @@ export default function PostPreview({ title, image, date, excerpt, author, slug 
         <Date dateString={date} />
       </div>
       <p className="text-lg leading-relaxed mb-4">{excerpt}</p>
-      <Avatar name={author?.name} picture={author?.picture} />
+      <Avatar name={author?.name} slug={author?.slug} picture={author?.picture} />
     </div>
   );
 }

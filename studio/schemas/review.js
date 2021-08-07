@@ -11,7 +11,8 @@ const ReviewSchema = {
     {
       name: "review",
       title: "Review",
-      type: "text"
+      type: "text",
+      validation: Rule => Rule.required()
     },
     {
       name: "author",

@@ -19,6 +19,12 @@ body {
   background-color: var(--base-background-color);
 }
 
+/* @media (min-width: 600px) {
+  :root {
+    --base-background-color: goldenrod;
+  }
+} */
+
 /* See https://css-tricks.com/links-inline-svg-staying-target-events/ */
 a > svg,
 button > svg {

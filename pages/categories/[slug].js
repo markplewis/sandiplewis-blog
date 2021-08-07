@@ -1,7 +1,12 @@
 import ErrorPage from "next/error";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import { SITE_TITLE } from "lib/constants";
 import { client } from "lib/sanity";
+
+import Layout from "components/layout";
 
 // TODO: get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references
@@ -18,25 +23,18 @@ const query = `
   }
 `;
 
-// TODO: $title must have its "-" characters replaced with spaces " " first becuase I don't
-// know how to do this in a GROQ query. So categories can't have dashes in their titles :(
-// const query = `
-//   *[_type == "category" && lower(title) == $title][0] {
-//     _id,
-//     title,
-//     description
-//   }
-// `;
-
-// const postsByCategoryQuery = ``;
-
 export default function Category({ category }) {
   const router = useRouter();
 
   return !router.isFallback && !category?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <div>
+    <Layout>
+      <Head>
+        <title>
+          {category?.title} | {SITE_TITLE}
+        </title>
+      </Head>
       <h2>{category?.title}</h2>
       <p>{category?.description}</p>
       {category?.posts ? (
@@ -53,7 +51,7 @@ export default function Category({ category }) {
           </ul>
         </>
       ) : null}
-    </div>
+    </Layout>
   );
 }
 
@@ -61,13 +59,9 @@ export async function getStaticProps({ params }) {
   const category = await client.fetch(query, {
     slug: params.slug
   });
-  // const postsByCategory = await client.fetch(postsByCategoryQuery, {
-  //   slug: params.slug
-  // });
   return {
     props: {
       category
-      // postsByCategory
     }
   };
 }

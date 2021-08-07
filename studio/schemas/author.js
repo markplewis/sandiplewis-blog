@@ -6,7 +6,8 @@ const AuthorSchema = {
     {
       name: "name",
       title: "Name",
-      type: "string"
+      type: "string",
+      validation: Rule => Rule.required()
     },
     {
       name: "slug",
@@ -16,7 +17,8 @@ const AuthorSchema = {
       options: {
         source: "name",
         maxLength: 96
-      }
+      },
+      validation: Rule => Rule.required()
     },
     {
       name: "image",

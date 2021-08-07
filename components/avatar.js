@@ -1,6 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Avatar({ name, picture }) {
+export default function Avatar({ name, slug, picture }) {
   return (
     <div className="flex items-center">
       {picture ? (
@@ -19,7 +20,11 @@ export default function Avatar({ name, picture }) {
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
         />
       ) : null}
-      <div className="text-xl font-bold">{name}</div>
+      <p>
+        <Link as={`/authors/${slug}`} href="/authors/[slug]">
+          <a>{name}</a>
+        </Link>
+      </p>
     </div>
   );
 }

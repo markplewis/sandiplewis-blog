@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { SITE_TITLE } from "lib/constants";
 import { client, usePreviewSubscription } from "lib/sanity";
 
-import Container from "components/container";
 import PostBody from "components/post-body";
 // // import MoreStories from "components/more-stories";
 // // import Header from "components/header";
@@ -28,8 +27,8 @@ const query = `
     "slug": slug.current,
     "image": image,
     "imageMeta": image.asset->{...},
-    "author": author->{name, "picture": image.asset->url},
-    "category": category->{title, "slug": slug.current},
+    "author": author->{name, "slug": slug.current, "picture": image.asset->url},
+    "categories": categories[]->{title, "slug": slug.current},
     body,
     "comments": *[
       _type == "comment" &&
@@ -71,52 +70,57 @@ export default function Post({ data: initialData, preview }) {
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout preview={preview}>
-      <Container>
-        {/* <Header /> */}
-        {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
-        ) : (
-          <>
-            <article>
-              <Head>
-                <title>
-                  {post.title} | {SITE_TITLE}
-                </title>
-                {/* <meta property="og:image" content={post.ogImage.url} /> */}
-              </Head>
-              <PostHeader
-                title={post.title}
-                image={post.image}
-                imageMeta={post.imageMeta}
-                date={post.date}
-                author={post.author}
-              />
+    <Layout>
+      {/* <Header /> */}
+      {router.isFallback ? (
+        <PostTitle>Loading…</PostTitle>
+      ) : (
+        <>
+          <article>
+            <Head>
+              <title>
+                {post.title} | {SITE_TITLE}
+              </title>
+              {/* <meta property="og:image" content={post.ogImage.url} /> */}
+            </Head>
 
-              {post?.category?.title && post?.category?.slug ? (
-                <>
-                  Category:{" "}
-                  <Link as={`/categories/${post.category.slug}`} href="/categories/[slug]">
-                    <a>{post.category.title}</a>
-                  </Link>
-                </>
-              ) : null}
+            <PostHeader
+              title={post.title}
+              image={post.image}
+              imageMeta={post.imageMeta}
+              date={post.date}
+              author={post.author}
+            />
 
-              {post.tags && post.tags.length ? (
-                <p>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
-              ) : null}
+            {post.categories && post.categories.length ? (
+              <>
+                <p>Categories</p>
+                <ul>
+                  {post.categories.map(({ slug, title }) => (
+                    <li key={slug}>
+                      <Link as={`/categories/${slug}`} href="/categories/[slug]">
+                        <a>{title}</a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
 
-              <PostBody content={post.body} />
-            </article>
+            {post.tags && post.tags.length ? (
+              <p>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
+            ) : null}
 
-            <Comments comments={post.comments} />
-            <Form _id={post._id} />
+            <PostBody content={post.body} />
+          </article>
 
-            <SectionSeparator />
-            {/* {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
-          </>
-        )}
-      </Container>
+          <Comments comments={post.comments} />
+          <Form _id={post._id} />
+
+          <SectionSeparator />
+          {/* {morePosts.length > 0 && <MoreStories posts={morePosts} />} */}
+        </>
+      )}
     </Layout>
   );
 }
