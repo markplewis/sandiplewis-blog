@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { SITE_TITLE } from "lib/constants";
-import { client } from "lib/sanity";
+import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
 
@@ -23,7 +23,7 @@ const query = `
   }
 `;
 
-export default function Category({ category }) {
+export default function Category({ data: category }) {
   const router = useRouter();
 
   return !router.isFallback && !category?.slug ? (
@@ -56,12 +56,12 @@ export default function Category({ category }) {
 }
 
 export async function getStaticProps({ params }) {
-  const category = await client.fetch(query, {
+  const data = await client.fetch(query, {
     slug: params.slug
   });
   return {
     props: {
-      category
+      data
     }
   };
 }

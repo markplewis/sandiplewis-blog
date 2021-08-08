@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import Footer from "components/Footer";
 import Header from "components/Header";
+import PreviewMessage from "components/PreviewMessage";
 
 // See: https://nextjs.org/docs/basic-features/layouts
 
@@ -26,6 +27,7 @@ export default function Layout({ children }) {
         <meta name="theme-color" content="#cccccc" />
         {/* TODO: add OpenGraph meta tags, Twitter cards, etc. */}
       </Head>
+      <PreviewMessage />
       <Header />
       <main>{children}</main>
       <Footer />

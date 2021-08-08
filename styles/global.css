@@ -49,14 +49,19 @@ in order to avoid having to apply "display: inline-block" to every <a> that wrap
 /* TODO: move these into a separate file? */
 
 /*
-Fix font rendering problems in various browsers
-(font-smoothing isn't part of the spec and therefore unsupported by autorpefixer)
+Controversial "fix" for sub-pixel font rendering "problems" in various browsers
+See: https://usabilitypost.com/2012/11/05/stop-fixing-font-smoothing/
+See: https://github.com/google/fonts/issues/1170#issuecomment-691405519
+Maybe we should use `text-rendering` instead?
+https://css-tricks.com/almanac/properties/t/text-rendering/
 */
+/*
 .u-font-rendering-fix {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizelegibility;
 }
+*/
 
 .u-button-appearance-none {
   cursor: pointer;

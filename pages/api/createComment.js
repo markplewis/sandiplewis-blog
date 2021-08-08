@@ -1,4 +1,4 @@
-import { previewClient } from "lib/sanity";
+import { previewClient } from "lib/sanity.server";
 
 // Next.js API route documentation:
 // https://nextjs.org/learn/basics/api-routes/creating-api-routes

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { SITE_TITLE } from "lib/constants";
-import { client, usePreviewSubscription } from "lib/sanity";
+import { usePreviewSubscription } from "lib/sanity";
+import { client } from "lib/sanity.server";
 
 import PostBody from "components/PostBody";
 import PostHeader from "components/PostHeader";
@@ -123,8 +124,8 @@ export async function getStaticProps({ params }) {
   });
   return {
     props: {
-      preview: true,
-      data
+      data,
+      preview: true
     }
     // revalidate: 1 // TODO: is this necessary?
   };

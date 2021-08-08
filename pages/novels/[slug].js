@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { SITE_TITLE } from "lib/constants";
-import { client, usePreviewSubscription } from "lib/sanity";
+import { usePreviewSubscription } from "lib/sanity";
+import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
 
@@ -58,8 +59,8 @@ export async function getStaticProps({ params }) {
   });
   return {
     props: {
-      preview: true,
-      data
+      data,
+      preview: true
     }
   };
 }

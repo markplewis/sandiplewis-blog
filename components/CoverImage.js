@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { imageBuilder } from "lib/sanity";
+import { urlFor } from "lib/sanity";
 
 import { getColorData, getSwatches } from "utils/color";
 import useDebug from "utils/useDebug";
@@ -21,7 +21,7 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
     <>
       {imageObject ? (
         <Image
-          src={imageBuilder(imageObject).width(1240).height(540).url()}
+          src={urlFor(imageObject).width(1240).height(540).url()}
           width={1240}
           height={540}
           sizes="(max-width: 800px) 100vw, 800px"

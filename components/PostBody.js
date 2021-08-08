@@ -1,7 +1,7 @@
 import BlockContent from "@sanity/block-content-to-react";
 import Image from "next/image";
 import config from "lib/config";
-import { imageBuilder } from "lib/sanity";
+import { urlFor } from "lib/sanity";
 
 // https://www.sanity.io/docs/image-url
 // https://www.sanity.io/docs/presenting-block-text
@@ -16,7 +16,7 @@ const PostBodyImage = ({ node }) => {
   // See this, maybe? https://github.com/sanity-io/block-content-to-react#specifying-image-options
   const image = node.asset ? (
     <Image
-      src={imageBuilder(node.asset).width(1240).height(540).url()}
+      src={urlFor(node.asset).width(1240).height(540).url()}
       width={1240}
       height={540}
       sizes="(max-width: 800px) 100vw, 800px"

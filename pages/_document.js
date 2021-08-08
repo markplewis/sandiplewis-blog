@@ -7,7 +7,6 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head />
-        {/* TODO: apply `u-font-rendering-fix` class to `body`? */}
         <body>
           <Main />
           <NextScript />

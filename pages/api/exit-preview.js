@@ -1,5 +1,7 @@
+// ------------------------------------------------------------------------------------ //
 // The contents of this file have been commented out because we're using Sanity's live
 // subscription-based preview feature instead of Next's cookie-based preview mode
+// ------------------------------------------------------------------------------------ //
 
 /*
 export default async function exit(_, res) {

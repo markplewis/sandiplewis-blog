@@ -29,6 +29,12 @@ const HomePageSchema = {
       type: "array",
       of: [{ type: "reference", to: { type: "review" } }],
       validation: Rule => Rule.unique().max(2)
+    },
+    {
+      name: "author",
+      title: "Author",
+      type: "reference",
+      to: { type: "author" }
     }
   ]
 };
