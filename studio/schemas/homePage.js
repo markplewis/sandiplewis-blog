@@ -5,9 +5,6 @@ const HomePageSchema = {
   title: "Home page",
   type: "document",
   __experimental_actions: ["update", "publish"], // Removed "create" and "delete"
-  initialValue: {
-    name: "Home page"
-  },
   fields: [
     {
       name: "name",
@@ -35,7 +32,17 @@ const HomePageSchema = {
       title: "Author",
       type: "reference",
       to: { type: "author" }
+    },
+    {
+      name: "commentsEnabled",
+      title: "Enable comments",
+      description: "Enable or disable comments on posts",
+      type: "boolean"
     }
-  ]
+  ],
+  initialValue: {
+    name: "Home page",
+    commentsEnabled: false
+  }
 };
 export default HomePageSchema;

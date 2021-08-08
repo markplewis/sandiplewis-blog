@@ -10,13 +10,15 @@ import { client } from "lib/sanity.server";
 import PostBody from "components/PostBody";
 import PostHeader from "components/PostHeader";
 import Comments from "components/Comments";
+import CommentForm from "components/CommentForm";
 import Layout from "components/Layout";
 import PostTitle from "components/PostTitle";
-import Form from "components/Form";
 
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
 
-const query = `
+const commentsEnabledQuery = `*[_type == "homePage"][0].commentsEnabled`;
+
+const postQuery = `
   *[_type == "post" && slug.current == $slug][0] {
     _id,
     name,
@@ -53,11 +55,16 @@ export default function Post({ data: initialData, preview }) {
   // https://www.npmjs.com/package/next-sanity/v/0.1.4
   // https://www.sanity.io/blog/live-preview-with-nextjs
 
-  const { data: post } = usePreviewSubscription(query, {
+  const { data: post } = usePreviewSubscription(postQuery, {
     params: {
-      slug: initialData?.slug
+      slug: initialData?.post?.slug
     },
-    initialData,
+    initialData: initialData?.post,
+    enabled: preview
+  });
+
+  const { data: commentsEnabled } = usePreviewSubscription(commentsEnabledQuery, {
+    initialData: initialData?.commentsEnabled,
     enabled: preview
   });
 
@@ -108,8 +115,12 @@ export default function Post({ data: initialData, preview }) {
             <PostBody content={post.body} />
           </article>
 
-          <Comments comments={post.comments} />
-          <Form _id={post._id} />
+          {commentsEnabled ? (
+            <>
+              <Comments comments={post.comments} />
+              <CommentForm _id={post._id} />
+            </>
+          ) : null}
         </>
       )}
     </Layout>
@@ -119,12 +130,17 @@ export default function Post({ data: initialData, preview }) {
 // See: https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
 
 export async function getStaticProps({ params }) {
-  const data = await client.fetch(query, {
+  const post = await client.fetch(postQuery, {
     slug: params.slug
   });
+  const commentsEnabled = await client.fetch(commentsEnabledQuery);
+
   return {
     props: {
-      data,
+      data: {
+        post,
+        commentsEnabled
+      },
       preview: true
     }
     // revalidate: 1 // TODO: is this necessary?
