@@ -19,7 +19,7 @@ const query = `
   }
 `;
 
-export default function Author({ data: initialData, preview }) {
+export default function Author({ data: initialData }) {
   const router = useRouter();
 
   const { data: author } = usePreviewSubscription(query, {
@@ -27,7 +27,7 @@ export default function Author({ data: initialData, preview }) {
       slug: initialData?.slug
     },
     initialData,
-    enabled: preview
+    enabled: true
   });
 
   return !router.isFallback && !author?.slug ? (
@@ -51,8 +51,7 @@ export async function getStaticProps({ params }) {
   });
   return {
     props: {
-      data,
-      preview: true
+      data
     }
   };
 }

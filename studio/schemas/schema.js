@@ -13,6 +13,7 @@ import homePage from "./homePage";
 import novel from "./novel";
 import post from "./post";
 import review from "./review";
+import settings from "./settings";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -30,7 +31,8 @@ export default createSchema({
     review,
     author,
     blockContent,
-    comment
+    comment,
+    settings
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ])

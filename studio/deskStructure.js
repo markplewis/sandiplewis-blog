@@ -40,15 +40,28 @@ const DeskStructure = () =>
   S.list()
     .title("Content")
     .items([
+      // TODO: fix this error: https://www.sanity.io/help/input-component-no-ref
       S.listItem()
         .title("Home page")
-        .child(S.document().schemaType("homePage").documentId("homePage")),
+        .schemaType("homePage")
+        .child(
+          S.document()
+            .documentId("homePage")
+            .schemaType("homePage")
+            .views([
+              S.view.form().icon(EditIcon),
+              S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
+            ])
+        ),
       splitPaneViews("Post", "post", "Web Preview"),
       splitPaneViews("Novel", "novel", "Web Preview"),
       splitPaneViews("Author", "author", "Web Preview"),
       ...S.documentTypeListItems().filter(listItem => {
-        return !["homePage", "post", "novel", "author"].includes(listItem.getId());
-      })
+        return !["homePage", "post", "novel", "author", "settings"].includes(listItem.getId());
+      }),
+      S.listItem()
+        .title("Settings")
+        .child(S.document().schemaType("settings").documentId("settings"))
     ]);
 
 export default DeskStructure;

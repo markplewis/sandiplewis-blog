@@ -23,7 +23,7 @@ const query = `
   }
 `;
 
-export default function Novel({ data: initialData, preview }) {
+export default function Novel({ data: initialData }) {
   const router = useRouter();
 
   const { data: novel } = usePreviewSubscription(query, {
@@ -31,7 +31,7 @@ export default function Novel({ data: initialData, preview }) {
       slug: initialData?.slug
     },
     initialData,
-    enabled: preview
+    enabled: true
   });
 
   return !router.isFallback && !novel?.slug ? (
@@ -59,8 +59,7 @@ export async function getStaticProps({ params }) {
   });
   return {
     props: {
-      data,
-      preview: true
+      data
     }
   };
 }

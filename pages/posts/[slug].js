@@ -16,7 +16,7 @@ import PostTitle from "components/PostTitle";
 
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
 
-const commentsEnabledQuery = `*[_type == "homePage"][0].commentsEnabled`;
+const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
 
 const postQuery = `
   *[_type == "post" && slug.current == $slug][0] {
@@ -44,7 +44,7 @@ const postQuery = `
   }
 `;
 
-export default function Post({ data: initialData, preview }) {
+export default function Post({ data: initialData }) {
   const router = useRouter();
 
   // If we wanted to, we could use Next's cookie-based preview mode
@@ -60,12 +60,12 @@ export default function Post({ data: initialData, preview }) {
       slug: initialData?.post?.slug
     },
     initialData: initialData?.post,
-    enabled: preview
+    enabled: true
   });
 
   const { data: commentsEnabled } = usePreviewSubscription(commentsEnabledQuery, {
     initialData: initialData?.commentsEnabled,
-    enabled: preview
+    enabled: true
   });
 
   return !router.isFallback && !post?.slug ? (
@@ -140,8 +140,7 @@ export async function getStaticProps({ params }) {
       data: {
         post,
         commentsEnabled
-      },
-      preview: true
+      }
     }
     // revalidate: 1 // TODO: is this necessary?
   };

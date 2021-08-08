@@ -10,7 +10,13 @@ const projectUrl = environments[process.env.SANITY_STUDIO_BUILD_ENV] || environm
 
 export default function resolveProductionUrl(document) {
   const doc = document.displayed || document;
-  return doc._type && doc.slug ? `${projectUrl}/${doc._type}s/${doc.slug.current}` : null;
+
+  if (doc._type && doc.slug) {
+    return `${projectUrl}/${doc._type}s/${doc.slug.current}`;
+  } else if (doc._type === "homePage") {
+    return `${projectUrl}/`;
+  }
+  return null;
 }
 
 // ------------------------------- //

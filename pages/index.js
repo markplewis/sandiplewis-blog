@@ -19,22 +19,22 @@ import Layout from "components/Layout";
 
 const recentPostsQuery = getRecentPostsQuery(4);
 
-export default function Index({ data: initialData, preview }) {
+export default function Index({ data: initialData }) {
   const { data: novel } = usePreviewSubscription(featuredNovelQuery, {
     initialData: initialData?.novel,
-    enabled: preview
+    enabled: true
   });
   const { data: reviews } = usePreviewSubscription(featuredReviewsQuery, {
     initialData: initialData?.reviews,
-    enabled: preview
+    enabled: true
   });
   const { data: posts } = usePreviewSubscription(recentPostsQuery, {
     initialData: initialData?.posts,
-    enabled: preview
+    enabled: true
   });
   const { data: author } = usePreviewSubscription(authorBioQuery, {
     initialData: initialData?.author,
-    enabled: preview
+    enabled: true
   });
 
   return (
@@ -176,8 +176,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      data: { novel, reviews, posts, author },
-      preview: true
+      data: { novel, reviews, posts, author }
     }
   };
 }
