@@ -27,8 +27,8 @@ import IframePreview from "./components/IframePreview";
 // https://www.sanity.io/blog/evolve-authoring-experiences-with-views-and-split-panes
 // https://github.com/sanity-io/gatsby-portfolio-preview-poc/blob/master/studio/README.md
 
-function splitPaneViews(title, schema, previewTitle, Icon) {
-  return S.listItem()
+function splitPaneViews(listItem, title, schema, Icon) {
+  return listItem
     .title(title)
     .schemaType(schema)
     .icon(Icon)
@@ -41,7 +41,7 @@ function splitPaneViews(title, schema, previewTitle, Icon) {
             .schemaType(schema)
             .views([
               S.view.form().icon(EditIcon),
-              S.view.component(IframePreview).icon(EyeIcon).title(previewTitle)
+              S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
             ])
         )
     );
@@ -65,21 +65,24 @@ const DeskStructure = () =>
               S.view.component(IframePreview).icon(EyeIcon).title("Web Preview")
             ])
         ),
-      splitPaneViews("Post", "post", "Web Preview", HiOutlineDocumentText),
-      splitPaneViews("Novel", "novel", "Web Preview", HiOutlineBookOpen),
-      splitPaneViews("Author", "author", "Web Preview", HiOutlineUser),
       ...S.documentTypeListItems()
         .filter(listItem => {
-          return !["homePage", "post", "novel", "author", "settings"].includes(listItem.getId());
+          return !["homePage", "settings"].includes(listItem.getId());
         })
         .map(listItem => {
           switch (listItem.getId()) {
+            case "author":
+              return splitPaneViews(listItem, "Authors", "author", HiOutlineUser);
             case "category":
-              return listItem.icon(HiOutlineFolderOpen);
+              return listItem.title("Categories").icon(HiOutlineFolderOpen);
             case "comment":
-              return listItem.icon(HiOutlineChat);
+              return listItem.title("Comments").icon(HiOutlineChat);
+            case "novel":
+              return splitPaneViews(listItem, "Novels", "novel", HiOutlineBookOpen);
+            case "post":
+              return splitPaneViews(listItem, "Posts", "post", HiOutlineDocumentText);
             case "review":
-              return listItem.icon(HiOutlineStar);
+              return listItem.title("Reviews").icon(HiOutlineStar);
             default:
               return listItem;
           }
@@ -87,7 +90,7 @@ const DeskStructure = () =>
       S.listItem()
         .title("Settings")
         .icon(HiOutlineCog)
-        .child(S.document().schemaType("settings").documentId("settings"))
+        .child(S.document().documentId("settings").schemaType("settings"))
     ]);
 
 export default DeskStructure;
