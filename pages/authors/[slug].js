@@ -8,6 +8,8 @@ import { usePreviewSubscription } from "lib/sanity";
 
 import Layout from "components/Layout";
 
+import "pages/styles/author.module.css";
+
 const query = `
   *[_type == "author" && slug.current == $slug][0] {
     _id,
@@ -33,7 +35,7 @@ export default function Author({ data: initialData }) {
   return !router.isFallback && !author?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout layoutClass="l-author">
       <Head>
         <title>
           {author?.name} | {SITE_TITLE}

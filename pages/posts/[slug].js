@@ -14,6 +14,8 @@ import CommentForm from "components/CommentForm";
 import Layout from "components/Layout";
 import PostTitle from "components/PostTitle";
 
+import "pages/styles/post.module.css";
+
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
 
 const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
@@ -72,7 +74,7 @@ export default function Post({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     // TODO: pass page meta description, keywords, etc. to <Layout>
-    <Layout>
+    <Layout layoutClass="l-post">
       {router.isFallback ? (
         <PostTitle>Loading…</PostTitle>
       ) : (

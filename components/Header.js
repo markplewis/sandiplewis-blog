@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <>
+    <header>
       <div>
         <h1>Sandi Plewis</h1>
         <h2>Author/editor</h2>
@@ -31,6 +31,6 @@ export default function Header() {
           </li>
         </ul>
       </nav>
-    </>
+    </header>
   );
 }

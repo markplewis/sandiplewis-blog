@@ -8,6 +8,8 @@ import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
 
+import "pages/styles/category.module.css";
+
 // TODO: get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references
 const query = `
@@ -29,7 +31,7 @@ export default function Category({ data: category }) {
   return !router.isFallback && !category?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout layoutClass="l-category">
       <Head>
         <title>
           {category?.title} | {SITE_TITLE}

@@ -9,6 +9,8 @@ import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
 
+import "pages/styles/novel.module.css";
+
 const query = `
   *[_type == "novel" && slug.current == $slug][0] {
     _id,
@@ -37,7 +39,7 @@ export default function Novel({ data: initialData }) {
   return !router.isFallback && !novel?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout layoutClass="l-novel">
       <Head>
         <title>
           {novel?.title} | {SITE_TITLE}
