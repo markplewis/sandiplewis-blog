@@ -10,8 +10,9 @@ import Layout from "components/Layout";
 
 import "pages/styles/category.module.css";
 
-// TODO: get posts in this category
+// Get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references
+// TODO: paginate posts
 const query = `
   *[_type == "category" && slug.current == $slug][0] {
     _id,
@@ -37,8 +38,10 @@ export default function Category({ data: category }) {
           {category?.title} | {SITE_TITLE}
         </title>
       </Head>
+
       <h2>{category?.title}</h2>
       <p>{category?.description}</p>
+
       {category?.posts ? (
         <>
           <p>Posts:</p>

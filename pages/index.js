@@ -21,7 +21,7 @@ import "pages/styles/home.module.css";
 
 const recentPostsQuery = getRecentPostsQuery(4);
 
-export default function Index({ data: initialData }) {
+export default function HomePage({ data: initialData }) {
   const { data: novel } = usePreviewSubscription(featuredNovelQuery, {
     initialData: initialData?.novel,
     enabled: true

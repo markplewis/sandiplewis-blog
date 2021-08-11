@@ -8,8 +8,8 @@ import useDebug from "utils/useDebug";
 
 import swatchStyles from "components/CoverImage.module.css";
 
-export default function CoverImage({ title, imageObject, imageMeta, slug }) {
-  const colorData = getColorData(imageMeta?.metadata?.palette);
+export default function CoverImage({ title, image, slug }) {
+  const colorData = getColorData(image?.palette);
   const debug = useDebug();
 
   const swatches = debug ? getSwatches(colorData) : null;
@@ -17,23 +17,23 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
 
   // See: https://nextjs.org/docs/api-reference/next/image
   // Can't produce <picture> elements (no art direction)
-  const image = (
+  const img = (
     <>
-      {imageObject ? (
+      {image ? (
         <Image
-          src={urlFor(imageObject).width(1240).height(540).url()}
+          src={urlFor(image).width(1240).height(540).url()}
           width={1240}
           height={540}
           sizes="(max-width: 800px) 100vw, 800px"
           layout="responsive"
-          alt={imageObject?.alt}
+          alt={image?.alt}
           placeholder="blur"
           // Data URL generated here: https://png-pixel.com/
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
         />
       ) : null}
 
-      {imageMeta?.creditLine ? `Credit: ${imageMeta.creditLine}` : ""}
+      {image?.creditLine ? `Credit: ${image.creditLine}` : ""}
 
       <div>
         {colorData?.vibrant?.base ? (
@@ -66,13 +66,13 @@ export default function CoverImage({ title, imageObject, imageMeta, slug }) {
       {slug ? (
         <>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
-            <a aria-label={title}>{image}</a>
+            <a aria-label={title}>{img}</a>
           </Link>
           {swatchOutput}
         </>
       ) : (
         <>
-          {image}
+          {img}
           {swatchOutput}
         </>
       )}

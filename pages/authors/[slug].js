@@ -1,12 +1,17 @@
+import BlockContent from "@sanity/block-content-to-react";
+
 import ErrorPage from "next/error";
 import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
+import config from "lib/config";
 import { SITE_TITLE } from "lib/constants";
 import { client } from "lib/sanity.server";
-import { usePreviewSubscription } from "lib/sanity";
+import { usePreviewSubscription, urlFor } from "lib/sanity";
 
 import Layout from "components/Layout";
+import PostBodyImage from "components/serializers/PostBodyImage";
 
 import "pages/styles/author.module.css";
 
@@ -15,8 +20,7 @@ const query = `
     _id,
     name,
     "slug": slug.current,
-    "image": image,
-    "imageMeta": image.asset->{...},
+    "image": image{..., ...asset->{creditLine, description, url}},
     biography,
   }
 `;
@@ -32,6 +36,13 @@ export default function Author({ data: initialData }) {
     enabled: true
   });
 
+  const serializers = {
+    types: {
+      // eslint-disable-next-line react/display-name
+      image: ({ node }) => <PostBodyImage node={node} />
+    }
+  };
+
   return !router.isFallback && !author?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
@@ -41,8 +52,33 @@ export default function Author({ data: initialData }) {
           {author?.name} | {SITE_TITLE}
         </title>
       </Head>
+
+      {author?.image ? (
+        <div style={{ width: "188px" }}>
+          <Image
+            src={urlFor(author.image.asset).width(376).height(600).url()}
+            width={188}
+            height={300}
+            sizes="188px"
+            layout="responsive"
+            alt={author.image.alt || author.name}
+            placeholder="blur"
+            // Data URL generated here: https://png-pixel.com/
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+          />
+        </div>
+      ) : null}
+
       <h2>{author?.name}</h2>
-      <p>{author?.slug}</p>
+
+      {author?.biography && (
+        <BlockContent
+          blocks={author.biography}
+          serializers={serializers}
+          projectId={config.projectId}
+          dataset={config.dataset}
+        />
+      )}
     </Layout>
   );
 }

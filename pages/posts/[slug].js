@@ -23,12 +23,10 @@ const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
 const postQuery = `
   *[_type == "post" && slug.current == $slug][0] {
     _id,
-    name,
     title,
     "date": publishedAt,
     "slug": slug.current,
-    "image": image,
-    "imageMeta": image.asset->{...},
+    "image": image{..., ...asset->{creditLine, description, "palette": metadata.palette, url}},
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     "categories": categories[]->{title, "slug": slug.current},
     body,
@@ -79,18 +77,17 @@ export default function Post({ data: initialData }) {
         <PostTitle>Loading…</PostTitle>
       ) : (
         <>
-          <article>
-            <Head>
-              <title>
-                {post.title} | {SITE_TITLE}
-              </title>
-              {/* <meta property="og:image" content={post.ogImage.url} /> */}
-            </Head>
+          <Head>
+            <title>
+              {post.title} | {SITE_TITLE}
+            </title>
+            {/* <meta property="og:image" content={post.ogImage.url} /> */}
+          </Head>
 
+          <article>
             <PostHeader
               title={post.title}
               image={post.image}
-              imageMeta={post.imageMeta}
               date={post.date}
               author={post.author}
             />
