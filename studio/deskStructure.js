@@ -78,7 +78,7 @@ const DeskStructure = () =>
             case "comment":
               return listItem.title("Comments").icon(HiOutlineChat);
             case "contactFormSubmission":
-              return listItem.title("Contact form submission").icon(HiOutlineChat);
+              return listItem.title("Contact form").icon(HiOutlineChat);
             case "novel":
               return splitPaneViews(listItem, "Novels", "novel", HiOutlineBookOpen);
             case "post":
