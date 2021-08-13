@@ -9,7 +9,6 @@ export default async function verifyReCaptcha(req, res) {
     response = await response.json();
     return res.status(200).json({ success: response.success, score: response.score });
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: "reCAPTCHA verification error", err });
   }
 }

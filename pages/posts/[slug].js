@@ -26,7 +26,16 @@ const postQuery = `
     title,
     "date": publishedAt,
     "slug": slug.current,
-    "image": image{..., ...asset->{creditLine, description, "palette": metadata.palette, url}},
+    "image": image{..., ...asset->{
+      creditLine,
+      description,
+      "palette": {
+        "vibrant": metadata.palette.vibrant,
+        "darkVibrant": metadata.palette.darkVibrant,
+        "lightVibrant": metadata.palette.lightVibrant
+      },
+      url
+    }},
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     "categories": categories[]->{title, "slug": slug.current},
     body,

@@ -1,6 +1,9 @@
+import DOMPurify from "dompurify";
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { emailRegex } from "utils/forms";
+import useDebug from "utils/useDebug";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState();
@@ -14,13 +17,14 @@ export default function ContactForm() {
   } = useForm();
 
   const { executeRecaptcha } = useGoogleReCaptcha();
+  const debug = useDebug();
 
   const submitReCaptcha = useCallback(async () => {
     if (!executeRecaptcha) {
-      console.log("Execute reCAPTCHA not yet available");
+      debug && console.log("Execute reCAPTCHA not yet available");
       return;
     }
-    const token = await executeRecaptcha("submit");
+    const token = await executeRecaptcha("contactSubmit");
     try {
       let response = await fetch("/api/verifyReCaptcha", {
         method: "POST",
@@ -28,14 +32,14 @@ export default function ContactForm() {
         type: "application/json"
       });
       response = await response.json();
-      console.log("reCAPTCHA response", response);
+      debug && console.log("reCAPTCHA response", response);
       const verified = response.success && response.score >= 0.5;
       setCaptchaVerified(verified);
       return verified;
     } catch (err) {
-      console.error(err);
+      debug && console.error(err);
     }
-  }, [executeRecaptcha]);
+  }, [debug, executeRecaptcha]);
 
   // Trigger the verification as soon as the component is loaded
   useEffect(() => {
@@ -45,36 +49,36 @@ export default function ContactForm() {
   const onSubmit = async data => {
     setIsSubmitting(true);
     setFormData(data);
-    console.log(`reCAPTCHA ${captchaVerified ? "already" : "not yet"} verified`);
+    debug && console.log(`reCAPTCHA ${captchaVerified ? "already" : "not yet"} verified`);
 
     const captchaIsVerified = captchaVerified || (await submitReCaptcha());
     if (!captchaIsVerified) {
-      console.log("reCAPTCHA not verified");
+      debug && console.log("reCAPTCHA not verified");
       return;
     } else {
-      console.log("reCAPTCHA verified");
+      debug && console.log("reCAPTCHA verified");
     }
     try {
+      const sanitizedData = {
+        ...data,
+        name: DOMPurify.sanitize(data.name),
+        message: DOMPurify.sanitize(data.message)
+      };
       let response = await fetch("/api/createContactFormSubmission", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(sanitizedData),
         type: "application/json"
       });
       response = await response.json();
-      console.log(`Form submission ${response.message}`);
+      debug && console.log(`Form submission ${response.message}`);
 
       setIsSubmitting(false);
       setHasSubmitted(true);
     } catch (err) {
-      console.error("Form submission error:", err);
+      debug && console.error("Form submission error:", err);
       setFormData(err);
     }
   };
-
-  // Pattern taken from: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
-  const emailRegex =
-    // eslint-disable-next-line no-useless-escape
-    /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
   return (
     <>
@@ -97,14 +101,14 @@ export default function ContactForm() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label htmlFor="name">Name</label>
-              <input {...register("name", { required: "Name field is required" })} id="name" />
+              <input {...register("name", { required: "Name is required" })} id="name" />
               {errors.name && <p>{errors.name.message}</p>}
             </div>
             <div>
-              <label htmlFor="name">Email</label>
+              <label htmlFor="email">Email</label>
               <input
                 {...register("email", {
-                  required: "Email field is required",
+                  required: "Email address is required",
                   pattern: { value: emailRegex, message: "Invalid email address" }
                 })}
                 id="email"

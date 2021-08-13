@@ -16,7 +16,6 @@ export default async function createContactFormSubmission(req, res) {
       message
     });
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: "failure", err });
   }
   return res.status(200).json({ message: "success" });
