@@ -9,6 +9,7 @@ import author from "./author";
 import blockContent from "./blockContent";
 import category from "./category";
 import comment from "./comment";
+import contactFormSubmission from "./contactFormSubmission";
 import homePage from "./homePage";
 import novel from "./novel";
 import post from "./post";
@@ -31,6 +32,7 @@ export default createSchema({
     review,
     author,
     blockContent,
+    contactFormSubmission,
     comment,
     settings
     // When added to this list, object types can be used as

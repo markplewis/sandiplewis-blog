@@ -50,21 +50,23 @@ export default function HomePage({ data: initialData }) {
       {novel ? (
         <div className="novel" style={{ border: "1px solid black", padding: "10px" }}>
           {novel?.image ? (
-            <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
-              <a>
-                <Image
-                  src={urlFor(novel?.image).width(1240).height(540).url()}
-                  width={1240}
-                  height={540}
-                  sizes="(max-width: 800px) 100vw, 800px"
-                  layout="responsive"
-                  alt={novel?.image?.alt}
-                  placeholder="blur"
-                  // Data URL generated here: https://png-pixel.com/
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                />
-              </a>
-            </Link>
+            <div style={{ width: "200px" }}>
+              <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
+                <a>
+                  <Image
+                    src={urlFor(novel?.image).width(1240).height(540).url()}
+                    width={1240}
+                    height={540}
+                    sizes="(max-width: 800px) 100vw, 800px"
+                    layout="responsive"
+                    alt={novel?.image?.alt}
+                    placeholder="blur"
+                    // Data URL generated here: https://png-pixel.com/
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+                  />
+                </a>
+              </Link>
+            </div>
           ) : null}
 
           <p>{novel?.title}</p>
@@ -104,24 +106,26 @@ export default function HomePage({ data: initialData }) {
           <ul>
             {posts.map(post => (
               <li key={post?._id}>
-                <Link as={`/posts/${post?.slug}`} href="/posts/[slug]">
-                  <a>
-                    {post?.image ? (
-                      <Image
-                        src={urlFor(post?.image).width(1240).height(540).url()}
-                        width={1240}
-                        height={540}
-                        sizes="(max-width: 800px) 100vw, 800px"
-                        layout="responsive"
-                        alt={post?.image?.alt}
-                        placeholder="blur"
-                        // Data URL generated here: https://png-pixel.com/
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                      />
-                    ) : null}
-                    <p>{post?.title}</p>
-                  </a>
-                </Link>
+                <div style={{ width: "200px" }}>
+                  <Link as={`/posts/${post?.slug}`} href="/posts/[slug]">
+                    <a>
+                      {post?.image ? (
+                        <Image
+                          src={urlFor(post?.image).width(1240).height(540).url()}
+                          width={1240}
+                          height={540}
+                          sizes="(max-width: 800px) 100vw, 800px"
+                          layout="responsive"
+                          alt={post?.image?.alt}
+                          placeholder="blur"
+                          // Data URL generated here: https://png-pixel.com/
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+                        />
+                      ) : null}
+                      <p>{post?.title}</p>
+                    </a>
+                  </Link>
+                </div>
               </li>
             ))}
           </ul>
@@ -133,17 +137,19 @@ export default function HomePage({ data: initialData }) {
           <p>Biography</p>
 
           {author?.image ? (
-            <Image
-              src={urlFor(author?.image).width(1240).height(540).url()}
-              width={1240}
-              height={540}
-              sizes="(max-width: 800px) 100vw, 800px"
-              layout="responsive"
-              alt={author?.image?.alt}
-              placeholder="blur"
-              // Data URL generated here: https://png-pixel.com/
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-            />
+            <div style={{ width: "200px" }}>
+              <Image
+                src={urlFor(author?.image).width(1240).height(540).url()}
+                width={1240}
+                height={540}
+                sizes="(max-width: 800px) 100vw, 800px"
+                layout="responsive"
+                alt={author?.image?.alt}
+                placeholder="blur"
+                // Data URL generated here: https://png-pixel.com/
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+              />
+            </div>
           ) : null}
 
           <p>{author?.name}</p>
