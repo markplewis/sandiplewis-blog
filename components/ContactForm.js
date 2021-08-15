@@ -46,6 +46,20 @@ export default function ContactForm() {
     submitReCaptcha();
   }, [submitReCaptcha]);
 
+  const sendEmail = async data => {
+    try {
+      let response = await fetch("/api/sendEmail", {
+        method: "POST",
+        body: data,
+        type: "application/json"
+      });
+      response = await response.json();
+      debug && console.log("sendMail response", response);
+    } catch (err) {
+      debug && console.error(err);
+    }
+  };
+
   const onSubmit = async data => {
     setIsSubmitting(true);
     setFormData(data);
@@ -59,18 +73,22 @@ export default function ContactForm() {
       debug && console.log("reCAPTCHA verified");
     }
     try {
-      const sanitizedData = {
+      const sanitizedData = JSON.stringify({
         ...data,
         name: DOMPurify.sanitize(data.name),
         message: DOMPurify.sanitize(data.message)
-      };
+      });
+      // Send form submission data to Sanity
       let response = await fetch("/api/createContactFormSubmission", {
         method: "POST",
-        body: JSON.stringify(sanitizedData),
+        body: sanitizedData,
         type: "application/json"
       });
       response = await response.json();
       debug && console.log(`Form submission ${response.message}`);
+
+      // Email form submission data
+      sendEmail(sanitizedData);
 
       setIsSubmitting(false);
       setHasSubmitted(true);
