@@ -5,10 +5,35 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { emailRegex } from "utils/forms";
 import useDebug from "utils/useDebug";
 
+async function saveMessage(data) {
+  let response = await fetch("/api/createContactFormSubmission", {
+    method: "POST",
+    body: data,
+    type: "application/json"
+  });
+  response = await response.json();
+  return response;
+}
+
+async function sendEmail(data) {
+  try {
+    let response = await fetch("/api/sendEmail", {
+      method: "POST",
+      body: data,
+      type: "application/json"
+    });
+    response = await response.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+}
+
 export default function ContactForm() {
   const [formData, setFormData] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [hasFailed, setHasFailed] = useState(false);
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const {
     register,
@@ -42,23 +67,10 @@ export default function ContactForm() {
   }, [debug, executeRecaptcha]);
 
   // Trigger the verification as soon as the component is loaded
+  // TODO: is this something that we really want to do?
   useEffect(() => {
     submitReCaptcha();
   }, [submitReCaptcha]);
-
-  const sendEmail = async data => {
-    try {
-      let response = await fetch("/api/sendEmail", {
-        method: "POST",
-        body: data,
-        type: "application/json"
-      });
-      response = await response.json();
-      debug && console.log("sendMail response", response);
-    } catch (err) {
-      debug && console.error(err);
-    }
-  };
 
   const onSubmit = async data => {
     setIsSubmitting(true);
@@ -78,20 +90,17 @@ export default function ContactForm() {
         name: DOMPurify.sanitize(data.name),
         message: DOMPurify.sanitize(data.message)
       });
-      // Send form submission data to Sanity
-      let response = await fetch("/api/createContactFormSubmission", {
-        method: "POST",
-        body: sanitizedData,
-        type: "application/json"
+      Promise.allSettled([saveMessage(sanitizedData), sendEmail(sanitizedData)]).then(results => {
+        const success = results.every(result => result.status === "fulfilled");
+        setIsSubmitting(false);
+
+        if (success) {
+          setHasSubmitted(true);
+        } else {
+          setHasFailed(true);
+          debug && console.log(results);
+        }
       });
-      response = await response.json();
-      debug && console.log(`Form submission ${response.message}`);
-
-      // Email form submission data
-      sendEmail(sanitizedData);
-
-      setIsSubmitting(false);
-      setHasSubmitted(true);
     } catch (err) {
       debug && console.error("Form submission error:", err);
       setFormData(err);
@@ -114,7 +123,9 @@ export default function ContactForm() {
         </>
       )}
 
-      {!isSubmitting && !hasSubmitted && (
+      {hasFailed && <h2>Error</h2>}
+
+      {!isSubmitting && !hasSubmitted && !hasFailed && (
         <>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>

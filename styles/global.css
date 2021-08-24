@@ -1,10 +1,29 @@
 /* Global styles */
 /* See: https://nextjs.org/docs/basic-features/built-in-css-support */
 
+/*
+Fallback fonts were generated here:
+https://deploy-preview-15--upbeat-shirley-608546.netlify.app/perfect-ish-font-fallback/
+*/
+@font-face {
+  font-family: "Asap-fallback";
+  size-adjust: 98.94%;
+  ascent-override: 91%;
+  src: local("Arial");
+}
+@font-face {
+  font-family: "Open Sans-fallback";
+  size-adjust: 105.49999999999997%;
+  ascent-override: 103%;
+  src: local("Arial");
+}
+
 :root {
-  --base-font-family: Helvetica, Arial, Verdana, sans-serif;
-  --base-font-color: #333;
+  /* --base-font-family: Helvetica, Arial, Verdana, sans-serif; */
   --base-background-color: #fff;
+  --base-font-color: #333;
+  --base-font-family: "Open Sans", "Open Sans-fallback", Verdana, sans-serif;
+  --heading-font-family: "Asap", "Asap-fallback", Verdana, sans-serif;
   --focus-outline-color: steelblue;
 }
 
@@ -17,6 +36,15 @@ body {
   font-family: var(--base-font-family);
   color: var(--base-font-color);
   background-color: var(--base-background-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font-family);
 }
 
 /* @media (min-width: 600px) {
