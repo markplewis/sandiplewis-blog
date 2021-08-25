@@ -7,8 +7,7 @@ export default function PreviewMessage() {
       style={{
         padding: "10px",
         backgroundColor: "#333",
-        color: "white",
-        marginBottom: "20px"
+        color: "white"
       }}>
       Preview mode
     </div>

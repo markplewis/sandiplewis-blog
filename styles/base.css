@@ -4,6 +4,7 @@
 /*
 Fallback fonts were generated here:
 https://deploy-preview-15--upbeat-shirley-608546.netlify.app/perfect-ish-font-fallback/
+See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-css-descriptors/
 */
 @font-face {
   font-family: "Asap-fallback";
@@ -38,6 +39,7 @@ body {
   background-color: var(--base-background-color);
 }
 
+/*
 h1,
 h2,
 h3,
@@ -46,6 +48,7 @@ h5,
 h6 {
   font-family: var(--heading-font-family);
 }
+*/
 
 /* @media (min-width: 600px) {
   :root {

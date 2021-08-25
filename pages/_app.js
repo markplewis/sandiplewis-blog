@@ -6,7 +6,8 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 // Global styles
 import "modern-normalize/modern-normalize.css";
 import "nprogress/nprogress.css";
-import "styles/global.css";
+import "styles/base.css";
+import "styles/typography.css";
 
 // Polyfill required until mailgun fixes the following issue or Vercel allows us to use Node 15+
 // See: https://github.com/mailgun/mailgun-js/issues/101

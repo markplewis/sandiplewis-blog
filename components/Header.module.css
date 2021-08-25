@@ -1,0 +1,45 @@
+.header {
+  padding: 0 95px 12px 95px;
+  border-bottom: 4px solid #ededed;
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  align-items: baseline;
+}
+.name {
+  margin: 0 16px 0 0;
+  line-height: 1;
+  font-family: var(--heading-font-family);
+  font-size: var(--font-size-1);
+}
+.title {
+  margin: 0;
+  line-height: 1;
+  font-weight: 400;
+  font-size: var(--font-size-4);
+}
+.nav {
+  justify-self: end;
+}
+.navList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 32px;
+}
+.navItem {
+  padding-top: 9px;
+  border-top: 16px solid transparent;
+}
+.navItemActive {
+  border-top-color: #ccc;
+}
+.navLink {
+  font-size: var(--font-size-4);
+  color: var(--base-font-color);
+  text-decoration: none;
+}
+.navLink:hover,
+.navLink:focus {
+  text-decoration: underline;
+}
