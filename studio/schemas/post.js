@@ -41,6 +41,23 @@ const PostSchema = {
       validation: Rule => Rule.unique()
     },
     {
+      title: "Colour palette",
+      name: "colorPalette",
+      type: "string",
+      options: {
+        list: [
+          { title: "Dominant", value: "dominant" },
+          { title: "Vibrant", value: "vibrant" },
+          { title: "Light Vibrant", value: "lightVibrant" },
+          { title: "Dark Vibrant", value: "darkVibrant" },
+          { title: "Muted", value: "muted" },
+          { title: "Light Muted", value: "lightMuted" },
+          { title: "Dark Muted", value: "darkMuted" }
+        ],
+        layout: "radio" // defaults to "dropdown"
+      }
+    },
+    {
       name: "image",
       title: "Main image",
       type: "image",
@@ -77,7 +94,8 @@ const PostSchema = {
         "_type": "reference",
         "_ref": _id
       }
-    `)
+    `),
+    colorPalette: "dominant"
   }),
 
   preview: {

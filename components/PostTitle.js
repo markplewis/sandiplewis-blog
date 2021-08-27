@@ -1,3 +1,7 @@
-export default function PostTitle({ children }) {
-  return <h1>{children}</h1>;
+export default function PostTitle({ className, children }) {
+  return (
+    <h1 id="skip-link-target" tabIndex={-1} className={className}>
+      {children}
+    </h1>
+  );
 }

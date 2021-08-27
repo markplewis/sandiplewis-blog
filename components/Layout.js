@@ -29,6 +29,9 @@ function Layout({ children, layoutClass = "", description = "", keywords = "" })
         <meta name="theme-color" content="#cccccc" />
         {/* TODO: add OpenGraph meta tags, Twitter cards, etc. */}
       </Head>
+      <a className="skipLink" href="#skip-link-target">
+        Skip to main content
+      </a>
       <PreviewMessage />
       <Header />
       <main className={layoutClass}>{children}</main>

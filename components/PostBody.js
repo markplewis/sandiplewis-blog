@@ -10,7 +10,7 @@ import PostBodyImage from "components/serializers/PostBodyImage";
 // https://medium.com/@kimbjrkman/how-to-use-inline-images-in-rich-text-with-sanity-io-c42594baa509
 // https://www.sanity.io/guides/portable-text-internal-and-external-links
 
-export default function PostBody({ content }) {
+export default function PostBody({ className, content }) {
   const serializers = {
     types: {
       // eslint-disable-next-line react/display-name
@@ -18,7 +18,7 @@ export default function PostBody({ content }) {
     }
   };
   return (
-    <div>
+    <div className={className}>
       <BlockContent
         blocks={content}
         serializers={serializers}

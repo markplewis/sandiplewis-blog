@@ -124,7 +124,15 @@ function contrastRatio(bgLuminance, fgLuminance) {
 }
 
 function getPaletteData(palette) {
-  const paletteKeys = ["vibrant", "darkVibrant", "lightVibrant"];
+  const paletteKeys = [
+    "darkMuted",
+    "darkVibrant",
+    "dominant",
+    "lightMuted",
+    "lightVibrant",
+    "muted",
+    "vibrant"
+  ];
   return paletteKeys
     .map(key => {
       if (!palette || !palette[key]) {

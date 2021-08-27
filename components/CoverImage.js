@@ -6,14 +6,40 @@ import { urlFor } from "lib/sanity";
 import { getColorData, getSwatches } from "utils/color";
 import useDebug from "utils/useDebug";
 
-import swatchStyles from "components/CoverImage.module.css";
+// import swatchStyles from "components/CoverImage.module.css";
 
-export default function CoverImage({ title, image, slug }) {
+export default function CoverImage({ className, title, image, slug }) {
   const colorData = getColorData(image?.palette);
   const debug = useDebug();
 
   const swatches = debug ? getSwatches(colorData) : null;
-  const swatchOutput = debug ? <div>{swatches}</div> : null;
+  const swatchOutput = debug ? (
+    <div style={{ backgroundColor: "white", padding: "10px" }}>
+      {/* {colorData?.vibrant?.base ? (
+        <div
+          className={swatchStyles.swatch}
+          style={{
+            backgroundColor: colorData?.vibrant?.base?.background,
+            color: colorData?.vibrant?.base?.foreground
+          }}>
+          {colorData?.vibrant?.base?.ratio}
+        </div>
+      ) : null}
+
+      {colorData?.vibrant?.comp ? (
+        <div
+          className={swatchStyles.swatch}
+          style={{
+            backgroundColor: colorData?.vibrant?.comp?.background,
+            color: colorData?.vibrant?.comp?.foreground
+          }}>
+          {colorData?.vibrant?.comp?.ratio}
+        </div>
+      ) : null} */}
+
+      {swatches}
+    </div>
+  ) : null;
 
   // See: https://nextjs.org/docs/api-reference/next/image
   // Can't produce <picture> elements (no art direction)
@@ -33,36 +59,12 @@ export default function CoverImage({ title, image, slug }) {
         />
       ) : null}
 
-      {image?.creditLine ? `Credit: ${image.creditLine}` : ""}
-
-      <div>
-        {colorData?.vibrant?.base ? (
-          <div
-            className={swatchStyles.swatch}
-            style={{
-              backgroundColor: colorData?.vibrant?.base?.background,
-              color: colorData?.vibrant?.base?.foreground
-            }}>
-            {colorData?.vibrant?.base?.ratio}
-          </div>
-        ) : null}
-
-        {colorData?.vibrant?.comp ? (
-          <div
-            className={swatchStyles.swatch}
-            style={{
-              backgroundColor: colorData?.vibrant?.comp?.background,
-              color: colorData?.vibrant?.comp?.foreground
-            }}>
-            {colorData?.vibrant?.comp?.ratio}
-          </div>
-        ) : null}
-      </div>
+      {/* {image?.creditLine ? `Credit: ${image.creditLine}` : ""} */}
     </>
   );
 
   return (
-    <div>
+    <div className={className}>
       {slug ? (
         <>
           <Link as={`/posts/${slug}`} href="/posts/[slug]">

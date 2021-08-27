@@ -8,17 +8,30 @@ import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import PostBody from "components/PostBody";
-import PostHeader from "components/PostHeader";
+// import PostHeader from "components/PostHeader";
 import Comments from "components/Comments";
 import CommentForm from "components/CommentForm";
 import Layout from "components/Layout";
 import PostTitle from "components/PostTitle";
+// import Avatar from "components/Avatar";
+import Date from "components/Date";
+import CoverImage from "components/CoverImage";
 
-import "pages/styles/post.module.css";
+import { getColorData } from "utils/color";
+// import useDebug from "utils/useDebug";
+
+import styles from "pages/styles/post.module.css";
 
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
 
 const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
+
+// Extract a limited set of colour palettes
+// "palette": {
+//   "vibrant": metadata.palette.vibrant,
+//   "darkVibrant": metadata.palette.darkVibrant,
+//   "lightVibrant": metadata.palette.lightVibrant
+// },
 
 const postQuery = `
   *[_type == "post" && slug.current == $slug][0] {
@@ -26,14 +39,11 @@ const postQuery = `
     title,
     "date": publishedAt,
     "slug": slug.current,
+    colorPalette,
     "image": image{..., ...asset->{
       creditLine,
       description,
-      "palette": {
-        "vibrant": metadata.palette.vibrant,
-        "darkVibrant": metadata.palette.darkVibrant,
-        "lightVibrant": metadata.palette.lightVibrant
-      },
+      "palette": metadata.palette,
       url
     }},
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
@@ -55,6 +65,7 @@ const postQuery = `
 
 export default function Post({ data: initialData }) {
   const router = useRouter();
+  // const debug = useDebug();
 
   // If we wanted to, we could use Next's cookie-based preview mode
   // instead or Sanity's live subscription-based preview feature:
@@ -77,11 +88,18 @@ export default function Post({ data: initialData }) {
     enabled: true
   });
 
+  const colorPalette = post?.colorPalette ?? "darkVibrant";
+  const colorData = getColorData(post?.image?.palette);
+  const baseBgColor = colorData?.[colorPalette]?.base?.background ?? null;
+  const baseFgColor = colorData?.[colorPalette]?.base?.foreground ?? null;
+  const compBgColor = colorData?.[colorPalette]?.comp?.background ?? null;
+  const compFgColor = colorData?.[colorPalette]?.comp?.foreground ?? null;
+
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
     // TODO: pass page meta description, keywords, etc. to <Layout>
-    <Layout layoutClass="l-post">
+    <Layout>
       {router.isFallback ? (
         <PostTitle>Loading…</PostTitle>
       ) : (
@@ -93,34 +111,96 @@ export default function Post({ data: initialData }) {
             {/* <meta property="og:image" content={post.ogImage.url} /> */}
           </Head>
 
-          <article>
-            <PostHeader
+          {/* https://nextjs.org/blog/styling-next-with-styled-jsx */}
+          <style jsx global>
+            {`
+              body {
+                --baseBgColor: ${baseBgColor};
+                --baseFgColor: ${baseFgColor};
+                --compBgColor: ${compBgColor};
+                --compFgColor: ${compFgColor};
+              }
+            `}
+          </style>
+
+          <article className={styles.post}>
+            {/* <PostHeader
               title={post.title}
               image={post.image}
               date={post.date}
               author={post.author}
-            />
+            /> */}
 
-            {post.categories && post.categories.length ? (
-              <>
-                <p>Categories</p>
-                <ul>
-                  {post.categories.map(({ slug, title }) => (
-                    <li key={slug}>
-                      <Link as={`/categories/${slug}`} href="/categories/[slug]">
-                        <a>{title}</a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
+            <div className={styles.titleAndShareTools}>
+              <PostTitle className={styles.title}>{post.title}</PostTitle>
 
-            {post.tags && post.tags.length ? (
-              <p>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
-            ) : null}
+              <div className={styles.shareTools}>
+                <Link href="https://www.facebook.com">
+                  <a className={styles.shareTool}>
+                    <span className="u-visually-hidden">Facebook</span>
+                  </a>
+                </Link>
+                <Link href="https://www.twitter.com">
+                  <a className={styles.shareTool}>
+                    <span className="u-visually-hidden">Twitter</span>
+                  </a>
+                </Link>
+                <Link href="mailto:someone@example.com">
+                  <a className={styles.shareTool}>
+                    <span className="u-visually-hidden">Email</span>
+                  </a>
+                </Link>
+              </div>
+            </div>
 
-            <PostBody content={post.body} />
+            <div className={styles.coverImageAndMeta}>
+              <CoverImage
+                className={styles.coverImage}
+                image={post.image}
+                title={post.title}
+                url={post.image}
+              />
+
+              <div className={styles.meta}>
+                <Date className={styles.date} dateString={post.date} />
+                <p>
+                  <Link as={`/authors/${post.author?.slug}`} href="/authors/[slug]">
+                    <a className={styles.author}>{post.author?.name}</a>
+                  </Link>
+                </p>
+
+                {/* <Avatar
+                  name={post.author?.name}
+                  slug={post.author?.slug}
+                  picture={post.author?.picture}
+                /> */}
+
+                {post.categories && post.categories.length ? (
+                  <div className={styles.categories}>
+                    <p className={styles.categoriesHeading}>Categories</p>
+                    <ul className={styles.categoryList}>
+                      {post.categories.map(({ slug, title }) => (
+                        <li className={styles.categoryItem} key={slug}>
+                          <Link as={`/categories/${slug}`} href="/categories/[slug]">
+                            <a className={styles.category}>{title}</a>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {post.tags && post.tags.length ? (
+                  <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
+                ) : null}
+
+                {post.image?.creditLine && (
+                  <p className={styles.credit}>Photo credit: {post.image.creditLine}</p>
+                )}
+              </div>
+            </div>
+
+            <PostBody className={styles.body} content={post.body} />
           </article>
 
           {commentsEnabled ? (

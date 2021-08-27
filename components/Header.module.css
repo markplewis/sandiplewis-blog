@@ -1,41 +1,53 @@
 .header {
-  padding: 0 95px 12px 95px;
-  border-bottom: 4px solid #ededed;
+  padding-bottom: 32px;
+  /* border-bottom: 4px solid var(--compBgColor); */
+  /* border-bottom: 4px solid var(--baseBgColor); */
+  /* border-bottom: 2px solid var(--baseBgColor); */
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: var(--column-margin) auto auto 1fr var(--column-margin);
   align-items: baseline;
+  background-color: #fff;
+  z-index: 1;
+  position: relative;
 }
 .name {
   margin: 0 16px 0 0;
   line-height: 1;
   font-family: var(--heading-font-family);
   font-size: var(--font-size-1);
+  grid-column: 2 / 3;
 }
 .title {
   margin: 0;
   line-height: 1;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   font-size: var(--font-size-4);
+  grid-column: 3 / 4;
 }
 .nav {
+  margin-left: 44px;
   justify-self: end;
+  grid-column: 4 / 5;
 }
 .navList {
   list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
+  flex-wrap: nowrap;
   gap: 32px;
 }
 .navItem {
-  padding-top: 9px;
-  border-top: 16px solid transparent;
+  padding-top: 28px;
+  border-top: 12px solid transparent;
 }
 .navItemActive {
-  border-top-color: #ccc;
+  /* border-top-color: var(--baseBgColor); */
+  border-top-color: #999;
+  /* border-image: linear-gradient(100deg, var(--baseBgColor), var(--compBgColor)) 1; */
 }
 .navLink {
-  font-size: var(--font-size-4);
+  font-size: var(--font-size-5);
   color: var(--base-font-color);
   text-decoration: none;
 }
