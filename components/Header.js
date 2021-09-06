@@ -9,8 +9,10 @@ export default function Header() {
   const active = styles.navItemActive;
   return (
     <header className={styles.header}>
-      <h1 className={styles.name}>Sandi Plewis</h1>
-      <h2 className={styles.title}>Author/editor</h2>
+      <div className={styles.nameAndTitle}>
+        <h1 className={styles.name}>Sandi Plewis</h1>
+        <h2 className={styles.title}>Author/editor</h2>
+      </div>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           <li className={`${styles.navItem} ${pathName === "/" ? active : ""}`}>

@@ -7,34 +7,37 @@ https://deploy-preview-15--upbeat-shirley-608546.netlify.app/perfect-ish-font-fa
 See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-css-descriptors/
 */
 @font-face {
-  font-family: "Asap-fallback";
-  size-adjust: 98.94%;
-  ascent-override: 91%;
-  src: local("Arial");
-}
-@font-face {
-  font-family: "Open Sans-fallback";
+  font-family: "Open Sans fallback";
   size-adjust: 105.49999999999997%;
   ascent-override: 103%;
   src: local("Arial");
 }
+@font-face {
+  font-family: "Literata fallback";
+  size-adjust: 117.49999999999997%;
+  ascent-override: 103%;
+  src: local("Times New Roman");
+}
 
 :root {
-  /* --base-font-family: Helvetica, Arial, Verdana, sans-serif; */
   --base-background-color: #fff;
   --base-font-color: #333;
-  --base-font-family: "Open Sans", "Open Sans-fallback", Verdana, sans-serif;
-  /* --heading-font-family: "Asap", "Asap-fallback", Verdana, sans-serif; */
-  --heading-font-family: "Literata", serif;
+  --base-font-family: "Open Sans", "Open Sans fallback", Verdana, sans-serif;
+  --heading-font-family: "Literata", "Literata fallback", serif;
   --focus-outline-color: steelblue;
-  --column-margin: 44px;
+  --column-margin: 22px;
+}
+@media (min-width: 600px) {
+  :root {
+    --column-margin: 44px;
+  }
 }
 @media (min-width: 1280px) {
   :root {
-    /* --column-margin: 110px; */
     --column-margin: 88px;
   }
 }
+
 * {
   line-height: inherit; /* Inherit value from modern-normalize.css */
 }

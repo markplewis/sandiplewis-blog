@@ -6,39 +6,13 @@ import { urlFor } from "lib/sanity";
 import { getColorData, getSwatches } from "utils/color";
 import useDebug from "utils/useDebug";
 
-// import swatchStyles from "components/CoverImage.module.css";
-
-export default function CoverImage({ className, title, image, slug }) {
+export default function CoverImage({ className, title, image, slug, width = 1240, height = 540 }) {
   const colorData = getColorData(image?.palette);
   const debug = useDebug();
 
   const swatches = debug ? getSwatches(colorData) : null;
   const swatchOutput = debug ? (
-    <div style={{ backgroundColor: "white", padding: "10px" }}>
-      {/* {colorData?.vibrant?.base ? (
-        <div
-          className={swatchStyles.swatch}
-          style={{
-            backgroundColor: colorData?.vibrant?.base?.background,
-            color: colorData?.vibrant?.base?.foreground
-          }}>
-          {colorData?.vibrant?.base?.ratio}
-        </div>
-      ) : null}
-
-      {colorData?.vibrant?.comp ? (
-        <div
-          className={swatchStyles.swatch}
-          style={{
-            backgroundColor: colorData?.vibrant?.comp?.background,
-            color: colorData?.vibrant?.comp?.foreground
-          }}>
-          {colorData?.vibrant?.comp?.ratio}
-        </div>
-      ) : null} */}
-
-      {swatches}
-    </div>
+    <div style={{ backgroundColor: "white", padding: "10px" }}>{swatches}</div>
   ) : null;
 
   // See: https://nextjs.org/docs/api-reference/next/image
@@ -47,9 +21,9 @@ export default function CoverImage({ className, title, image, slug }) {
     <>
       {image ? (
         <Image
-          src={urlFor(image).width(1240).height(540).url()}
-          width={1240}
-          height={540}
+          src={urlFor(image).width(width).height(height).url()}
+          width={width}
+          height={height}
           sizes="(max-width: 800px) 100vw, 800px"
           layout="responsive"
           alt={image?.alt}
@@ -58,8 +32,6 @@ export default function CoverImage({ className, title, image, slug }) {
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
         />
       ) : null}
-
-      {/* {image?.creditLine ? `Credit: ${image.creditLine}` : ""} */}
     </>
   );
 

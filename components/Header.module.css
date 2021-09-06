@@ -4,32 +4,47 @@
   /* border-bottom: 4px solid var(--baseBgColor); */
   /* border-bottom: 2px solid var(--baseBgColor); */
   display: grid;
-  grid-template-columns: var(--column-margin) auto auto 1fr var(--column-margin);
+  grid-template-columns:
+    var(--column-margin)
+    minmax(min-content, max-content)
+    1fr
+    var(--column-margin);
   align-items: baseline;
   background-color: #fff;
   z-index: 1;
   position: relative;
 }
+.nameAndTitle {
+  display: flex;
+  align-items: baseline;
+  /* justify-content: center; */
+  column-gap: 16px;
+  row-gap: 4px;
+  flex-wrap: wrap;
+  grid-column: 2 / 3;
+}
 .name {
-  margin: 0 16px 0 0;
+  margin: 0;
   line-height: 1;
   /* font-family: var(--heading-font-family);
   font-style: italic; */
   font-family: "Dancing Script", cursive;
   font-size: var(--font-size-1);
-  grid-column: 2 / 3;
+  white-space: nowrap;
+  /* grid-column: 2 / 3; */
 }
 .title {
   margin: 0;
   line-height: 1;
   font-weight: var(--font-weight-normal);
-  font-size: var(--font-size-4);
-  grid-column: 3 / 4;
+  font-size: var(--font-size-5);
+  /* grid-column: 3 / 4; */
 }
 .nav {
   margin-left: 44px;
   justify-self: end;
-  grid-column: 4 / 5;
+  /* grid-column: 4 / 5; */
+  grid-column: 3 / 4;
 }
 .navList {
   list-style-type: none;

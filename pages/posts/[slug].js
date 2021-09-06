@@ -19,6 +19,8 @@ import CoverImage from "components/CoverImage";
 
 import { getColorData } from "utils/color";
 // import useDebug from "utils/useDebug";
+import useMediaQuery from "utils/useMediaQuery";
+import { rem } from "utils/units";
 
 import styles from "pages/styles/post.module.css";
 
@@ -88,12 +90,84 @@ export default function Post({ data: initialData }) {
     enabled: true
   });
 
+  const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
+  const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
+
+  // 12:9 (Cinemascope) vs 3:2 (Classic Film)
+  const cinemaRatio = isWide || !isMedium;
+  const imageSize = {
+    width: cinemaRatio ? 1240 : 1000,
+    height: cinemaRatio ? 531 : 667
+  };
+
   const colorPalette = post?.colorPalette ?? "darkVibrant";
   const colorData = getColorData(post?.image?.palette);
   const baseBgColor = colorData?.[colorPalette]?.base?.background ?? null;
   const baseFgColor = colorData?.[colorPalette]?.base?.foreground ?? null;
   const compBgColor = colorData?.[colorPalette]?.comp?.background ?? null;
   const compFgColor = colorData?.[colorPalette]?.comp?.foreground ?? null;
+
+  const shareTools = (
+    <div className={styles.shareTools}>
+      <Link href="https://www.facebook.com">
+        <a className={styles.shareTool}>
+          <span className="u-visually-hidden">Facebook</span>
+        </a>
+      </Link>
+      <Link href="https://www.twitter.com">
+        <a className={styles.shareTool}>
+          <span className="u-visually-hidden">Twitter</span>
+        </a>
+      </Link>
+      <Link href="mailto:someone@example.com">
+        <a className={styles.shareTool}>
+          <span className="u-visually-hidden">Email</span>
+        </a>
+      </Link>
+    </div>
+  );
+
+  const postMeta = (
+    <>
+      <Date className={styles.date} dateString={post.date} />
+      <p>
+        <Link as={`/authors/${post.author?.slug}`} href="/authors/[slug]">
+          <a className={styles.author}>{post.author?.name}</a>
+        </Link>
+      </p>
+
+      {/* <Avatar
+        name={post.author?.name}
+        slug={post.author?.slug}
+        picture={post.author?.picture}
+      /> */}
+
+      {post.categories && post.categories.length ? (
+        <div className={styles.categories}>
+          <p className={styles.categoriesHeading}>
+            {post.categories.length > 1 ? "Categories" : "Category"}
+          </p>
+          <ul className={styles.categoryList}>
+            {post.categories.map(({ slug, title }) => (
+              <li className={styles.categoryItem} key={slug}>
+                <Link as={`/categories/${slug}`} href="/categories/[slug]">
+                  <a className={styles.category}>{title}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {post.tags && post.tags.length ? (
+        <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
+      ) : null}
+
+      {post.image?.creditLine && (
+        <p className={styles.credit}>Photo credit: {post.image.creditLine}</p>
+      )}
+    </>
+  );
 
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
@@ -133,32 +207,12 @@ export default function Post({ data: initialData }) {
 
             <div className={styles.titleAndShareTools}>
               <PostTitle className={styles.title}>{post.title}</PostTitle>
-
-              <div className={styles.shareTools}>
-                <Link href="https://www.facebook.com">
-                  <a className={styles.shareTool}>
-                    <span className="u-visually-hidden">Facebook</span>
-                  </a>
-                </Link>
-                <Link href="https://www.twitter.com">
-                  <a className={styles.shareTool}>
-                    <span className="u-visually-hidden">Twitter</span>
-                  </a>
-                </Link>
-                <Link href="mailto:someone@example.com">
-                  <a className={styles.shareTool}>
-                    <span className="u-visually-hidden">Email</span>
-                  </a>
-                </Link>
-              </div>
+              {isMedium && shareTools}
             </div>
 
             <div className={styles.coverImageAndMeta}>
               <div
                 className={styles.patternBlock}
-                // style={{
-                //   backgroundImage: `url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z' fill='${baseBgColor}' fill-opacity='1.0' fill-rule='evenodd'/%3E%3C/svg%3E")`
-                // }}
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='white' fill-opacity='0.1' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
                 }}></div>
@@ -168,45 +222,11 @@ export default function Post({ data: initialData }) {
                 image={post.image}
                 title={post.title}
                 url={post.image}
+                width={imageSize.width}
+                height={imageSize.height}
               />
 
-              <div className={styles.meta}>
-                <Date className={styles.date} dateString={post.date} />
-                <p>
-                  <Link as={`/authors/${post.author?.slug}`} href="/authors/[slug]">
-                    <a className={styles.author}>{post.author?.name}</a>
-                  </Link>
-                </p>
-
-                {/* <Avatar
-                  name={post.author?.name}
-                  slug={post.author?.slug}
-                  picture={post.author?.picture}
-                /> */}
-
-                {post.categories && post.categories.length ? (
-                  <div className={styles.categories}>
-                    <p className={styles.categoriesHeading}>Categories</p>
-                    <ul className={styles.categoryList}>
-                      {post.categories.map(({ slug, title }) => (
-                        <li className={styles.categoryItem} key={slug}>
-                          <Link as={`/categories/${slug}`} href="/categories/[slug]">
-                            <a className={styles.category}>{title}</a>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-
-                {post.tags && post.tags.length ? (
-                  <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
-                ) : null}
-
-                {post.image?.creditLine && (
-                  <p className={styles.credit}>Photo credit: {post.image.creditLine}</p>
-                )}
-              </div>
+              <div className={styles.meta}>{isMedium && postMeta}</div>
 
               <div
                 className={styles.patternBlock2}
@@ -215,7 +235,15 @@ export default function Post({ data: initialData }) {
                 }}></div>
             </div>
 
-            <PostBody className={styles.body} content={post.body} />
+            <div className={styles.bodyArea}>
+              {!isMedium && (
+                <>
+                  {shareTools}
+                  <div className={styles.metaBelow}>{postMeta}</div>
+                </>
+              )}
+              <PostBody className={styles.body} content={post.body} />
+            </div>
           </article>
 
           {commentsEnabled ? (
