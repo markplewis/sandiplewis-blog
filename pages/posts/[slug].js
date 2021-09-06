@@ -91,8 +91,6 @@ export default function Post({ data: initialData }) {
     enabled: true
   });
 
-  console.log(post);
-
   const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
 
@@ -113,18 +111,24 @@ export default function Post({ data: initialData }) {
   const shareTools = (
     <div className={styles.shareTools}>
       <Link href="https://www.facebook.com">
-        <a className={styles.shareTool}>
-          <span className="u-visually-hidden">Facebook</span>
+        <a className={styles.shareTool} aria-label="Share on Facebook">
+          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
+            <use xlinkHref="#icon-facebook" />
+          </svg>
         </a>
       </Link>
       <Link href="https://www.twitter.com">
-        <a className={styles.shareTool}>
-          <span className="u-visually-hidden">Twitter</span>
+        <a className={styles.shareTool} aria-label="Share on Twitter">
+          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
+            <use xlinkHref="#icon-twitter" />
+          </svg>
         </a>
       </Link>
       <Link href="mailto:someone@example.com">
-        <a className={styles.shareTool}>
-          <span className="u-visually-hidden">Email</span>
+        <a className={styles.shareTool} aria-label="Share via email">
+          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
+            <use xlinkHref="#icon-email" />
+          </svg>
         </a>
       </Link>
     </div>
