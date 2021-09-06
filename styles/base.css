@@ -24,13 +24,15 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
   --base-background-color: #fff;
   --base-font-color: #333;
   --base-font-family: "Open Sans", "Open Sans-fallback", Verdana, sans-serif;
-  --heading-font-family: "Asap", "Asap-fallback", Verdana, sans-serif;
+  /* --heading-font-family: "Asap", "Asap-fallback", Verdana, sans-serif; */
+  --heading-font-family: "Literata", serif;
   --focus-outline-color: steelblue;
   --column-margin: 44px;
 }
 @media (min-width: 1280px) {
   :root {
-    --column-margin: 110px;
+    /* --column-margin: 110px; */
+    --column-margin: 88px;
   }
 }
 * {

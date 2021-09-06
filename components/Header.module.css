@@ -13,7 +13,9 @@
 .name {
   margin: 0 16px 0 0;
   line-height: 1;
-  font-family: var(--heading-font-family);
+  /* font-family: var(--heading-font-family);
+  font-style: italic; */
+  font-family: "Dancing Script", cursive;
   font-size: var(--font-size-1);
   grid-column: 2 / 3;
 }
@@ -42,8 +44,8 @@
   border-top: 12px solid transparent;
 }
 .navItemActive {
-  /* border-top-color: var(--baseBgColor); */
-  border-top-color: #999;
+  border-top-color: var(--baseBgColor);
+  /* border-top-color: #999; */
   /* border-image: linear-gradient(100deg, var(--baseBgColor), var(--compBgColor)) 1; */
 }
 .navLink {
