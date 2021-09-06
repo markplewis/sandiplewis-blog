@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Link from "next/link";
@@ -90,6 +91,8 @@ export default function Post({ data: initialData }) {
     enabled: true
   });
 
+  console.log(post);
+
   const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
 
@@ -127,46 +130,50 @@ export default function Post({ data: initialData }) {
     </div>
   );
 
-  const postMeta = (
-    <>
-      <Date className={styles.date} dateString={post.date} />
-      <p>
-        <Link as={`/authors/${post.author?.slug}`} href="/authors/[slug]">
-          <a className={styles.author}>{post.author?.name}</a>
-        </Link>
-      </p>
+  // TODO: why is `post` undefined when Vercel builds the app?
+  const postMeta = useMemo(
+    () => (
+      <>
+        <Date className={styles.date} dateString={post?.date} />
+        <p>
+          <Link as={`/authors/${post?.author?.slug}`} href="/authors/[slug]">
+            <a className={styles.author}>{post?.author?.name}</a>
+          </Link>
+        </p>
 
-      {/* <Avatar
-        name={post.author?.name}
-        slug={post.author?.slug}
-        picture={post.author?.picture}
-      /> */}
+        {/* <Avatar
+          name={post?.author?.name}
+          slug={post?.author?.slug}
+          picture={post?.author?.picture}
+        /> */}
 
-      {post.categories && post.categories.length ? (
-        <div className={styles.categories}>
-          <p className={styles.categoriesHeading}>
-            {post.categories.length > 1 ? "Categories" : "Category"}
-          </p>
-          <ul className={styles.categoryList}>
-            {post.categories.map(({ slug, title }) => (
-              <li className={styles.categoryItem} key={slug}>
-                <Link as={`/categories/${slug}`} href="/categories/[slug]">
-                  <a className={styles.category}>{title}</a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+        {post?.categories && post.categories.length ? (
+          <div className={styles.categories}>
+            <p className={styles.categoriesHeading}>
+              {post.categories.length > 1 ? "Categories" : "Category"}
+            </p>
+            <ul className={styles.categoryList}>
+              {post.categories.map(({ slug, title }) => (
+                <li className={styles.categoryItem} key={slug}>
+                  <Link as={`/categories/${slug}`} href="/categories/[slug]">
+                    <a className={styles.category}>{title}</a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
 
-      {post.tags && post.tags.length ? (
-        <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
-      ) : null}
+        {post?.tags && post.tags.length ? (
+          <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
+        ) : null}
 
-      {post.image?.creditLine && (
-        <p className={styles.credit}>Photo credit: {post.image.creditLine}</p>
-      )}
-    </>
+        {post?.image?.creditLine && (
+          <p className={styles.credit}>Photo credit: {post.image.creditLine}</p>
+        )}
+      </>
+    ),
+    [post]
   );
 
   return !router.isFallback && !post?.slug ? (

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+// Imspired by: https://www.netlify.com/blog/2020/12/05/building-a-custom-react-media-query-hook-for-more-responsive-apps/
+
 export default function useMediaQuery(query) {
   const [matches, setMatches] = useState(false);
 
