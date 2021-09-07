@@ -1,5 +1,5 @@
 import DOMPurify from "dompurify";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { emailRegex } from "utils/forms";

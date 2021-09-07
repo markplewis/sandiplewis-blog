@@ -2,6 +2,7 @@ import AbortController from "abort-controller";
 import Router from "next/router";
 import NProgress from "nprogress";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { AppProvider } from "utils/useApp";
 
 // Global styles
 import "modern-normalize/modern-normalize.css";
@@ -29,7 +30,9 @@ function MyApp({ Component, pageProps }) {
     <GoogleReCaptchaProvider
       reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
       scriptProps={{ async: true, defer: true }}>
-      <Component {...pageProps} />
+      <AppProvider>
+        <Component {...pageProps} />
+      </AppProvider>
     </GoogleReCaptchaProvider>
   );
 }

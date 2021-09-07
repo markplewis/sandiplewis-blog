@@ -9,17 +9,15 @@ import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import PostBody from "components/PostBody";
-// import PostHeader from "components/PostHeader";
 import Comments from "components/Comments";
 import CommentForm from "components/CommentForm";
 import Layout from "components/Layout";
-import PostTitle from "components/PostTitle";
-// import Avatar from "components/Avatar";
+import PageTitle from "components/PageTitle";
 import Date from "components/Date";
 import CoverImage from "components/CoverImage";
+import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
-// import useDebug from "utils/useDebug";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -68,7 +66,6 @@ const postQuery = `
 
 export default function Post({ data: initialData }) {
   const router = useRouter();
-  // const debug = useDebug();
 
   // If we wanted to, we could use Next's cookie-based preview mode
   // instead or Sanity's live subscription-based preview feature:
@@ -108,32 +105,6 @@ export default function Post({ data: initialData }) {
   const compBgColor = colorData?.[colorPalette]?.comp?.background ?? null;
   const compFgColor = colorData?.[colorPalette]?.comp?.foreground ?? null;
 
-  const shareTools = (
-    <div className={styles.shareTools}>
-      <Link href="https://www.facebook.com">
-        <a className={styles.shareTool} aria-label="Share on Facebook">
-          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
-            <use xlinkHref="#icon-facebook" />
-          </svg>
-        </a>
-      </Link>
-      <Link href="https://www.twitter.com">
-        <a className={styles.shareTool} aria-label="Share on Twitter">
-          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
-            <use xlinkHref="#icon-twitter" />
-          </svg>
-        </a>
-      </Link>
-      <Link href="mailto:someone@example.com">
-        <a className={styles.shareTool} aria-label="Share via email">
-          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
-            <use xlinkHref="#icon-email" />
-          </svg>
-        </a>
-      </Link>
-    </div>
-  );
-
   // TODO: why is `post` undefined when Vercel builds the app?
   const postMeta = useMemo(
     () => (
@@ -145,12 +116,6 @@ export default function Post({ data: initialData }) {
           </Link>
         </p>
 
-        {/* <Avatar
-          name={post?.author?.name}
-          slug={post?.author?.slug}
-          picture={post?.author?.picture}
-        /> */}
-
         {post?.categories && post.categories.length ? (
           <div className={styles.categories}>
             <p className={styles.categoriesHeading}>
@@ -158,7 +123,7 @@ export default function Post({ data: initialData }) {
             </p>
             <ul className={styles.categoryList}>
               {post.categories.map(({ slug, title }) => (
-                <li className={styles.categoryItem} key={slug}>
+                <li key={slug}>
                   <Link as={`/categories/${slug}`} href="/categories/[slug]">
                     <a className={styles.category}>{title}</a>
                   </Link>
@@ -186,7 +151,7 @@ export default function Post({ data: initialData }) {
     // TODO: pass page meta description, keywords, etc. to <Layout>
     <Layout>
       {router.isFallback ? (
-        <PostTitle>Loading…</PostTitle>
+        <PageTitle>Loading…</PageTitle>
       ) : (
         <>
           <Head>
@@ -208,17 +173,10 @@ export default function Post({ data: initialData }) {
             `}
           </style>
 
-          <article className={styles.post}>
-            {/* <PostHeader
-              title={post.title}
-              image={post.image}
-              date={post.date}
-              author={post.author}
-            /> */}
-
+          <article className={styles.article}>
             <div className={styles.titleAndShareTools}>
-              <PostTitle className={styles.title}>{post.title}</PostTitle>
-              {isMedium && shareTools}
+              <PageTitle className={styles.title}>{post.title}</PageTitle>
+              {isMedium && <ShareTools position="above" />}
             </div>
 
             <div className={styles.coverImageAndMeta}>
@@ -237,7 +195,7 @@ export default function Post({ data: initialData }) {
                 height={imageSize.height}
               />
 
-              <div className={styles.meta}>{isMedium && postMeta}</div>
+              <div className={`${styles.meta} ${styles.metaAbove}`}>{isMedium && postMeta}</div>
 
               <div
                 className={styles.patternBlock2}
@@ -249,8 +207,8 @@ export default function Post({ data: initialData }) {
             <div className={styles.bodyArea}>
               {!isMedium && (
                 <>
-                  {shareTools}
-                  <div className={styles.metaBelow}>{postMeta}</div>
+                  {<ShareTools position="below" />}
+                  <div className={`${styles.meta} ${styles.metaBelow}`}>{postMeta}</div>
                 </>
               )}
               <PostBody className={styles.body} content={post.body} />

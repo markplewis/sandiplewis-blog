@@ -18,7 +18,6 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
   ascent-override: 103%;
   src: local("Times New Roman");
 }
-
 :root {
   --base-background-color: #fff;
   --base-font-color: #333;
@@ -37,18 +36,27 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
     --column-margin: 88px;
   }
 }
-
 * {
   line-height: inherit; /* Inherit value from modern-normalize.css */
 }
-
 body {
   font-size: 100%; /* Default is 16px in most browsers */
   font-family: var(--base-font-family);
+  line-height: 1.5;
   color: var(--base-font-color);
   background-color: var(--base-background-color);
 }
-
+main {
+  width: 100%;
+  overflow-x: hidden;
+  display: grid;
+  /* See: https://webkit.org/blog/7929/designing-websites-for-iphone-x/ */
+  grid-template-columns:
+    max(var(--column-margin), env(safe-area-inset-left))
+    1fr
+    max(var(--column-margin), env(safe-area-inset-right));
+  position: relative;
+}
 .skipLink {
   height: 1px;
   clip: rect(1px, 1px, 1px, 1px);
@@ -67,8 +75,6 @@ body {
   clip: auto;
   overflow: visible;
 }
-
-/*
 h1,
 h2,
 h3,
@@ -77,7 +83,6 @@ h5,
 h6 {
   font-family: var(--heading-font-family);
 }
-*/
 
 /* @media (min-width: 600px) {
   :root {

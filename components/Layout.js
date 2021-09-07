@@ -5,6 +5,7 @@ import Head from "next/head";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import PreviewMessage from "components/PreviewMessage";
+import SkipLink from "components/SkipLink";
 
 // See: https://nextjs.org/docs/basic-features/layouts
 
@@ -12,12 +13,12 @@ import PreviewMessage from "components/PreviewMessage";
 // `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/
 // TODO: regenerate all of these when I've finalized the design
 
-function Layout({ children, layoutClass = "", description = "", keywords = "" }) {
+function Layout({ children, description = "", keywords = "" }) {
   return (
     <>
       <Head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -29,12 +30,10 @@ function Layout({ children, layoutClass = "", description = "", keywords = "" })
         <meta name="theme-color" content="#cccccc" />
         {/* TODO: add OpenGraph meta tags, Twitter cards, etc. */}
       </Head>
-      <a className="skipLink" href="#skip-link-target">
-        Skip to main content
-      </a>
+      <SkipLink />
       <PreviewMessage />
       <Header />
-      <main className={layoutClass}>{children}</main>
+      <main>{children}</main>
       <Footer />
     </>
   );
@@ -42,7 +41,6 @@ function Layout({ children, layoutClass = "", description = "", keywords = "" })
 Layout.displayName = "Layout";
 Layout.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  layoutClass: PropTypes.string,
   description: PropTypes.string,
   keywords: PropTypes.string
 };

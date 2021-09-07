@@ -1,18 +1,22 @@
 import Head from "next/head";
 import { SITE_TITLE } from "lib/constants";
 import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 
-import "pages/styles/error.module.css";
+import commonStyles from "pages/styles/common.module.css";
+// import "pages/styles/error.module.css";
 
 // See: https://nextjs.org/docs/advanced-features/custom-error-page
 
 export default function Custom500() {
   return (
-    <Layout layoutClass="l-error">
+    <Layout>
       <Head>
         <title>500 | {SITE_TITLE}</title>
       </Head>
-      <h1>500 - Server-side error occurred</h1>
+      <div className={commonStyles.page}>
+        <PageTitle>500 - Server-side error occurred</PageTitle>
+      </div>
     </Layout>
   );
 }

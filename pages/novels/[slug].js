@@ -12,9 +12,11 @@ import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 import PostBodyImage from "components/serializers/PostBodyImage";
 
-import "pages/styles/novel.module.css";
+import commonStyles from "pages/styles/common.module.css";
+// import "pages/styles/novel.module.css";
 
 const query = `
   *[_type == "novel" && slug.current == $slug][0] {
@@ -48,45 +50,47 @@ export default function Novel({ data: initialData }) {
   return !router.isFallback && !novel?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout layoutClass="l-novel">
+    <Layout>
       <Head>
         <title>
           {novel?.title} | {SITE_TITLE}
         </title>
       </Head>
 
-      {novel?.image ? (
-        <div style={{ width: "188px" }}>
-          <Image
-            src={urlFor(novel.image.asset).width(376).height(600).url()}
-            width={188}
-            height={300}
-            sizes="188px"
-            layout="responsive"
-            alt={novel.image.alt || novel.title}
-            placeholder="blur"
-            // Data URL generated here: https://png-pixel.com/
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+      <div className={commonStyles.page}>
+        {novel?.image ? (
+          <div style={{ width: "188px" }}>
+            <Image
+              src={urlFor(novel.image.asset).width(376).height(600).url()}
+              width={188}
+              height={300}
+              sizes="188px"
+              layout="responsive"
+              alt={novel.image.alt || novel.title}
+              placeholder="blur"
+              // Data URL generated here: https://png-pixel.com/
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+            />
+          </div>
+        ) : null}
+
+        <PageTitle>{novel?.title}</PageTitle>
+
+        {novel?.synopsis && (
+          <BlockContent
+            blocks={novel.synopsis}
+            serializers={serializers}
+            projectId={config.projectId}
+            dataset={config.dataset}
           />
-        </div>
-      ) : null}
-
-      <h2>{novel?.title}</h2>
-
-      {novel?.synopsis && (
-        <BlockContent
-          blocks={novel.synopsis}
-          serializers={serializers}
-          projectId={config.projectId}
-          dataset={config.dataset}
-        />
-      )}
-      <p>
-        By{" "}
-        <Link as={`/authors/${novel?.author?.slug}`} href="/authors/[slug]">
-          <a>{novel?.author?.name}</a>
-        </Link>
-      </p>
+        )}
+        <p>
+          By{" "}
+          <Link as={`/authors/${novel?.author?.slug}`} href="/authors/[slug]">
+            <a>{novel?.author?.name}</a>
+          </Link>
+        </p>
+      </div>
     </Layout>
   );
 }

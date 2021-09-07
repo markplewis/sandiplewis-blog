@@ -2,17 +2,21 @@ import Head from "next/head";
 import { SITE_TITLE } from "lib/constants";
 import ContactForm from "components/ContactForm";
 import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 
-import "pages/styles/contact.module.css";
+import commonStyles from "pages/styles/common.module.css";
+// import "pages/styles/contact.module.css";
 
 export default function Contact() {
   return (
-    <Layout layoutClass="l-contact">
+    <Layout>
       <Head>
         <title>Contact | {SITE_TITLE}</title>
       </Head>
-      <h1>Contact</h1>
-      <ContactForm />
+      <div className={commonStyles.page}>
+        <PageTitle>Contact</PageTitle>
+        <ContactForm />
+      </div>
     </Layout>
   );
 }

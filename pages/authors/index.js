@@ -9,8 +9,10 @@ import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 
-import "pages/styles/author.module.css";
+import commonStyles from "pages/styles/common.module.css";
+// import "pages/styles/author.module.css";
 
 const query = `
   *[_type == "author"][] {
@@ -32,40 +34,42 @@ export default function Authors({ data: initialData }) {
   return !router.isFallback && !authors ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout layoutClass="l-author">
+    <Layout>
       <Head>
         <title>Authors | {SITE_TITLE}</title>
       </Head>
-      <h2>Authors</h2>
+      <div className={commonStyles.page}>
+        <PageTitle>Authors</PageTitle>
 
-      {authors.map(author => {
-        return (
-          <div key={author._id}>
-            {author?.image ? (
-              <div style={{ width: "188px" }}>
-                <Image
-                  src={urlFor(author.image.asset).width(376).height(600).url()}
-                  width={188}
-                  height={300}
-                  sizes="188px"
-                  layout="responsive"
-                  alt={author.image.alt || author.name}
-                  placeholder="blur"
-                  // Data URL generated here: https://png-pixel.com/
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                />
-              </div>
-            ) : null}
+        {authors.map(author => {
+          return (
+            <div key={author._id}>
+              {author?.image ? (
+                <div style={{ width: "188px" }}>
+                  <Image
+                    src={urlFor(author.image.asset).width(376).height(600).url()}
+                    width={188}
+                    height={300}
+                    sizes="188px"
+                    layout="responsive"
+                    alt={author.image.alt || author.name}
+                    placeholder="blur"
+                    // Data URL generated here: https://png-pixel.com/
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+                  />
+                </div>
+              ) : null}
 
-            <h3>{author.name}</h3>
-            <p>
-              <Link as={`/authors/${author?.slug}`} href="/authors/[slug]">
-                <a>Read more</a>
-              </Link>
-            </p>
-          </div>
-        );
-      })}
+              <h3>{author.name}</h3>
+              <p>
+                <Link as={`/authors/${author?.slug}`} href="/authors/[slug]">
+                  <a>Read more</a>
+                </Link>
+              </p>
+            </div>
+          );
+        })}
+      </div>
     </Layout>
   );
 }

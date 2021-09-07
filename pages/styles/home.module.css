@@ -1,1 +1,138 @@
-/* .l-home {} */
+.page {
+  grid-column: 2 / 3;
+  display: grid;
+  grid-template-columns: 1fr 0.1fr 1fr 44px;
+  row-gap: 88px;
+}
+.patternBlock {
+  width: 300px;
+  height: 300px;
+  content: "";
+  display: block;
+  /* background-color: var(--baseBgColor); */
+  position: absolute;
+}
+.novel {
+  grid-column: 1 / 3;
+  grid-row: 1 / 2;
+}
+.reviews {
+  grid-column: 3 / 4;
+  grid-row: 1 / 2;
+}
+.shareTools {
+  grid-column: 4 / 5;
+  grid-row: 1 / 2;
+}
+.posts {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+.bio {
+  grid-column: 2 / 4;
+  grid-row: 2 / 3;
+}
+.novel,
+.reviews,
+.shareTools {
+  margin-top: 22px;
+  position: relative;
+  z-index: 1;
+}
+.novel {
+  border-radius: 10px 0;
+  background-color: var(--compBgColor);
+  color: var(--compFgColor);
+  display: flex;
+  gap: 22px;
+}
+.novelImage {
+  width: 188px;
+}
+.novelInfo {
+  flex: 1 1;
+}
+.novelInfo h1 {
+  margin-top: 0;
+  font-size: var(--font-size-3);
+}
+.novel,
+.reviews {
+  padding: 44px;
+}
+@media (min-width: 1600px) {
+  .novel,
+  .reviews {
+    padding: 44px 88px;
+  }
+}
+.reviewList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.reviewItem {
+  margin-bottom: 44px;
+}
+.reviewItem:last-child {
+  margin-bottom: 0;
+}
+.reviewTitle {
+  margin-top: 0;
+  font-size: var(--font-size-4);
+}
+.reviewBody {
+  font-style: italic;
+}
+/* .reviewAuthor {
+} */
+.posts {
+  border-left: 4px solid #ccc;
+  padding: 22px 44px;
+}
+.postsHeading {
+  margin-top: 0;
+  font-size: var(--font-size-3);
+}
+.postList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.postItem {
+  margin-bottom: 22px;
+}
+.postItem:last-child {
+  margin-bottom: 0;
+}
+.postLink {
+  display: flex;
+  gap: 22px;
+}
+.postImage {
+  width: 83px;
+}
+.postInfo {
+  flex: 1 1;
+}
+.postTitle {
+  margin-top: 0;
+  font-size: var(--font-size-4);
+}
+.bio {
+  border: 4px solid #ccc;
+  padding: 22px;
+  display: flex;
+  gap: 22px;
+}
+.bioHeading {
+  margin-top: 0;
+  font-size: var(--font-size-3);
+}
+.bioInfo {
+  flex: 1 1;
+}
+.bioImage {
+  width: 188px;
+  margin-left: auto;
+}

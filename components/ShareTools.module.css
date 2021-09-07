@@ -1,0 +1,33 @@
+.shareTools {
+  display: flex;
+  gap: 22px;
+}
+.shareToolsAbove {
+  margin-left: 44px;
+}
+.shareToolsBelow {
+  margin-bottom: 22px;
+  justify-content: flex-end;
+}
+.shareToolsVertical {
+  flex-direction: column;
+}
+.shareTool {
+  width: 44px;
+  height: 44px;
+  background-color: var(--compBgColor);
+  border-radius: 10px 0;
+  display: block;
+  transition: transform 0.25s ease-out;
+}
+.shareTool:hover,
+.shareTool:focus {
+  transform: scale3d(1.2, 1.2, 1.2);
+}
+.shareTool svg {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 10px;
+  fill: var(--compFgColor);
+}

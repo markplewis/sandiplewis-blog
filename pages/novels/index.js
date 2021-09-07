@@ -12,8 +12,10 @@ import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 
-import "pages/styles/novel.module.css";
+import commonStyles from "pages/styles/common.module.css";
+// import "pages/styles/novel.module.css";
 
 const query = `
   *[_type == "novel"][] {
@@ -36,48 +38,50 @@ export default function Novels({ data: initialData }) {
   return !router.isFallback && !novels ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout layoutClass="l-novel">
+    <Layout>
       <Head>
         <title>Novels | {SITE_TITLE}</title>
       </Head>
-      <h2>Novels</h2>
+      <div className={commonStyles.page}>
+        <PageTitle>Novels</PageTitle>
 
-      {novels.map(novel => {
-        return (
-          <div key={novel._id}>
-            {novel?.image ? (
-              <div style={{ width: "188px" }}>
-                <Image
-                  src={urlFor(novel.image.asset).width(376).height(600).url()}
-                  width={188}
-                  height={300}
-                  sizes="188px"
-                  layout="responsive"
-                  alt={novel.image.alt || novel.title}
-                  placeholder="blur"
-                  // Data URL generated here: https://png-pixel.com/
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+        {novels.map(novel => {
+          return (
+            <div key={novel._id}>
+              {novel?.image ? (
+                <div style={{ width: "188px" }}>
+                  <Image
+                    src={urlFor(novel.image.asset).width(376).height(600).url()}
+                    width={188}
+                    height={300}
+                    sizes="188px"
+                    layout="responsive"
+                    alt={novel.image.alt || novel.title}
+                    placeholder="blur"
+                    // Data URL generated here: https://png-pixel.com/
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+                  />
+                </div>
+              ) : null}
+
+              <h3>{novel.title}</h3>
+
+              {novel.overview && (
+                <BlockContent
+                  blocks={novel.overview}
+                  projectId={config.projectId}
+                  dataset={config.dataset}
                 />
-              </div>
-            ) : null}
-
-            <h3>{novel.title}</h3>
-
-            {novel.overview && (
-              <BlockContent
-                blocks={novel.overview}
-                projectId={config.projectId}
-                dataset={config.dataset}
-              />
-            )}
-            <p>
-              <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
-                <a>Read more</a>
-              </Link>
-            </p>
-          </div>
-        );
-      })}
+              )}
+              <p>
+                <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
+                  <a>Read more</a>
+                </Link>
+              </p>
+            </div>
+          );
+        })}
+      </div>
     </Layout>
   );
 }

@@ -8,8 +8,10 @@ import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 
-import "pages/styles/category.module.css";
+import commonStyles from "pages/styles/common.module.css";
+// import "pages/styles/category.module.css";
 
 const query = `
   *[_type == "category"][] {
@@ -30,22 +32,24 @@ export default function Categories({ data: initialData }) {
   return !router.isFallback && !categories ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout layoutClass="l-category">
+    <Layout>
       <Head>
         <title>Categories | {SITE_TITLE}</title>
       </Head>
-      <h2>Categories</h2>
-      <ul>
-        {categories.map(category => {
-          return (
-            <li key={category._id}>
-              <Link as={`/categories/${category?.slug}`} href="/categories/[slug]">
-                <a>{category.title}</a>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <div className={commonStyles.page}>
+        <PageTitle>Categories</PageTitle>
+        <ul>
+          {categories.map(category => {
+            return (
+              <li key={category._id}>
+                <Link as={`/categories/${category?.slug}`} href="/categories/[slug]">
+                  <a>{category.title}</a>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </Layout>
   );
 }

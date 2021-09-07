@@ -1,7 +1,5 @@
+import styles from "components/Footer.module.css";
+
 export default function Footer() {
-  return (
-    <footer>
-      <p>Footer</p>
-    </footer>
-  );
+  return <footer className={styles.footer}>{/* <p>Footer</p> */}</footer>;
 }

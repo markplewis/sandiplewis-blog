@@ -20,6 +20,23 @@ const HomePageSchema = {
       to: { type: "novel" }
     },
     {
+      title: "Colour palette",
+      name: "colorPalette",
+      type: "string",
+      options: {
+        list: [
+          { title: "Dominant", value: "dominant" },
+          { title: "Vibrant", value: "vibrant" },
+          { title: "Light Vibrant", value: "lightVibrant" },
+          { title: "Dark Vibrant", value: "darkVibrant" },
+          { title: "Muted", value: "muted" },
+          { title: "Light Muted", value: "lightMuted" },
+          { title: "Dark Muted", value: "darkMuted" }
+        ],
+        layout: "radio" // defaults to "dropdown"
+      }
+    },
+    {
       name: "reviews",
       title: "Featured reviews",
       description: "One or two of the featured novel's reviews",

@@ -45,17 +45,17 @@ const NovelSchema = {
           options: {
             isHighlighted: true
           }
-        },
-        {
-          title: "Caption",
-          description: "An optional caption to display alongside the photo",
-          name: "caption",
-          type: "text",
-          rows: 3,
-          options: {
-            isHighlighted: true
-          }
         }
+        // {
+        //   title: "Caption",
+        //   description: "An optional caption to display alongside the photo",
+        //   name: "caption",
+        //   type: "text",
+        //   rows: 3,
+        //   options: {
+        //     isHighlighted: true
+        //   }
+        // }
       ]
     },
     // {

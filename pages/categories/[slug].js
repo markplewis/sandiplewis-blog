@@ -7,8 +7,10 @@ import { SITE_TITLE } from "lib/constants";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
+import PageTitle from "components/PageTitle";
 
-import "pages/styles/category.module.css";
+import commonStyles from "pages/styles/common.module.css";
+// import "pages/styles/category.module.css";
 
 // Get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references
@@ -32,30 +34,32 @@ export default function Category({ data: category }) {
   return !router.isFallback && !category?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout layoutClass="l-category">
+    <Layout>
       <Head>
         <title>
           {category?.title} | {SITE_TITLE}
         </title>
       </Head>
 
-      <h2>{category?.title}</h2>
-      <p>{category?.description}</p>
+      <div className={commonStyles.page}>
+        <PageTitle>{category?.title}</PageTitle>
+        <p>{category?.description}</p>
 
-      {category?.posts ? (
-        <>
-          <p>Posts:</p>
-          <ul>
-            {category.posts.map(({ slug, title }) => (
-              <li key={slug}>
-                <Link as={`/posts/${slug}`} href="/posts/[slug]">
-                  <a>{title}</a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
+        {category?.posts ? (
+          <>
+            <p>Posts:</p>
+            <ul>
+              {category.posts.map(({ slug, title }) => (
+                <li key={slug}>
+                  <Link as={`/posts/${slug}`} href="/posts/[slug]">
+                    <a>{title}</a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
+      </div>
     </Layout>
   );
 }

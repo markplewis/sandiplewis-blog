@@ -78,6 +78,13 @@ const PostSchema = {
       ]
     },
     {
+      name: "summary",
+      title: "Summary",
+      type: "text",
+      rows: 4,
+      validation: Rule => Rule.required()
+    },
+    {
       name: "body",
       title: "Body",
       type: "blockContent"
