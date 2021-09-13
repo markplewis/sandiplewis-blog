@@ -1,0 +1,19 @@
+.moreLinkContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+.moreLink {
+  padding: 8px 12px;
+  text-decoration: none;
+  display: inline-flex;
+  gap: 12px;
+}
+.moreLink:hover .moreLinkSVG,
+.moreLink:focus .moreLinkSVG {
+  transform: translateX(4px);
+}
+.moreLinkSVG {
+  transition: all 0.1s ease-out;
+  width: 24px;
+  height: 24px;
+}

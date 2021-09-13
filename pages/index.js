@@ -10,20 +10,24 @@ import {
   featuredReviewsQuery,
   getRecentPostsQuery
 } from "lib/api";
+
 import config from "lib/config";
 import { SITE_TITLE } from "lib/constants";
 import { urlFor, usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
+import MoreLink from "components/MoreLink";
 import PageTitle from "components/PageTitle";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
+import useMediaQuery from "utils/useMediaQuery";
+import { rem } from "utils/units";
 
 import styles from "pages/styles/home.module.css";
 
-const recentPostsQuery = getRecentPostsQuery(4);
+const recentPostsQuery = getRecentPostsQuery(3);
 
 export default function HomePage({ data: initialData }) {
   const { data: novelAndPalette } = usePreviewSubscription(featuredNovelQuery, {
@@ -43,14 +47,22 @@ export default function HomePage({ data: initialData }) {
     enabled: true
   });
 
-  const { novel, colorPalette } = novelAndPalette;
-
+  const { novel, colorPalette, primaryColor, secondaryColor } = novelAndPalette;
   const palette = colorPalette ?? "lightVibrant";
-  const colorData = getColorData(novel?.image?.palette);
+
+  const colorData =
+    colorPalette === "custom"
+      ? getColorData({
+          custom: { primary: primaryColor?.hex, secondary: secondaryColor?.hex }
+        })
+      : getColorData(novel?.image?.palette);
+
   const baseBgColor = colorData?.[palette]?.base?.background ?? null;
   const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
   const compBgColor = colorData?.[palette]?.comp?.background ?? null;
   const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
+
+  const isWide = useMediaQuery(`(min-width: ${rem(1280)})`);
 
   return (
     <Layout>
@@ -69,10 +81,21 @@ export default function HomePage({ data: initialData }) {
         `}
       </style>
 
+      <div className={styles.gradient}></div>
+
+      {!isWide && (
+        <div className={styles.shareTools}>
+          <ShareTools />
+        </div>
+      )}
+
       <div
         className={styles.patternBlock}
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${baseBgColor}' fill-opacity='1' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compBgColor.replace(
+            "#",
+            "%23"
+          )}' fill-opacity='1' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
         }}></div>
 
       <div className={styles.page}>
@@ -83,9 +106,9 @@ export default function HomePage({ data: initialData }) {
                 <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
                   <a>
                     <Image
-                      src={urlFor(novel?.image).width(188).height(300).url()}
+                      src={urlFor(novel?.image).width(376).height(581).url()}
                       width={188}
-                      height={300}
+                      height={290}
                       sizes="(max-width: 800px) 100vw, 188px"
                       layout="responsive"
                       alt={novel?.image?.alt}
@@ -109,9 +132,13 @@ export default function HomePage({ data: initialData }) {
                 />
               ) : null}
 
-              <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
-                <a>More</a>
-              </Link>
+              <MoreLink
+                as={`/novels/${novel?.slug}`}
+                href="/novels/[slug]"
+                text="More information"
+                fgColor={compFgColor}
+                bgColor={compBgColor}
+              />
             </div>
           </div>
         ) : null}
@@ -131,9 +158,11 @@ export default function HomePage({ data: initialData }) {
           </div>
         ) : null}
 
-        <div className={styles.shareTools}>
-          <ShareTools position="vertical" />
-        </div>
+        {isWide && (
+          <div className={styles.shareTools}>
+            <ShareTools position="vertical" />
+          </div>
+        )}
 
         {posts && posts.length ? (
           <div className={styles.posts}>
@@ -146,7 +175,7 @@ export default function HomePage({ data: initialData }) {
                       {post?.image ? (
                         <div className={styles.postImage}>
                           <Image
-                            src={urlFor(post?.image).width(83).height(55).url()}
+                            src={urlFor(post?.image).width(166).height(110).url()}
                             width={83}
                             height={55}
                             sizes="(max-width: 800px) 100vw, 83px"
@@ -160,18 +189,35 @@ export default function HomePage({ data: initialData }) {
                       ) : null}
                       <div className={styles.postInfo}>
                         <h3 className={styles.postTitle}>{post?.title}</h3>
-                        <p className={styles.postOverview}>{post?.summary}</p>
+                        <p className={styles.postSummary}>{post?.summary}</p>
                       </div>
                     </a>
                   </Link>
                 </li>
               ))}
             </ul>
+            <MoreLink as={"/posts"} href="/posts" text="More posts" />
           </div>
         ) : null}
 
         {author ? (
           <div className={styles.bio}>
+            {author?.image ? (
+              <div className={styles.bioImage}>
+                <Image
+                  src={urlFor(author?.image).width(376).height(566).url()}
+                  width={188}
+                  height={283}
+                  sizes="(max-width: 800px) 100vw, 188px"
+                  layout="responsive"
+                  alt={author?.image?.alt}
+                  placeholder="blur"
+                  // Data URL generated here: https://png-pixel.com/
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+                />
+              </div>
+            ) : null}
+
             <div className={styles.bioInfo}>
               <h2 className={styles.bioHeading}>Biography</h2>
 
@@ -183,26 +229,12 @@ export default function HomePage({ data: initialData }) {
                 />
               ) : null}
 
-              <Link as={`/authors/${author?.slug}`} href="/authors/[slug]">
-                <a>More</a>
-              </Link>
+              <MoreLink
+                as={`/authors/${author?.slug}`}
+                href="/authors/[slug]"
+                text={`More about ${author?.name?.split(" ")[0]}`}
+              />
             </div>
-
-            {author?.image ? (
-              <div className={styles.bioImage}>
-                <Image
-                  src={urlFor(author?.image).width(188).height(283).url()}
-                  width={188}
-                  height={283}
-                  sizes="(max-width: 800px) 100vw, 283px"
-                  layout="responsive"
-                  alt={author?.image?.alt}
-                  placeholder="blur"
-                  // Data URL generated here: https://png-pixel.com/
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                />
-              </div>
-            ) : null}
           </div>
         ) : null}
       </div>

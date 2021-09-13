@@ -51,6 +51,11 @@ main {
   overflow-x: hidden;
   display: grid;
   /* See: https://webkit.org/blog/7929/designing-websites-for-iphone-x/ */
+  /*
+  TODO: viewport-fit=cover doesn't seem to be working in Chrome for iOS:
+  https://bugs.chromium.org/p/chromium/issues/detail?id=1150075
+  https://stackoverflow.com/questions/61527166/ios-chrome-not-respecting-safe-area-inset-for-notch
+  */
   grid-template-columns:
     max(var(--column-margin), env(safe-area-inset-left))
     1fr

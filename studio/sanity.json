@@ -16,7 +16,8 @@
     "@sanity/desk-tool",
     "@sanity/production-preview",
     "asset-source-unsplash",
-    "asset-source-pexels"
+    "asset-source-pexels",
+    "@sanity/color-input"
   ],
   "env": {
     "development": {

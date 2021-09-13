@@ -1,5 +1,10 @@
 import swatchStyles from "components/CoverImage.module.css";
 
+export const colors = {
+  baseBackgroundColor: "#fff",
+  baseFontColor: "#333"
+};
+
 const blackLuminance = luminance(0, 0, 0);
 const whiteLuminance = luminance(255, 255, 255);
 
@@ -131,25 +136,45 @@ function getPaletteData(palette) {
     "lightMuted",
     "lightVibrant",
     "muted",
-    "vibrant"
+    "vibrant",
+    "custom"
   ];
   return paletteKeys
     .map(key => {
       if (!palette || !palette[key]) {
         return null;
       }
-      const baseHSL = hexToHSL(palette[key].background);
-      const baseRGB = hexToRGB(palette[key].background);
+      // Base colour
+      let baseHSL;
+      let baseRGB;
+
+      if (key === "custom" && palette[key].primary) {
+        baseHSL = hexToHSL(palette[key].primary);
+        baseRGB = hexToRGB(palette[key].primary);
+      } else {
+        baseHSL = hexToHSL(palette[key].background);
+        baseRGB = hexToRGB(palette[key].background);
+      }
       const baseLuminance = luminance(baseRGB.r, baseRGB.g, baseRGB.b);
 
       // Complimentary colour
-      const compHSL = {
-        h: baseHSL.h - 180,
-        s: baseHSL.s,
-        l: baseHSL.l
-      };
-      const compRGB = HSLToRGB(...Object.values(compHSL));
-      const compLuminance = luminance(...Object.values(compRGB));
+      let compHSL;
+      let compRGB;
+      let compLuminance;
+
+      if (key === "custom" && palette[key].secondary) {
+        compHSL = hexToHSL(palette[key].secondary);
+        compRGB = hexToRGB(palette[key].secondary);
+        compLuminance = luminance(compRGB.r, compRGB.g, compRGB.b);
+      } else {
+        compHSL = {
+          h: baseHSL.h - 180,
+          s: baseHSL.s,
+          l: baseHSL.l
+        };
+        compRGB = HSLToRGB(...Object.values(compHSL));
+        compLuminance = luminance(...Object.values(compRGB));
+      }
 
       return {
         key,

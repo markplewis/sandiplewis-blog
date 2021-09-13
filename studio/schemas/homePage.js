@@ -31,10 +31,23 @@ const HomePageSchema = {
           { title: "Dark Vibrant", value: "darkVibrant" },
           { title: "Muted", value: "muted" },
           { title: "Light Muted", value: "lightMuted" },
-          { title: "Dark Muted", value: "darkMuted" }
+          { title: "Dark Muted", value: "darkMuted" },
+          { title: "Custom", value: "custom" }
         ],
         layout: "radio" // defaults to "dropdown"
       }
+    },
+    {
+      name: "primaryColor",
+      title: "Primary colour",
+      type: "color",
+      hidden: ({ parent }) => parent?.colorPalette !== "custom"
+    },
+    {
+      name: "secondaryColor",
+      title: "Secondary colour",
+      type: "color",
+      hidden: ({ parent }) => parent?.colorPalette !== "custom"
     },
     {
       name: "reviews",
