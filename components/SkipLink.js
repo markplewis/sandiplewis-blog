@@ -13,7 +13,7 @@ import styles from "components/SkipLink.module.css";
 export default function SkipLink() {
   const { app } = useApp();
   const skipLinkTargetRef = app.skipLinkTargetRef;
-  return (
+  return !app.bodyContentHidden ? (
     <a
       className={styles.skipLink}
       href="#skip-link-target"
@@ -23,5 +23,5 @@ export default function SkipLink() {
       }}>
       Skip to main content
     </a>
-  );
+  ) : null;
 }

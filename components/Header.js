@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import { useApp } from "utils/useApp";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 import useEscapeKey from "utils/useEscapeKey";
@@ -11,6 +12,7 @@ import useWindowSize from "utils/useWindowSize";
 import styles from "components/Header.module.css";
 
 export default function Header({ children }) {
+  const { dispatchApp } = useApp();
   const router = useRouter();
   const pathName = router.pathname;
   const active = styles.navItemActive;
@@ -21,7 +23,6 @@ export default function Header({ children }) {
   const menuRef = useRef();
   const headerRef = useRef();
   const [headerHeight, setHeaderHeight] = useState(0);
-  const [contentHidden, setContentHidden] = useState(false);
 
   // Adjust menu height and position to accommodate header
   const menuInlineStyles = {
@@ -37,14 +38,27 @@ export default function Header({ children }) {
 
   useWindowSize(adjustMenuHeight, 500);
 
+  const setContentHidden = useCallback(
+    hidden => {
+      dispatchApp({
+        type: "UPDATE",
+        payload: {
+          bodyContentHidden: hidden
+        }
+      });
+    },
+    [dispatchApp]
+  );
+
   // Lock scrolling while menu is open
   useEffect(() => {
-    document.body.classList[menuOpen && !isMedium ? "add" : "remove"]("u-no-scroll--not-fixed");
-  }, [isMedium, menuOpen]);
-
-  useEffect(() => {
-    document.body.classList[contentHidden ? "add" : "remove"]("u-content-hidden");
-  }, [contentHidden]);
+    dispatchApp({
+      type: "UPDATE",
+      payload: {
+        bodyScrollLocked: menuOpen && !isMedium
+      }
+    });
+  }, [dispatchApp, isMedium, menuOpen]);
 
   const openMenu = () => {
     adjustMenuHeight();

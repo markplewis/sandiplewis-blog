@@ -1,7 +1,9 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 const defaultState = {
-  skipLinkTargetRef: null
+  skipLinkTargetRef: null,
+  bodyScrollLocked: false,
+  bodyContentHidden: false
 };
 
 const AppContext = createContext({});
@@ -27,5 +29,20 @@ export function AppProvider({ children }) {
 
 function useAppProvider({ reducer = appReducer, initial = defaultState } = {}) {
   const [app, dispatchApp] = useReducer(reducer, initial);
+
+  useEffect(() => {
+    document.body.classList[app.bodyScrollLocked ? "add" : "remove"]("u-no-scroll--not-fixed");
+    return () => {
+      document.body.classList.remove("u-no-scroll--not-fixed");
+    };
+  }, [app.bodyScrollLocked]);
+
+  useEffect(() => {
+    document.body.classList[app.bodyContentHidden ? "add" : "remove"]("u-content-hidden");
+    return () => {
+      document.body.classList.remove("u-content-hidden");
+    };
+  }, [app.bodyContentHidden]);
+
   return { app, dispatchApp };
 }
