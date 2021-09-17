@@ -31,8 +31,9 @@ function Layout({ children, description = "", keywords = "" }) {
         {/* TODO: add OpenGraph meta tags, Twitter cards, etc. */}
       </Head>
       <SkipLink />
-      <PreviewMessage />
-      <Header />
+      <Header>
+        <PreviewMessage />
+      </Header>
       <main>{children}</main>
       <Footer />
     </>

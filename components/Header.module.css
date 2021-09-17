@@ -7,14 +7,13 @@
     max(var(--column-margin), env(safe-area-inset-right));
   align-items: center;
   background-color: #fff;
-  z-index: 1;
+  z-index: 2;
   position: relative;
 }
 .nameAndTitle {
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  /* justify-content: center; */
   column-gap: 16px;
   row-gap: 4px;
   flex-wrap: wrap;
@@ -32,12 +31,9 @@
 .name {
   margin: 0;
   line-height: 1;
-  /* font-family: var(--heading-font-family);
-  font-style: italic; */
   font-family: "Dancing Script", cursive;
   font-size: var(--font-size-1);
   white-space: nowrap;
-  /* grid-column: 2 / 3; */
 }
 .title {
   margin: 0;
@@ -45,7 +41,6 @@
   font-weight: var(--font-weight-normal);
   font-size: var(--font-size-5);
   font-family: var(--base-font-family);
-  /* grid-column: 3 / 4; */
 }
 .navMenuButton {
   width: 44px;
@@ -66,7 +61,6 @@
 .nav {
   margin-left: 44px;
   justify-self: end;
-  /* grid-column: 4 / 5; */
   grid-column: 3 / 4;
 }
 .navList {
@@ -94,4 +88,37 @@
 .navLink:hover,
 .navLink:focus {
   text-decoration: underline;
+}
+
+.navMenu {
+  width: 100%;
+  position: fixed;
+  z-index: 3;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /* Momentum touch scrolling for iOS (non-standard feature) */
+  -webkit-overflow-scrolling: touch;
+  background-color: #999;
+}
+.navMenuHiding {
+  animation: hideNavMenu 0.25s linear 0s 1 normal forwards running;
+}
+.navMenuRevealing {
+  animation: revealNavMenu 0.25s linear 0s 1 normal forwards running;
+}
+@keyframes hideNavMenu {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes revealNavMenu {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

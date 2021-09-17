@@ -161,6 +161,12 @@ http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
   border: 0;
 }
 
+.u-no-scroll--not-fixed {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 /* Hide visually and also from screen readers */
 [hidden],
 .u-hidden {
