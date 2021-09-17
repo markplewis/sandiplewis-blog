@@ -49,6 +49,11 @@
   padding: 0;
   justify-self: end;
   grid-column: 3 / 4;
+  transition: transform 0.25s ease-out;
+}
+.navMenuButton:hover,
+.navMenuButton:focus {
+  transform: scale3d(1.1, 1.1, 1.1);
 }
 .navMenuButton svg {
   width: 100%;
@@ -58,12 +63,12 @@
 }
 /* .navMenu {
 } */
-.nav {
+.header > .nav {
   margin-left: 44px;
   justify-self: end;
   grid-column: 3 / 4;
 }
-.navList {
+.header > .nav .navList {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -71,25 +76,24 @@
   flex-wrap: nowrap;
   gap: 32px;
 }
-.navItem {
+.header > .nav .navItem {
   padding-top: 28px;
   border-top: 12px solid transparent;
 }
-.navItemActive {
+.header > .nav .navItemActive {
   border-top-color: var(--baseBgColor);
   /* border-top-color: #999; */
   /* border-image: linear-gradient(100deg, var(--baseBgColor), var(--compBgColor)) 1; */
 }
-.navLink {
+.header > .nav .navLink {
   font-size: var(--font-size-5);
   color: var(--base-font-color);
   text-decoration: none;
 }
-.navLink:hover,
-.navLink:focus {
+.header > .nav .navLink:hover,
+.header > .nav .navLink:focus {
   text-decoration: underline;
 }
-
 .navMenu {
   width: 100%;
   position: fixed;
@@ -98,27 +102,61 @@
   overflow-y: scroll;
   /* Momentum touch scrolling for iOS (non-standard feature) */
   -webkit-overflow-scrolling: touch;
-  background-color: #999;
+  background-color: var(--base-font-color);
 }
 .navMenuHiding {
-  animation: hideNavMenu 0.25s linear 0s 1 normal forwards running;
+  animation: hideNavMenu 0.25s ease-out 0s 1 normal forwards running;
 }
 .navMenuRevealing {
-  animation: revealNavMenu 0.25s linear 0s 1 normal forwards running;
+  animation: revealNavMenu 0.25s ease-out 0s 1 normal forwards running;
 }
 @keyframes hideNavMenu {
   from {
-    opacity: 1;
+    transform: translateY(0);
   }
   to {
-    opacity: 0;
+    transform: translateY(100%);
   }
 }
 @keyframes revealNavMenu {
   from {
-    opacity: 0;
+    transform: translateY(100%);
   }
   to {
-    opacity: 1;
+    transform: translateY(0);
   }
+}
+.navMenu .navList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.navMenu .navItem {
+  border-bottom: 2px solid #666;
+  position: relative;
+}
+.navMenu .navItemActive::before {
+  width: 8px;
+  height: 100%;
+  background-color: #666;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.navMenu .navLink {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: max(var(--column-margin), env(safe-area-inset-left));
+  padding-right: max(var(--column-margin), env(safe-area-inset-right));
+  font-size: var(--font-size-5);
+  color: #fff;
+  text-decoration: none;
+  /* transition: background-color 0.1s linear; */
+  display: block;
+}
+.navMenu .navLink:hover,
+.navMenu .navLink:focus {
+  text-decoration: underline;
+  background-color: #191919;
 }

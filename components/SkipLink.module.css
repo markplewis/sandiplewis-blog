@@ -1,0 +1,21 @@
+.skipLink {
+  height: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  z-index: 5;
+  padding: 10px;
+  background-color: var(--base-font-color);
+  color: #fff;
+}
+.skipLink:focus,
+.skipLink:active {
+  height: auto;
+  clip: auto;
+  overflow: visible;
+}
+/* .u-content-hidden .skipLink {
+  display: none;
+} */

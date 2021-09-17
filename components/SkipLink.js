@@ -1,5 +1,7 @@
 import { useApp } from "utils/useApp";
 
+import styles from "components/SkipLink.module.css";
+
 // According to WebAIM.org: "Some browsers do not fully support in-page links. While they
 // may visually shift focus to the location of the target or named anchor for the "skip"
 // link, they do not actually set keyboard focus to this location. These bugs can
@@ -13,7 +15,7 @@ export default function SkipLink() {
   const skipLinkTargetRef = app.skipLinkTargetRef;
   return (
     <a
-      className="skipLink"
+      className={styles.skipLink}
       href="#skip-link-target"
       onClick={e => {
         e.preventDefault();

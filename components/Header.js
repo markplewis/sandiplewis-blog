@@ -21,8 +21,9 @@ export default function Header({ children }) {
   const menuRef = useRef();
   const headerRef = useRef();
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [contentHidden, setContentHidden] = useState(false);
 
-  // Adjust the menu panel's position and height to accommodate the header
+  // Adjust menu height and position to accommodate header
   const menuInlineStyles = {
     top: `${rem(headerHeight)}`,
     height: `calc(100% - ${rem(headerHeight)})`
@@ -30,17 +31,20 @@ export default function Header({ children }) {
 
   // Measure header height
   const adjustMenuHeight = useCallback(() => {
-    // Adjust position of menu
     const header = headerRef.current;
     header && setHeaderHeight(header.offsetHeight);
   }, []);
 
   useWindowSize(adjustMenuHeight, 500);
 
-  // Lock scrolling when menu is open
+  // Lock scrolling while menu is open
   useEffect(() => {
     document.body.classList[menuOpen && !isMedium ? "add" : "remove"]("u-no-scroll--not-fixed");
   }, [isMedium, menuOpen]);
+
+  useEffect(() => {
+    document.body.classList[contentHidden ? "add" : "remove"]("u-content-hidden");
+  }, [contentHidden]);
 
   const openMenu = () => {
     adjustMenuHeight();
@@ -50,8 +54,10 @@ export default function Header({ children }) {
 
   const closeMenu = e => {
     setMenuOpen(false);
+    setContentHidden(false);
+
     if (e && e.type !== "keydown") {
-      // Don't focus button when user clicked outside menu
+      // Don't focus button when user clicked/tapped outside of menu to close it
       return;
     }
     const menuButton = menuButtonRef.current;
@@ -66,10 +72,10 @@ export default function Header({ children }) {
     closeMenu(e);
   };
 
-  // Close the menu panel when the user presses the Escape key
+  // Close menu when user presses Escape key
   useEscapeKey(closeMenu);
 
-  // Close the menu panel when the user clicks somewhere outside of it
+  // Close menu when user clicks/taps outside of it
   useOnClickOutside(menuRef, handleMenuClickOutside);
 
   const handleMenuButtonClick = () => {
@@ -113,37 +119,11 @@ export default function Header({ children }) {
       onAnimationEnd={() => {
         if (!menuOpen) {
           setMenuHidden(true);
+        } else {
+          setContentHidden(true);
         }
       }}>
       {navLinks}
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean quis nibh sit amet ligula
-        blandit interdum. Aenean ornare iaculis metus. Nunc augue sapien, placerat id purus ut,
-        posuere pretium sem. Aenean nec ultricies purus. Ut odio elit, facilisis eu faucibus ac,
-        rutrum nec est. Ut sit amet mollis arcu. Phasellus vel mi risus. Proin blandit eu orci a
-        rhoncus. Vestibulum sit amet imperdiet neque, vel mollis ante.
-      </p>
-      <p>
-        Vivamus massa lectus, placerat a orci et, pellentesque mattis odio. Aenean elit nisl,
-        consequat gravida congue id, rhoncus vitae nisi. Mauris finibus purus quis laoreet varius.
-        Pellentesque pulvinar est eu lorem bibendum suscipit. Cras at odio ipsum. Vivamus tempor
-        sapien aliquet, egestas sem eu, suscipit tellus. Maecenas nibh nisl, suscipit vel orci quis,
-        fermentum dapibus dolor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-        posuere cubilia curae; Integer nec elit nisi.
-      </p>
-      <p>
-        Etiam venenatis, tortor ac mollis molestie, elit ante accumsan ex, non accumsan nisi enim
-        eget massa. Nullam bibendum erat quis rutrum dignissim. Donec congue, nulla vitae tincidunt
-        tempor, ipsum ipsum molestie velit, a aliquet erat augue tempus ligula. Duis hendrerit, ex
-        ac venenatis commodo, turpis est laoreet ex, nec maximus ante orci non erat. Praesent
-        mollis, ligula sit amet gravida scelerisque, leo magna convallis quam, at mollis eros nisi
-        vitae ligula. Praesent sed sodales dolor, maximus blandit nibh. Aenean rutrum nisl ipsum,
-        volutpat egestas felis laoreet eu. Sed eleifend mauris eget quam ultricies, eu tincidunt
-        felis dignissim. Nullam sit amet hendrerit odio. Ut laoreet dapibus ipsum, in consequat orci
-        consequat sed. Praesent iaculis, elit a ultrices sodales, magna nibh scelerisque augue, sed
-        eleifend nibh mauris sit amet ante. Pellentesque at felis lacus. Nunc quis volutpat tellus.
-        Proin sit amet porta arcu. Proin id rhoncus elit. Phasellus vel viverra felis.
-      </p>
     </div>
   );
 
