@@ -81,6 +81,8 @@ rm studio/yarn.lock
 
 # Update package-lock.json to match package.json again
 npm install
+cd studio
+npm install
 ```
 
 Sanity release notes can be found here: https://github.com/sanity-io/sanity/releases
