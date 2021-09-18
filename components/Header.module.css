@@ -35,6 +35,10 @@
   font-size: var(--font-size-1);
   white-space: nowrap;
 }
+.nameLink {
+  text-decoration: none;
+  color: var(--base-font-color);
+}
 .title {
   margin: 0;
   line-height: 1;

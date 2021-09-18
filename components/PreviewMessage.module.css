@@ -1,0 +1,6 @@
+.previewMessage {
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  grid-column: 1 / -1;
+}

@@ -161,7 +161,11 @@ export default function Header({ children }) {
     <header className={styles.header} ref={headerRef}>
       {children}
       <div className={styles.nameAndTitle}>
-        <h1 className={styles.name}>Sandi Plewis</h1>
+        <h1 className={styles.name}>
+          <Link href="/">
+            <a className={styles.nameLink}>Sandi Plewis</a>
+          </Link>
+        </h1>
         <h2 className={styles.title}>Author/editor</h2>
       </div>
       {isMedium ? (
