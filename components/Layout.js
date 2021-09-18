@@ -19,6 +19,9 @@ function Layout({ children, description = "", keywords = "" }) {
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+        {/* TODO: replace this with the line below it */}
+        <meta name="robots" content="noindex" />
+        {/* {process.env.NODE_ENV === "production" ? null : <meta name="robots" content="noindex" />} */}
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
