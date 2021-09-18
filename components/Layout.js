@@ -7,13 +7,19 @@ import Header from "components/Header";
 import PreviewMessage from "components/PreviewMessage";
 import SkipLink from "components/SkipLink";
 
+import { DEFAULT_META_DESCRIPTION, DEFAULT_META_KEYWORDS } from "lib/constants";
+
 // See: https://nextjs.org/docs/basic-features/layouts
 
 // `favicon.svg` supports dark mode: https://css-tricks.com/dark-mode-favicons/
 // `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/
 // TODO: regenerate all of these when I've finalized the design
 
-function Layout({ children, description = "", keywords = "" }) {
+function Layout({
+  children,
+  description = DEFAULT_META_DESCRIPTION,
+  keywords = DEFAULT_META_KEYWORDS
+}) {
   return (
     <>
       <Head>
@@ -22,8 +28,8 @@ function Layout({ children, description = "", keywords = "" }) {
         {/* TODO: replace this with the line below it */}
         <meta name="robots" content="noindex" />
         {/* {process.env.NODE_ENV === "production" ? null : <meta name="robots" content="noindex" />} */}
-        <meta name="description" content={description} />
-        <meta name="keywords" content={keywords} />
+        {description && <meta name="description" content={description} />}
+        {keywords && <meta name="keywords" content={keywords} />}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
