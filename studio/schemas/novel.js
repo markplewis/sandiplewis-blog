@@ -1,4 +1,5 @@
 import client from "../client";
+import description from "../fields/description";
 
 const NovelSchema = {
   name: "novel",
@@ -109,7 +110,7 @@ const NovelSchema = {
     // },
     {
       name: "overview",
-      title: "Overview",
+      title: "Home page overview",
       description: "A brief overview that will appear when this novel is featured on the home page",
       type: "array",
       of: [{ type: "block" }]
@@ -120,7 +121,8 @@ const NovelSchema = {
       title: "Synopsis",
       description: "A full-length synopsis",
       type: "blockContent"
-    }
+    },
+    description
   ],
 
   // See: https://www.sanity.io/guides/getting-started-with-initial-values-for-new-documents

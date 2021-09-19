@@ -7,6 +7,7 @@ import { SITE_TITLE } from "lib/constants";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
+import MoreLink from "components/MoreLink";
 import PageTitle from "components/PageTitle";
 
 import commonStyles from "pages/styles/common.module.css";
@@ -34,10 +35,10 @@ export default function Category({ data: category }) {
   return !router.isFallback && !category?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout description={category?.description ?? `Blog posts in category: ${category?.title}`}>
       <Head>
         <title>
-          {category?.title} | {SITE_TITLE}
+          Category: {category?.title} | {SITE_TITLE}
         </title>
       </Head>
 
@@ -59,6 +60,10 @@ export default function Category({ data: category }) {
             </ul>
           </>
         ) : null}
+
+        <p>
+          <MoreLink as="/categories" href="/categories" text="More categories" align="start" />
+        </p>
       </div>
     </Layout>
   );

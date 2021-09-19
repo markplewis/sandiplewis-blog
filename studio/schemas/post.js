@@ -1,4 +1,6 @@
 import client from "../client";
+import colorFields from "../fields/colors";
+import description from "../fields/description";
 
 const PostSchema = {
   name: "post",
@@ -40,23 +42,7 @@ const PostSchema = {
       of: [{ type: "reference", to: { type: "category" } }],
       validation: Rule => Rule.unique()
     },
-    {
-      title: "Colour palette",
-      name: "colorPalette",
-      type: "string",
-      options: {
-        list: [
-          { title: "Dominant", value: "dominant" },
-          { title: "Vibrant", value: "vibrant" },
-          { title: "Light Vibrant", value: "lightVibrant" },
-          { title: "Dark Vibrant", value: "darkVibrant" },
-          { title: "Muted", value: "muted" },
-          { title: "Light Muted", value: "lightMuted" },
-          { title: "Dark Muted", value: "darkMuted" }
-        ],
-        layout: "radio" // defaults to "dropdown"
-      }
-    },
+    ...colorFields,
     {
       name: "image",
       title: "Main image",
@@ -78,11 +64,8 @@ const PostSchema = {
       ]
     },
     {
-      name: "summary",
-      title: "Summary",
-      type: "text",
-      rows: 4,
-      validation: Rule => Rule.required()
+      ...description,
+      description: "Used when linking to this post from another page and also for search engines"
     },
     {
       name: "body",

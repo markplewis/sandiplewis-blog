@@ -1,3 +1,5 @@
+import description from "../fields/description";
+
 const AuthorSchema = {
   name: "author",
   title: "Author",
@@ -40,7 +42,8 @@ const AuthorSchema = {
           lists: []
         }
       ]
-    }
+    },
+    description
   ],
   preview: {
     select: {

@@ -24,6 +24,7 @@ const query = `
     "slug": slug.current,
     "image": image{..., ...asset->{creditLine, description, url}},
     biography,
+    description
   }
 `;
 
@@ -48,7 +49,7 @@ export default function Author({ data: initialData }) {
   return !router.isFallback && !author?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout description={author?.description}>
       <Head>
         <title>
           {author?.name} | {SITE_TITLE}

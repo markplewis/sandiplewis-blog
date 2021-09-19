@@ -1,5 +1,10 @@
 .moreLinkContainer {
   display: flex;
+}
+.moreLinkContainerLeft {
+  justify-content: flex-start;
+}
+.moreLinkContainerRight {
   justify-content: flex-end;
 }
 .moreLink {

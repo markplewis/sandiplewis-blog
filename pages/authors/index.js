@@ -34,7 +34,7 @@ export default function Authors({ data: initialData }) {
   return !router.isFallback && !authors ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout description="Authors">
       <Head>
         <title>Authors | {SITE_TITLE}</title>
       </Head>

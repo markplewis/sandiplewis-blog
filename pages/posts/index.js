@@ -35,7 +35,7 @@ export default function Posts({ data: initialData }) {
   return !router.isFallback && !posts ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout description="A listing of Sandi Plewis' blog posts">
       <Head>
         <title>Posts | {SITE_TITLE}</title>
       </Head>

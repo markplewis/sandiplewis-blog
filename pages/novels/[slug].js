@@ -25,7 +25,8 @@ const query = `
     "slug": slug.current,
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     "image": image{..., ...asset->{creditLine, description, url}},
-    synopsis
+    synopsis,
+    description
   }
 `;
 
@@ -50,7 +51,7 @@ export default function Novel({ data: initialData }) {
   return !router.isFallback && !novel?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout description={novel?.description}>
       <Head>
         <title>
           {novel?.title} | {SITE_TITLE}

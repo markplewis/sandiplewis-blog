@@ -7,7 +7,7 @@ import Header from "components/Header";
 import PreviewMessage from "components/PreviewMessage";
 import SkipLink from "components/SkipLink";
 
-import { DEFAULT_META_DESCRIPTION, DEFAULT_META_KEYWORDS } from "lib/constants";
+import { DEFAULT_META_DESCRIPTION } from "lib/constants";
 
 // See: https://nextjs.org/docs/basic-features/layouts
 
@@ -15,11 +15,7 @@ import { DEFAULT_META_DESCRIPTION, DEFAULT_META_KEYWORDS } from "lib/constants";
 // `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/
 // TODO: regenerate all of these when I've finalized the design
 
-function Layout({
-  children,
-  description = DEFAULT_META_DESCRIPTION,
-  keywords = DEFAULT_META_KEYWORDS
-}) {
+function Layout({ children, description = DEFAULT_META_DESCRIPTION }) {
   return (
     <>
       <Head>
@@ -29,7 +25,6 @@ function Layout({
         <meta name="robots" content="noindex" />
         {/* {process.env.NODE_ENV === "production" ? null : <meta name="robots" content="noindex" />} */}
         {description && <meta name="description" content={description} />}
-        {keywords && <meta name="keywords" content={keywords} />}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -51,7 +46,6 @@ function Layout({
 Layout.displayName = "Layout";
 Layout.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  description: PropTypes.string,
-  keywords: PropTypes.string
+  description: PropTypes.string
 };
 export default Layout;

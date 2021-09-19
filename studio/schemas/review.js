@@ -12,6 +12,7 @@ const ReviewSchema = {
       name: "review",
       title: "Review",
       type: "text",
+      rows: 4,
       validation: Rule => Rule.required()
     },
     {

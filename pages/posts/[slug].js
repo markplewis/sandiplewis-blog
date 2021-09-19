@@ -50,7 +50,7 @@ const postQuery = `
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     "categories": categories[]->{title, "slug": slug.current},
     body,
-    summary,
+    description,
     "comments": *[
       _type == "comment" &&
       post._ref == ^._id &&
@@ -149,8 +149,7 @@ export default function Post({ data: initialData }) {
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    // TODO: pass page meta description, keywords, etc. to <Layout>
-    <Layout description={post?.summary}>
+    <Layout description={post?.description}>
       {router.isFallback ? (
         <PageTitle>Loading…</PageTitle>
       ) : (

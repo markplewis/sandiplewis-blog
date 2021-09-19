@@ -4,9 +4,19 @@ import { colors } from "utils/color";
 
 const { baseFontColor } = colors;
 
-export default function MoreLink({ as, href, text, fgColor = "#fff", bgColor = baseFontColor }) {
+export default function MoreLink({
+  as,
+  href,
+  text,
+  align = "end",
+  fgColor = "#fff",
+  bgColor = baseFontColor
+}) {
   return (
-    <div className={styles.moreLinkContainer}>
+    <div
+      className={`${styles.moreLinkContainer} ${
+        align === "start" ? styles.moreLinkContainerLeft : styles.moreLinkContainerRight
+      }`}>
       <Link as={as} href={href}>
         <a className={styles.moreLink} style={{ backgroundColor: bgColor, color: fgColor }}>
           <span>{text}</span>

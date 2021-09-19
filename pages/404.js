@@ -10,7 +10,7 @@ import commonStyles from "pages/styles/common.module.css";
 
 export default function Custom404() {
   return (
-    <Layout>
+    <Layout description="This page could not be found">
       <Head>
         <title>404 | {SITE_TITLE}</title>
       </Head>

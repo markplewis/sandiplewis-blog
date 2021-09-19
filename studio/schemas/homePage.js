@@ -1,3 +1,6 @@
+import colorFields from "../fields/colors";
+import description from "../fields/description";
+
 // See: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
 
 const HomePageSchema = {
@@ -19,36 +22,7 @@ const HomePageSchema = {
       type: "reference",
       to: { type: "novel" }
     },
-    {
-      title: "Colour palette",
-      name: "colorPalette",
-      type: "string",
-      options: {
-        list: [
-          { title: "Dominant", value: "dominant" },
-          { title: "Vibrant", value: "vibrant" },
-          { title: "Light Vibrant", value: "lightVibrant" },
-          { title: "Dark Vibrant", value: "darkVibrant" },
-          { title: "Muted", value: "muted" },
-          { title: "Light Muted", value: "lightMuted" },
-          { title: "Dark Muted", value: "darkMuted" },
-          { title: "Custom", value: "custom" }
-        ],
-        layout: "radio" // defaults to "dropdown"
-      }
-    },
-    {
-      name: "primaryColor",
-      title: "Primary colour",
-      type: "color",
-      hidden: ({ parent }) => parent?.colorPalette !== "custom"
-    },
-    {
-      name: "secondaryColor",
-      title: "Secondary colour",
-      type: "color",
-      hidden: ({ parent }) => parent?.colorPalette !== "custom"
-    },
+    ...colorFields,
     {
       name: "reviews",
       title: "Featured reviews",
@@ -62,7 +36,8 @@ const HomePageSchema = {
       title: "Author",
       type: "reference",
       to: { type: "author" }
-    }
+    },
+    description
   ],
   initialValue: {
     name: "Home page"

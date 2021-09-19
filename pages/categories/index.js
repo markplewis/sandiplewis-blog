@@ -32,7 +32,7 @@ export default function Categories({ data: initialData }) {
   return !router.isFallback && !categories ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout description="Blog post categories">
       <Head>
         <title>Categories | {SITE_TITLE}</title>
       </Head>

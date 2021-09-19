@@ -9,7 +9,7 @@ import commonStyles from "pages/styles/common.module.css";
 
 export default function Contact() {
   return (
-    <Layout>
+    <Layout description="Contact Sandi Plewis">
       <Head>
         <title>Contact | {SITE_TITLE}</title>
       </Head>

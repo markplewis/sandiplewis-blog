@@ -38,7 +38,7 @@ export default function Novels({ data: initialData }) {
   return !router.isFallback && !novels ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout>
+    <Layout description="A listing of Sandi Plewis' novels">
       <Head>
         <title>Novels | {SITE_TITLE}</title>
       </Head>

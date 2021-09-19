@@ -10,7 +10,7 @@ import commonStyles from "pages/styles/common.module.css";
 
 export default function Custom500() {
   return (
-    <Layout>
+    <Layout description="A server-side error occurred">
       <Head>
         <title>500 | {SITE_TITLE}</title>
       </Head>

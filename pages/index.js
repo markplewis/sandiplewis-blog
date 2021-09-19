@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import {
   authorBioQuery,
-  featuredNovelQuery,
+  featuredNovelAndHomePageQuery,
   featuredReviewsQuery,
   getRecentPostsQuery
 } from "lib/api";
@@ -30,8 +30,8 @@ import styles from "pages/styles/home.module.css";
 const recentPostsQuery = getRecentPostsQuery(3);
 
 export default function HomePage({ data: initialData }) {
-  const { data: novelAndPalette } = usePreviewSubscription(featuredNovelQuery, {
-    initialData: initialData?.novelAndPalette,
+  const { data: novelAndHomePage } = usePreviewSubscription(featuredNovelAndHomePageQuery, {
+    initialData: initialData?.novelAndHomePage,
     enabled: true
   });
   const { data: reviews } = usePreviewSubscription(featuredReviewsQuery, {
@@ -47,7 +47,7 @@ export default function HomePage({ data: initialData }) {
     enabled: true
   });
 
-  const { novel, colorPalette, primaryColor, secondaryColor } = novelAndPalette;
+  const { novel, colorPalette, primaryColor, secondaryColor, description = "" } = novelAndHomePage;
   const palette = colorPalette ?? "lightVibrant";
 
   const colorData =
@@ -65,7 +65,7 @@ export default function HomePage({ data: initialData }) {
   const isWide = useMediaQuery(`(min-width: ${rem(1280)})`);
 
   return (
-    <Layout>
+    <Layout description={description}>
       <Head>
         <title>{SITE_TITLE}</title>
       </Head>
@@ -189,7 +189,7 @@ export default function HomePage({ data: initialData }) {
                       ) : null}
                       <div className={styles.postInfo}>
                         <h3 className={styles.postTitle}>{post?.title}</h3>
-                        <p className={styles.postSummary}>{post?.summary}</p>
+                        <p className={styles.postDescription}>{post?.description}</p>
                       </div>
                     </a>
                   </Link>
@@ -246,14 +246,14 @@ export default function HomePage({ data: initialData }) {
 // See: https://youtu.be/f1rF9YKm1Ms
 
 export async function getStaticProps() {
-  const novelAndPalette = await client.fetch(featuredNovelQuery);
+  const novelAndHomePage = await client.fetch(featuredNovelAndHomePageQuery);
   const reviews = await client.fetch(featuredReviewsQuery);
   const posts = await client.fetch(recentPostsQuery);
   const author = await client.fetch(authorBioQuery);
 
   return {
     props: {
-      data: { novelAndPalette, reviews, posts, author }
+      data: { novelAndHomePage, reviews, posts, author }
     }
   };
 }
