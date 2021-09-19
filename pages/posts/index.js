@@ -15,12 +15,13 @@ import commonStyles from "pages/styles/common.module.css";
 // import "pages/styles/post.module.css";
 
 const query = `
-  *[_type == "post"][] {
+  *[_type == "post"][] | order(publishedAt desc) {
     _id,
     title,
     "date": publishedAt,
     "slug": slug.current,
-    "image": image{..., ...asset->{creditLine, description, "palette": metadata.palette, url}}
+    "image": image{..., ...asset->{creditLine, description, "palette": metadata.palette, url}},
+    description
   }
 `;
 
@@ -62,6 +63,7 @@ export default function Posts({ data: initialData }) {
               ) : null}
 
               <h3>{post.title}</h3>
+              <p>{post.description}</p>
               <p>
                 <Link as={`/posts/${post?.slug}`} href="/posts/[slug]">
                   <a>Read more</a>

@@ -15,7 +15,7 @@ import commonStyles from "pages/styles/common.module.css";
 // import "pages/styles/author.module.css";
 
 const query = `
-  *[_type == "author"][] {
+  *[_type == "author"][] | order(name asc) {
     _id,
     name,
     "slug": slug.current,

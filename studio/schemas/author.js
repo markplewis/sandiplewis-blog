@@ -1,3 +1,4 @@
+import colorFields from "../fields/colors";
 import description from "../fields/description";
 
 const AuthorSchema = {
@@ -22,6 +23,7 @@ const AuthorSchema = {
       },
       validation: Rule => Rule.required()
     },
+    ...colorFields,
     {
       name: "image",
       title: "Image",

@@ -12,6 +12,7 @@ import comment from "./comment";
 import contactFormSubmission from "./contactFormSubmission";
 import homePage from "./homePage";
 import novel from "./novel";
+import shortStory from "./shortStory";
 import post from "./post";
 import review from "./review";
 import settings from "./settings";
@@ -29,6 +30,7 @@ export default createSchema({
     post,
     category,
     novel,
+    shortStory,
     review,
     author,
     blockContent,

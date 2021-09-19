@@ -16,26 +16,24 @@ import PageTitle from "components/PageTitle";
 import PostBodyImage from "components/serializers/PostBodyImage";
 
 import commonStyles from "pages/styles/common.module.css";
-// import "pages/styles/novel.module.css";
+// import "pages/styles/shortStory.module.css";
 
 const query = `
-  *[_type == "novel" && slug.current == $slug][0] {
+  *[_type == "shortStory" && slug.current == $slug][0] {
     _id,
     title,
     "slug": slug.current,
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     "image": image{..., ...asset->{creditLine, description, url}},
     generalInfo,
-    synopsis,
-    description,
-    "reviews": *[_type=='review' && references(^._id)]{ _id, title, review }
+    description
   }
 `;
 
-export default function Novel({ data: initialData }) {
+export default function ShortStory({ data: initialData }) {
   const router = useRouter();
 
-  const { data: novel } = usePreviewSubscription(query, {
+  const { data: shortStory } = usePreviewSubscription(query, {
     params: {
       slug: initialData?.slug
     },
@@ -50,80 +48,58 @@ export default function Novel({ data: initialData }) {
     }
   };
 
-  return !router.isFallback && !novel?.slug ? (
+  return !router.isFallback && !shortStory?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout description={novel?.description}>
+    <Layout description={shortStory?.description}>
       <Head>
         <title>
-          {novel?.title} | {SITE_TITLE}
+          {shortStory?.title} | {SITE_TITLE}
         </title>
       </Head>
 
       <div className={commonStyles.page}>
-        {novel?.image ? (
+        {shortStory?.image ? (
           <div style={{ width: "188px" }}>
             <Image
-              src={urlFor(novel.image.asset).width(376).height(600).url()}
+              src={urlFor(shortStory.image.asset).width(376).height(600).url()}
               width={188}
               height={300}
               sizes="188px"
               layout="responsive"
-              alt={novel.image.alt || novel.title}
+              alt={shortStory.image.alt || shortStory.title}
               placeholder="blur"
               // Data URL generated here: https://png-pixel.com/
               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
             />
           </div>
         ) : null}
-        <PageTitle>{novel?.title}</PageTitle>
-        {novel?.generalInfo && (
-          <>
-            <BlockContent
-              blocks={novel.generalInfo}
-              serializers={serializers}
-              projectId={config.projectId}
-              dataset={config.dataset}
-            />
-          </>
-        )}
-        {novel?.synopsis && (
-          <>
-            <h2>Synopsis</h2>
-            <BlockContent
-              blocks={novel.synopsis}
-              serializers={serializers}
-              projectId={config.projectId}
-              dataset={config.dataset}
-            />
-          </>
+
+        <PageTitle>{shortStory?.title}</PageTitle>
+
+        {shortStory?.generalInfo && (
+          <BlockContent
+            blocks={shortStory.generalInfo}
+            serializers={serializers}
+            projectId={config.projectId}
+            dataset={config.dataset}
+          />
         )}
         <p>
           By{" "}
-          <Link as={`/authors/${novel?.author?.slug}`} href="/authors/[slug]">
-            <a>{novel?.author?.name}</a>
+          <Link as={`/authors/${shortStory?.author?.slug}`} href="/authors/[slug]">
+            <a>{shortStory?.author?.name}</a>
           </Link>
         </p>
-        {novel?.reviews?.length ? (
-          <>
-            <h2>Reviews</h2>
-            <ul>
-              {novel.reviews.map(({ _id, title, review }) => (
-                <li key={_id}>
-                  <h3>{title}</h3>
-                  <p>{review}</p>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : null}
       </div>
     </Layout>
   );
 }
 
 export async function getStaticProps({ params }) {
-  const data = await client.fetch(query, { slug: params.slug });
+  const data = await client.fetch(query, {
+    slug: params.slug
+  });
   return {
     props: {
       data
@@ -133,7 +109,7 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   const paths = await client.fetch(
-    `*[_type == "novel" && defined(slug.current)]{ "params": { "slug": slug.current } }`
+    `*[_type == "shortStory" && defined(slug.current)]{ "params": { "slug": slug.current } }`
   );
   return {
     paths,

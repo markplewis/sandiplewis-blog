@@ -14,7 +14,7 @@ import commonStyles from "pages/styles/common.module.css";
 // import "pages/styles/category.module.css";
 
 const query = `
-  *[_type == "category"][] {
+  *[_type == "category"][] | order(title asc) {
     _id,
     title,
     "slug": slug.current

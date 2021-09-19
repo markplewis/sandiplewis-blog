@@ -104,8 +104,8 @@ export default function Header({ children }) {
             <a className={styles.navLink}>Home</a>
           </Link>
         </li>
-        <li className={`${styles.navItem} ${pathName.startsWith("/novels") ? active : ""}`}>
-          <Link href="/novels">
+        <li className={`${styles.navItem} ${pathName.startsWith("/writing") ? active : ""}`}>
+          <Link href="/writing">
             <a className={styles.navLink}>Writing</a>
           </Link>
         </li>

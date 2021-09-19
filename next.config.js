@@ -12,5 +12,20 @@ module.exports = withBundleAnalyzer({
     // https://github.com/vercel/next.js/issues/27547
     // deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     domains: ["cdn.sanity.io"]
+  },
+  // See: https://nextjs.org/docs/api-reference/next.config.js/redirects
+  async redirects() {
+    return [
+      {
+        source: "/novels",
+        destination: "/writing",
+        permanent: true
+      },
+      {
+        source: "/short-stories",
+        destination: "/writing",
+        permanent: true
+      }
+    ];
   }
 });

@@ -1,4 +1,5 @@
 import client from "../client";
+import colorFields from "../fields/colors";
 import description from "../fields/description";
 
 const NovelSchema = {
@@ -29,6 +30,12 @@ const NovelSchema = {
       type: "reference",
       to: { type: "author" }
     },
+    {
+      name: "publishedAt",
+      title: "Published at",
+      type: "datetime"
+    },
+    ...colorFields,
     {
       name: "image",
       title: "Main image",
@@ -115,6 +122,13 @@ const NovelSchema = {
       type: "array",
       of: [{ type: "block" }]
     },
+    {
+      name: "generalInfo",
+      title: "General information",
+      description:
+        "Links to purchase the novel, when it was published, stores where it's available, etc.",
+      type: "blockContent"
+    },
     // See: https://www.sanity.io/docs/block-type
     {
       name: "synopsis",
@@ -122,7 +136,10 @@ const NovelSchema = {
       description: "A full-length synopsis",
       type: "blockContent"
     },
-    description
+    {
+      ...description,
+      description: "Used when linking to this novel from other pages and also for search engines"
+    }
   ],
 
   // See: https://www.sanity.io/guides/getting-started-with-initial-values-for-new-documents

@@ -4,13 +4,6 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  authorBioQuery,
-  featuredNovelAndHomePageQuery,
-  featuredReviewsQuery,
-  getRecentPostsQuery
-} from "lib/api";
-
 import config from "lib/config";
 import { SITE_TITLE } from "lib/constants";
 import { urlFor, usePreviewSubscription } from "lib/sanity";
@@ -27,7 +20,35 @@ import { rem } from "utils/units";
 
 import styles from "pages/styles/home.module.css";
 
+const featuredNovelAndHomePageQuery = `*[_type == "homePage"][0] {
+  "novel": novel->{
+    _id,
+    title,
+    'slug': slug.current,
+    overview,
+    "image": image{..., ...asset->{
+      creditLine,
+      description,
+      "palette": metadata.palette,
+      url
+    }},
+    colorPalette,
+    primaryColor,
+    secondaryColor
+  },
+  description
+}`;
+
+const featuredReviewsQuery = `*[_type == "homePage"][0].reviews[]->{review, author, title, _id}`;
+
+function getRecentPostsQuery(limit) {
+  return `*[_type == "post"][0..${
+    limit - 1
+  }] | order(publishedAt desc){title, 'slug': slug.current, image, description, _id}`;
+}
 const recentPostsQuery = getRecentPostsQuery(3);
+
+const authorBioQuery = `*[_type == "homePage"][0].author->{name, image, biography, 'slug': slug.current, _id}`;
 
 export default function HomePage({ data: initialData }) {
   const { data: novelAndHomePage } = usePreviewSubscription(featuredNovelAndHomePageQuery, {
@@ -47,7 +68,8 @@ export default function HomePage({ data: initialData }) {
     enabled: true
   });
 
-  const { novel, colorPalette, primaryColor, secondaryColor, description = "" } = novelAndHomePage;
+  const { novel, description = "" } = novelAndHomePage;
+  const { colorPalette, primaryColor, secondaryColor } = novel;
   const palette = colorPalette ?? "lightVibrant";
 
   const colorData =
