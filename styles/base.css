@@ -48,7 +48,8 @@ body {
 }
 main {
   width: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
+  overflow: hidden;
   display: grid;
   /* See: https://webkit.org/blog/7929/designing-websites-for-iphone-x/ */
   /*

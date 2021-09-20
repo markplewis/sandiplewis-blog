@@ -2,21 +2,25 @@ import BlockContent from "@sanity/block-content-to-react";
 
 import ErrorPage from "next/error";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import config from "lib/config";
 import { SITE_TITLE } from "lib/constants";
-import { usePreviewSubscription, urlFor } from "lib/sanity";
+import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
+import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostBodyImage from "components/serializers/PostBodyImage";
+import ShareTools from "components/ShareTools";
 
-import commonStyles from "pages/styles/common.module.css";
-// import "pages/styles/novel.module.css";
+import { getColorData } from "utils/color";
+import useMediaQuery from "utils/useMediaQuery";
+import { rem } from "utils/units";
+
+// import commonStyles from "pages/styles/common.module.css";
+import styles from "pages/styles/novel.module.css";
 
 const query = `
   *[_type == "novel" && slug.current == $slug][0] {
@@ -24,11 +28,19 @@ const query = `
     title,
     "slug": slug.current,
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
-    "image": image{..., ...asset->{creditLine, description, url}},
+    colorPalette,
+    primaryColor,
+    secondaryColor,
+    "image": image{..., ...asset->{
+      creditLine,
+      description,
+      "palette": metadata.palette,
+      url
+    }},
     generalInfo,
     synopsis,
     description,
-    "reviews": *[_type=='review' && references(^._id)]{ _id, title, review }
+    "reviews": *[_type=='review' && references(^._id)]{ _id, title, review, author }
   }
 `;
 
@@ -50,6 +62,34 @@ export default function Novel({ data: initialData }) {
     }
   };
 
+  const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
+  const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
+
+  const palette = novel?.colorPalette ?? "darkVibrant";
+  const colorData =
+    palette === "custom"
+      ? getColorData({
+          custom: { primary: novel?.primaryColor?.hex, secondary: novel?.secondaryColor?.hex }
+        })
+      : getColorData(novel?.image?.palette);
+
+  const baseBgColor = colorData?.[palette]?.base?.background ?? null;
+  const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
+  const compBgColor = colorData?.[palette]?.comp?.background ?? null;
+  const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
+
+  const generalInfo = novel?.generalInfo ? (
+    <>
+      <PageTitle className={styles.title}>{novel?.title}</PageTitle>
+      <BlockContent
+        blocks={novel?.generalInfo}
+        serializers={serializers}
+        projectId={config.projectId}
+        dataset={config.dataset}
+      />
+    </>
+  ) : null;
+
   return !router.isFallback && !novel?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
@@ -60,63 +100,90 @@ export default function Novel({ data: initialData }) {
         </title>
       </Head>
 
-      <div className={commonStyles.page}>
-        {novel?.image ? (
-          <div style={{ width: "188px" }}>
-            <Image
-              src={urlFor(novel.image.asset).width(376).height(600).url()}
-              width={188}
-              height={300}
-              sizes="188px"
-              layout="responsive"
-              alt={novel.image.alt || novel.title}
-              placeholder="blur"
-              // Data URL generated here: https://png-pixel.com/
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+      <style jsx global>
+        {`
+          body {
+            --baseBgColor: ${baseBgColor};
+            --baseFgColor: ${baseFgColor};
+            --compBgColor: ${compBgColor};
+            --compFgColor: ${compFgColor};
+          }
+        `}
+      </style>
+
+      <div className={styles.page}>
+        <div className={styles.heroArea}>
+          <div
+            className={styles.patternBlock}
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compBgColor?.replace(
+                "#",
+                "%23"
+              )}' fill-opacity='0.5' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
+            }}></div>
+
+          <div className={styles.coverImageAndInfo}>
+            <CoverImage
+              className={styles.coverImage}
+              image={novel?.image}
+              title={novel?.title}
+              url={novel?.image}
+              width={376}
+              height={600}
             />
+            {isMedium && <div className={`${styles.info} ${styles.infoAbove}`}>{generalInfo}</div>}
+            {isWide && (
+              <div className={styles.shareTools}>
+                <ShareTools position="vertical" />
+              </div>
+            )}
           </div>
-        ) : null}
-        <PageTitle>{novel?.title}</PageTitle>
-        {novel?.generalInfo && (
-          <>
-            <BlockContent
-              blocks={novel.generalInfo}
-              serializers={serializers}
-              projectId={config.projectId}
-              dataset={config.dataset}
-            />
-          </>
-        )}
-        {novel?.synopsis && (
-          <>
-            <h2>Synopsis</h2>
-            <BlockContent
-              blocks={novel.synopsis}
-              serializers={serializers}
-              projectId={config.projectId}
-              dataset={config.dataset}
-            />
-          </>
-        )}
-        <p>
-          By{" "}
-          <Link as={`/authors/${novel?.author?.slug}`} href="/authors/[slug]">
-            <a>{novel?.author?.name}</a>
-          </Link>
-        </p>
-        {novel?.reviews?.length ? (
-          <>
-            <h2>Reviews</h2>
-            <ul>
-              {novel.reviews.map(({ _id, title, review }) => (
-                <li key={_id}>
-                  <h3>{title}</h3>
-                  <p>{review}</p>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : null}
+
+          <div
+            className={styles.patternBlock2}
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='${compBgColor?.replace(
+                "#",
+                "%23"
+              )}' fill-opacity='0.5' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`
+            }}></div>
+        </div>
+
+        <div className={styles.bodyArea}>
+          {!isWide && (
+            <div className={styles.shareTools}>
+              <ShareTools position="below" />
+            </div>
+          )}
+          {!isMedium && <div className={`${styles.info} ${styles.infoBelow}`}>{generalInfo}</div>}
+          <div className={styles.body}>
+            {novel?.synopsis && (
+              <>
+                <BlockContent
+                  blocks={novel?.synopsis}
+                  serializers={serializers}
+                  projectId={config.projectId}
+                  dataset={config.dataset}
+                />
+              </>
+            )}
+          </div>
+
+          {novel?.reviews?.length ? (
+            <div className={styles.reviews}>
+              <h2 className={styles.reviewsHeading}>Reviews</h2>
+              <ul className={styles.reviewList}>
+                {novel.reviews.map(review => (
+                  <li className={styles.reviewItem} key={review?._id}>
+                    <h2 className={styles.reviewTitle}>{review?.title}</h2>
+                    <p className={styles.reviewBody}>{review?.review}</p>
+                    <p className={styles.reviewAuthor}>— {review?.author}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
       </div>
     </Layout>
   );

@@ -66,6 +66,8 @@
 @media (min-width: 1600px) {
   .coverImageAndMeta {
     grid-column: 2 / -2;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 .patternBlock,
@@ -184,6 +186,9 @@
     margin: 0 auto;
     padding: 22px 44px;
   }
+}
+.body h2 {
+  font-size: var(--font-size-2);
 }
 .body h3 {
   font-size: var(--font-size-3);
