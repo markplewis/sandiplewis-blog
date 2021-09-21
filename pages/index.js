@@ -107,7 +107,7 @@ export default function HomePage({ data: initialData }) {
 
       {!isWide && (
         <div className={styles.shareTools}>
-          <ShareTools />
+          <ShareTools text="Sandi Plewis, Author/Editor" />
         </div>
       )}
 
@@ -182,7 +182,7 @@ export default function HomePage({ data: initialData }) {
 
         {isWide && (
           <div className={styles.shareTools}>
-            <ShareTools position="vertical" />
+            <ShareTools text="Sandi Plewis, Author/Editor" position="vertical" />
           </div>
         )}
 

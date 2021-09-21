@@ -176,7 +176,7 @@ export default function Post({ data: initialData }) {
           <article className={styles.article}>
             <div className={styles.titleAndShareTools}>
               <PageTitle className={styles.title}>{post.title}</PageTitle>
-              {isMedium && <ShareTools position="above" />}
+              {isMedium && <ShareTools text={post.title} position="above" />}
             </div>
 
             <div className={styles.coverImageAndMeta}>
@@ -207,7 +207,7 @@ export default function Post({ data: initialData }) {
             <div className={styles.bodyArea}>
               {!isMedium && (
                 <>
-                  {<ShareTools position="below" />}
+                  {<ShareTools text={post.title} position="below" />}
                   <div className={`${styles.meta} ${styles.metaBelow}`}>{postMeta}</div>
                 </>
               )}

@@ -133,7 +133,7 @@ export default function Novel({ data: initialData }) {
             {isMedium && <div className={`${styles.info} ${styles.infoAbove}`}>{overview}</div>}
             {isWide && (
               <div className={styles.shareTools}>
-                <ShareTools position="vertical" />
+                <ShareTools text={novel?.title} position="vertical" />
               </div>
             )}
           </div>
@@ -151,7 +151,7 @@ export default function Novel({ data: initialData }) {
         <div className={styles.bodyArea}>
           {!isWide && (
             <div className={styles.shareTools}>
-              <ShareTools position="below" />
+              <ShareTools text={novel?.title} position="below" />
             </div>
           )}
           {!isMedium && <div className={`${styles.info} ${styles.infoBelow}`}>{overview}</div>}

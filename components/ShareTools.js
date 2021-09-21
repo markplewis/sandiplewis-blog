@@ -1,9 +1,21 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+
+import { BASE_URL } from "lib/constants";
 
 import styles from "components/ShareTools.module.css";
 
-export default function ShareTools({ position }) {
+function encodeUrlParams(params = {}) {
+  return Object.keys(params)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .join("&");
+}
+
+export default function ShareTools({ text, position }) {
+  const router = useRouter();
+  const url = `${BASE_URL}${router.asPath}`;
   let positionClass = null;
+
   switch (position) {
     case "above":
       positionClass = styles.shareToolsAbove;
@@ -15,24 +27,45 @@ export default function ShareTools({ position }) {
       positionClass = styles.shareToolsVertical;
       break;
   }
+  const twitterURL = `https://twitter.com/share?${encodeUrlParams({ url, text })}`;
+  const facebookURL = `https://www.facebook.com/dialog/feed/?${encodeUrlParams({
+    // TODO: Create a Facebook app: https://developers.facebook.com/docs/development/
+    app_id: "",
+    link: url,
+    redirect_uri: url
+  })}`;
+  const emailURL = `mailto:?body=From SandiPlewis.com: ${text} - ${url}`;
+
   return (
     <div className={`${styles.shareTools} ${positionClass}`}>
-      <Link href="https://www.facebook.com">
-        <a className={styles.shareTool} aria-label="Share on Facebook">
-          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
-            <use xlinkHref="#icon-facebook" />
-          </svg>
-        </a>
-      </Link>
-      <Link href="https://www.twitter.com">
-        <a className={styles.shareTool} aria-label="Share on Twitter">
+      <Link href={twitterURL}>
+        <a
+          className={styles.shareTool}
+          aria-label="Share on Twitter"
+          target="_blank"
+          rel="noopener noreferrer">
           <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
             <use xlinkHref="#icon-twitter" />
           </svg>
         </a>
       </Link>
-      <Link href="mailto:someone@example.com">
-        <a className={styles.shareTool} aria-label="Share via email">
+      <Link href={facebookURL}>
+        <a
+          className={styles.shareTool}
+          aria-label="Share on Facebook"
+          target="_blank"
+          rel="noopener noreferrer">
+          <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
+            <use xlinkHref="#icon-facebook" />
+          </svg>
+        </a>
+      </Link>
+      <Link href={emailURL}>
+        <a
+          className={styles.shareTool}
+          aria-label="Share via email"
+          target="_blank"
+          rel="noopener noreferrer">
           <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
             <use xlinkHref="#icon-email" />
           </svg>
