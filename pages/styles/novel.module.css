@@ -20,8 +20,6 @@
 }
 .title {
   margin-top: 0;
-  font-family: var(--heading-font-family);
-  font-size: var(--font-size-2);
 }
 .heroArea {
   --left-width: max(var(--column-margin), env(safe-area-inset-left));
@@ -147,7 +145,7 @@
   margin: 0 -22px;
   padding: 22px;
   background-color: #fff;
-  font-size: var(--font-size-5);
+  font-size: var(--font-size-4);
   /* line-height: 1.5; */
 }
 .body > div > *:first-child {
@@ -160,15 +158,6 @@
     padding: 22px 44px;
   }
 }
-.body h2 {
-  font-size: var(--font-size-2);
-}
-.body h3 {
-  font-size: var(--font-size-3);
-}
-.body h4 {
-  font-size: var(--font-size-4);
-}
 
 @media (min-width: 768px) {
   .reviews {
@@ -176,9 +165,8 @@
     margin: 0 auto;
   }
 }
-.reviewsHeading {
-  font-size: var(--font-size-2);
-}
+/* .reviewsHeading {
+} */
 .reviewList {
   list-style-type: none;
   margin: 0;
@@ -217,7 +205,6 @@
 }
 .reviewTitle {
   margin-top: 0;
-  font-size: var(--font-size-4);
 }
 .reviewBody {
   font-style: italic;

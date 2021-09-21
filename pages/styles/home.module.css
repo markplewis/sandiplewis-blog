@@ -66,7 +66,6 @@
 }
 .novelInfo h1 {
   margin-top: 0;
-  font-size: var(--font-size-3);
 }
 .reviewList {
   list-style-type: none;
@@ -106,7 +105,7 @@
 }
 .reviewTitle {
   margin-top: 0;
-  font-size: var(--font-size-4);
+  font-size: var(--font-size-3);
 }
 .reviewBody {
   font-style: italic;
@@ -120,7 +119,6 @@
 }
 .postsHeading {
   margin-top: 0;
-  font-size: var(--font-size-3);
 }
 .postList {
   list-style-type: none;
@@ -148,7 +146,7 @@
 }
 .postTitle {
   margin: 0;
-  font-size: var(--font-size-5);
+  font-size: var(--font-size-4);
 }
 .postDescription {
   margin: 8px 0 0 0;
@@ -161,7 +159,6 @@
 }
 .bioHeading {
   margin-top: 0;
-  font-size: var(--font-size-3);
 }
 /* .bioInfo {
 } */

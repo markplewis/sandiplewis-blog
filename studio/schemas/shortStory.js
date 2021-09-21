@@ -57,10 +57,15 @@ const ShortStorySchema = {
       ]
     },
     {
-      name: "generalInfo",
+      name: "overview",
       title: "Overview",
-      description:
-        "Information about the short story, when it was published, links to purchase the anthology, stores where it's available, etc.",
+      description: "Brief overview that will appear at the top of the page",
+      type: "blockContent"
+    },
+    {
+      name: "body",
+      title: "Body",
+      description: "Detailed information about the short story",
       type: "blockContent"
     },
     {

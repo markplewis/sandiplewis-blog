@@ -48,7 +48,7 @@ function getRecentPostsQuery(limit) {
 }
 const recentPostsQuery = getRecentPostsQuery(3);
 
-const authorBioQuery = `*[_type == "homePage"][0].author->{name, image, biography, 'slug': slug.current, _id}`;
+const authorBioQuery = `*[_type == "homePage"][0].author->{name, image, shortBiography, 'slug': slug.current, _id}`;
 
 export default function HomePage({ data: initialData }) {
   const { data: novelAndHomePage } = usePreviewSubscription(featuredNovelAndHomePageQuery, {
@@ -243,9 +243,9 @@ export default function HomePage({ data: initialData }) {
             <div className={styles.bioInfo}>
               <h2 className={styles.bioHeading}>Biography</h2>
 
-              {author?.biography ? (
+              {author?.shortBiography ? (
                 <BlockContent
-                  blocks={author?.biography}
+                  blocks={author?.shortBiography}
                   projectId={config.projectId}
                   dataset={config.dataset}
                 />

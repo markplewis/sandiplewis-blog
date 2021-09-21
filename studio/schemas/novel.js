@@ -115,25 +115,26 @@ const NovelSchema = {
     //     }
     //   ]
     // },
+
+    // See: https://www.sanity.io/docs/block-type
+    // {
+    //   name: "overview",
+    //   title: "Home page overview",
+    //   description: "A brief overview that will appear when this novel is featured on the home page",
+    //   type: "array",
+    //   of: [{ type: "block" }]
+    // },
     {
       name: "overview",
-      title: "Home page overview",
-      description: "A brief overview that will appear when this novel is featured on the home page",
-      type: "array",
-      of: [{ type: "block" }]
-    },
-    {
-      name: "generalInfo",
-      title: "General information",
+      title: "Overview",
       description:
-        "Links to purchase the novel, when it was published, stores where it's available, etc.",
+        "Brief overview that will appear at the top of the page and also on the home page when this novel is featured",
       type: "blockContent"
     },
-    // See: https://www.sanity.io/docs/block-type
     {
-      name: "synopsis",
-      title: "Synopsis",
-      description: "A full-length synopsis",
+      name: "body",
+      title: "Body",
+      description: "The novel's synopsis, etc.",
       type: "blockContent"
     },
     {

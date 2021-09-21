@@ -27,7 +27,6 @@ const query = `
     _id,
     title,
     "slug": slug.current,
-    "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     colorPalette,
     primaryColor,
     secondaryColor,
@@ -37,8 +36,8 @@ const query = `
       "palette": metadata.palette,
       url
     }},
-    generalInfo,
-    synopsis,
+    overview,
+    body,
     description,
     "reviews": *[_type=='review' && references(^._id)]{ _id, title, review, author }
   }
@@ -78,11 +77,11 @@ export default function Novel({ data: initialData }) {
   const compBgColor = colorData?.[palette]?.comp?.background ?? null;
   const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
 
-  const generalInfo = novel?.generalInfo ? (
+  const overview = novel?.overview ? (
     <>
       <PageTitle className={styles.title}>{novel?.title}</PageTitle>
       <BlockContent
-        blocks={novel?.generalInfo}
+        blocks={novel?.overview}
         serializers={serializers}
         projectId={config.projectId}
         dataset={config.dataset}
@@ -131,7 +130,7 @@ export default function Novel({ data: initialData }) {
               width={376}
               height={600}
             />
-            {isMedium && <div className={`${styles.info} ${styles.infoAbove}`}>{generalInfo}</div>}
+            {isMedium && <div className={`${styles.info} ${styles.infoAbove}`}>{overview}</div>}
             {isWide && (
               <div className={styles.shareTools}>
                 <ShareTools position="vertical" />
@@ -155,12 +154,12 @@ export default function Novel({ data: initialData }) {
               <ShareTools position="below" />
             </div>
           )}
-          {!isMedium && <div className={`${styles.info} ${styles.infoBelow}`}>{generalInfo}</div>}
+          {!isMedium && <div className={`${styles.info} ${styles.infoBelow}`}>{overview}</div>}
           <div className={styles.body}>
-            {novel?.synopsis && (
+            {novel?.body && (
               <>
                 <BlockContent
-                  blocks={novel?.synopsis}
+                  blocks={novel?.body}
                   serializers={serializers}
                   projectId={config.projectId}
                   dataset={config.dataset}
@@ -175,7 +174,7 @@ export default function Novel({ data: initialData }) {
               <ul className={styles.reviewList}>
                 {novel.reviews.map(review => (
                   <li className={styles.reviewItem} key={review?._id}>
-                    <h2 className={styles.reviewTitle}>{review?.title}</h2>
+                    <h3 className={styles.reviewTitle}>{review?.title}</h3>
                     <p className={styles.reviewBody}>{review?.review}</p>
                     <p className={styles.reviewAuthor}>— {review?.author}</p>
                   </li>

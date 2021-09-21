@@ -33,8 +33,9 @@ const AuthorSchema = {
       }
     },
     {
-      name: "biography",
-      title: "Biography",
+      name: "shortBiography",
+      title: "Short biography",
+      description: "Brief overview that will appear on the home page",
       type: "array",
       of: [
         {
@@ -44,6 +45,11 @@ const AuthorSchema = {
           lists: []
         }
       ]
+    },
+    {
+      name: "biography",
+      title: "Full biography",
+      type: "blockContent"
     },
     description
   ],

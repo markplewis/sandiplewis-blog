@@ -35,8 +35,6 @@
   margin: 0;
   align-self: center;
   justify-self: start;
-  font-family: var(--heading-font-family);
-  font-size: var(--font-size-2);
 }
 .coverImageAndMeta {
   --meta-width: 0%;
@@ -116,7 +114,7 @@
 }
 .date {
   font-family: var(--heading-font-family);
-  font-size: var(--font-size-3);
+  font-size: var(--font-size-2);
 }
 .author {
   color: var(--compFgColor);
@@ -174,7 +172,7 @@
   margin: 0 -22px;
   padding: 22px;
   background-color: #fff;
-  font-size: var(--font-size-5);
+  font-size: var(--font-size-4);
   /* line-height: 1.5; */
 }
 .body > div > *:first-child {
@@ -186,13 +184,4 @@
     margin: 0 auto;
     padding: 22px 44px;
   }
-}
-.body h2 {
-  font-size: var(--font-size-2);
-}
-.body h3 {
-  font-size: var(--font-size-3);
-}
-.body h4 {
-  font-size: var(--font-size-4);
 }

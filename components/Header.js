@@ -104,7 +104,14 @@ export default function Header({ children }) {
             <a className={styles.navLink}>Home</a>
           </Link>
         </li>
-        <li className={`${styles.navItem} ${pathName.startsWith("/writing") ? active : ""}`}>
+        <li
+          className={`${styles.navItem} ${
+            pathName.startsWith("/writing") ||
+            pathName.startsWith("/novels") ||
+            pathName.startsWith("/short-stories")
+              ? active
+              : ""
+          }`}>
           <Link href="/writing">
             <a className={styles.navLink}>Writing</a>
           </Link>
@@ -161,12 +168,12 @@ export default function Header({ children }) {
     <header className={styles.header} ref={headerRef}>
       {children}
       <div className={styles.nameAndTitle}>
-        <h1 className={styles.name}>
+        <p className={styles.name}>
           <Link href="/">
             <a className={styles.nameLink}>Sandi Plewis</a>
           </Link>
-        </h1>
-        <h2 className={styles.title}>Author/editor</h2>
+        </p>
+        <p className={styles.title}>Author/editor</p>
       </div>
       {isMedium ? (
         navLinks

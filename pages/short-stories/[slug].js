@@ -3,7 +3,6 @@ import BlockContent from "@sanity/block-content-to-react";
 import ErrorPage from "next/error";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import config from "lib/config";
@@ -23,9 +22,17 @@ const query = `
     _id,
     title,
     "slug": slug.current,
-    "author": author->{name, "slug": slug.current, "picture": image.asset->url},
-    "image": image{..., ...asset->{creditLine, description, url}},
-    generalInfo,
+    colorPalette,
+    primaryColor,
+    secondaryColor,
+    "image": image{..., ...asset->{
+      creditLine,
+      description,
+      "palette": metadata.palette,
+      url
+    }},
+    overview,
+    body,
     description
   }
 `;
@@ -77,20 +84,14 @@ export default function ShortStory({ data: initialData }) {
 
         <PageTitle>{shortStory?.title}</PageTitle>
 
-        {shortStory?.generalInfo && (
+        {shortStory?.overview && (
           <BlockContent
-            blocks={shortStory.generalInfo}
+            blocks={shortStory.overview}
             serializers={serializers}
             projectId={config.projectId}
             dataset={config.dataset}
           />
         )}
-        <p>
-          By{" "}
-          <Link as={`/authors/${shortStory?.author?.slug}`} href="/authors/[slug]">
-            <a>{shortStory?.author?.name}</a>
-          </Link>
-        </p>
       </div>
     </Layout>
   );

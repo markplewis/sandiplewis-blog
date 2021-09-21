@@ -32,7 +32,7 @@
   margin: 0;
   line-height: 1;
   font-family: "Dancing Script", cursive;
-  font-size: var(--font-size-1);
+  font-size: var(--font-size-0);
   white-space: nowrap;
 }
 .nameLink {
@@ -43,7 +43,7 @@
   margin: 0;
   line-height: 1;
   font-weight: var(--font-weight-normal);
-  font-size: var(--font-size-5);
+  font-size: var(--font-size-4);
   font-family: var(--base-font-family);
 }
 .navMenuButton {
@@ -90,7 +90,7 @@
   /* border-image: linear-gradient(100deg, var(--baseBgColor), var(--compBgColor)) 1; */
 }
 .header > .nav .navLink {
-  font-size: var(--font-size-5);
+  font-size: var(--font-size-4);
   color: var(--base-font-color);
   text-decoration: none;
 }
@@ -153,7 +153,7 @@
   padding-bottom: 20px;
   padding-left: max(var(--column-margin), env(safe-area-inset-left));
   padding-right: max(var(--column-margin), env(safe-area-inset-right));
-  font-size: var(--font-size-5);
+  font-size: var(--font-size-4);
   color: #fff;
   text-decoration: none;
   /* transition: background-color 0.1s linear; */
