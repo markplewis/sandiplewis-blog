@@ -1,3 +1,11 @@
 .footer {
   padding: 44px;
 }
+.footerLink {
+  color: var(--base-font-color);
+}
+.footerLink:hover,
+.footerLink:focus,
+.footerLink:active {
+  text-decoration: none;
+}

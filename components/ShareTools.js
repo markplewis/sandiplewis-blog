@@ -29,8 +29,7 @@ export default function ShareTools({ text, position }) {
   }
   const twitterURL = `https://twitter.com/share?${encodeUrlParams({ url, text })}`;
   const facebookURL = `https://www.facebook.com/dialog/feed/?${encodeUrlParams({
-    // TODO: Create a Facebook app: https://developers.facebook.com/docs/development/
-    app_id: "",
+    app_id: "656375675249762",
     link: url,
     redirect_uri: url
   })}`;

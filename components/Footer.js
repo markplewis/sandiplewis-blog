@@ -1,5 +1,17 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
+
 import styles from "components/Footer.module.css";
 
 export default function Footer() {
-  return <footer className={styles.footer}>{/* <p>Footer</p> */}</footer>;
+  const router = useRouter();
+  return (
+    <footer className={styles.footer}>
+      {router.pathname !== "/privacy-policy" ? (
+        <Link href="/privacy-policy">
+          <a className={styles.footerLink}>Privacy policy</a>
+        </Link>
+      ) : null}
+    </footer>
+  );
 }
