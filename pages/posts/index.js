@@ -1,10 +1,8 @@
 import ErrorPage from "next/error";
-// import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -37,9 +35,6 @@ export default function Posts({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     <Layout title="Posts" description="A listing of Sandi Plewis' blog posts">
-      {/* <Head>
-        <title>Posts | {SITE_TITLE}</title>
-      </Head> */}
       <div className={commonStyles.page}>
         <PageTitle>Posts</PageTitle>
 
@@ -49,7 +44,7 @@ export default function Posts({ data: initialData }) {
               {post?.image ? (
                 <div style={{ width: "188px" }}>
                   <Image
-                    src={urlFor(post.image.asset).width(376).height(600).url()}
+                    src={urlFor(post?.image).width(376).height(600).url()}
                     width={188}
                     height={300}
                     sizes="188px"

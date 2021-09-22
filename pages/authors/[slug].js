@@ -1,12 +1,10 @@
 import BlockContent from "@sanity/block-content-to-react";
 
 import ErrorPage from "next/error";
-// import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
 import config from "lib/config";
-// import { SITE_TITLE } from "lib/constants";
 import { client } from "lib/sanity.server";
 import { usePreviewSubscription, urlFor } from "lib/sanity";
 
@@ -49,13 +47,10 @@ export default function Author({ data: initialData }) {
   return !router.isFallback && !author?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout title={author?.name} description={author?.description}>
-      {/* <Head>
-        <title>
-          {author?.name} | {SITE_TITLE}
-        </title>
-      </Head> */}
-
+    <Layout
+      title={author?.name}
+      description={author?.description}
+      image={{ url: author?.image, portrait: true }}>
       <div className={commonStyles.page}>
         {author?.image ? (
           <div style={{ width: "188px" }}>

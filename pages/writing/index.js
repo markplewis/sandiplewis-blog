@@ -1,10 +1,8 @@
 import ErrorPage from "next/error";
-// import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -50,9 +48,6 @@ export default function Writing({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     <Layout title="Writing" description="A listing of Sandi Plewis' novels and short stories">
-      {/* <Head>
-        <title>Writing | {SITE_TITLE}</title>
-      </Head> */}
       <div className={commonStyles.page}>
         <PageTitle>Writing</PageTitle>
 

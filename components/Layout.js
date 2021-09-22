@@ -9,6 +9,7 @@ import PreviewMessage from "components/PreviewMessage";
 import SkipLink from "components/SkipLink";
 
 import { BASE_URL, DEFAULT_META_DESCRIPTION, SITE_TITLE } from "lib/constants";
+import { urlFor } from "lib/sanity";
 
 // See: https://nextjs.org/docs/basic-features/layouts
 
@@ -16,10 +17,39 @@ import { BASE_URL, DEFAULT_META_DESCRIPTION, SITE_TITLE } from "lib/constants";
 // `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/
 // TODO: regenerate all of these when I've finalized the design
 
-function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION }) {
+const imageSizes = {
+  // Roughly 9:14
+  portrait: {
+    width: 770,
+    height: 1200
+  },
+  // 1.91:1 (as recommended by https://www.kapwing.com/resources/what-is-an-og-image-make-and-format-og-images-for-your-blog-or-webpage/)
+  landscape: {
+    width: 1200,
+    height: 630
+  }
+};
+
+function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, image = {} }) {
   const router = useRouter();
   const url = `${BASE_URL}${router.asPath}`;
   const fullTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+  let imageOrientation;
+  let imageURL;
+
+  if (image.url && image.portrait) {
+    imageOrientation = "portrait";
+    imageURL = urlFor(image.url)
+      .width(imageSizes.portrait.width)
+      .height(imageSizes.portrait.height)
+      .url();
+  } else if (image.url && !image.portrait) {
+    imageOrientation = "landscape";
+    imageURL = urlFor(image.url)
+      .width(imageSizes.landscape.width)
+      .height(imageSizes.landscape.height)
+      .url();
+  }
   return (
     <>
       <Head>
@@ -39,8 +69,15 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION }
         <meta name="theme-color" content="#cccccc" />
         {/* TODO: add OpenGraph meta tags, Twitter cards, etc. */}
         <meta property="og:url" content={url} />
-        <meta property="og:title" content={fullTitle} />
+        <meta property="og:title" content={title || SITE_TITLE} />
         <meta property="og:description" content={description} />
+        {imageURL && imageOrientation && (
+          <>
+            <meta property="og:image" content={imageURL} />
+            <meta property="og:image:width" content={imageSizes[imageOrientation].width} />
+            <meta property="og:image:height" content={imageSizes[imageOrientation].height} />
+          </>
+        )}
       </Head>
       <SkipLink />
       <Header>

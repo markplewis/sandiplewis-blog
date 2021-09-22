@@ -1,9 +1,7 @@
 import ErrorPage from "next/error";
-// import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// import { SITE_TITLE } from "lib/constants";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
@@ -38,12 +36,6 @@ export default function Category({ data: category }) {
     <Layout
       title={`Category: ${category?.title}`}
       description={category?.description ?? `Blog posts in category: ${category?.title}`}>
-      {/* <Head>
-        <title>
-          Category: {category?.title} | {SITE_TITLE}
-        </title>
-      </Head> */}
-
       <div className={commonStyles.page}>
         <PageTitle>{category?.title}</PageTitle>
         <p>{category?.description}</p>

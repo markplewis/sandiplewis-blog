@@ -1,9 +1,7 @@
 import ErrorPage from "next/error";
-// import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -33,9 +31,6 @@ export default function Categories({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     <Layout title="Categories" description="Blog post categories">
-      {/* <Head>
-        <title>Categories | {SITE_TITLE}</title>
-      </Head> */}
       <div className={commonStyles.page}>
         <PageTitle>Categories</PageTitle>
         <ul>
