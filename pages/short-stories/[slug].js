@@ -1,12 +1,12 @@
 import BlockContent from "@sanity/block-content-to-react";
 
 import ErrorPage from "next/error";
-import Head from "next/head";
+// import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
 import config from "lib/config";
-import { SITE_TITLE } from "lib/constants";
+// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -58,12 +58,12 @@ export default function ShortStory({ data: initialData }) {
   return !router.isFallback && !shortStory?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout description={shortStory?.description}>
-      <Head>
+    <Layout title={shortStory?.title} description={shortStory?.description}>
+      {/* <Head>
         <title>
           {shortStory?.title} | {SITE_TITLE}
         </title>
-      </Head>
+      </Head> */}
 
       <div className={commonStyles.page}>
         {shortStory?.image ? (

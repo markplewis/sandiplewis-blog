@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import ErrorPage from "next/error";
-import Head from "next/head";
+// import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { SITE_TITLE } from "lib/constants";
+// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -149,17 +149,17 @@ export default function Post({ data: initialData }) {
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout description={post?.description}>
+    <Layout title={post?.title} description={post?.description}>
       {router.isFallback ? (
         <PageTitle>Loading…</PageTitle>
       ) : (
         <>
-          <Head>
+          {/* <meta property="og:image" content={post.ogImage.url} /> */}
+          {/* <Head>
             <title>
               {post.title} | {SITE_TITLE}
             </title>
-            {/* <meta property="og:image" content={post.ogImage.url} /> */}
-          </Head>
+          </Head> */}
 
           {/* https://nextjs.org/blog/styling-next-with-styled-jsx */}
           <style jsx global>

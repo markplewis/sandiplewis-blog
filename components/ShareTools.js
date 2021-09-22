@@ -31,8 +31,9 @@ export default function ShareTools({ text, position }) {
   const facebookURL = `https://www.facebook.com/dialog/feed/?${encodeUrlParams({
     // https://developers.facebook.com/docs/sharing/reference/share-dialog
     app_id: "656375675249762",
-    display: "popup",
-    href: url,
+    // display: "popup",
+    // href: url,
+    link: url,
     redirect_uri: url
   })}`;
   const emailURL = `mailto:?body=From SandiPlewis.com: ${text} - ${url}`;

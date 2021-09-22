@@ -1,11 +1,11 @@
 import BlockContent from "@sanity/block-content-to-react";
 
-import Head from "next/head";
+// import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
 import config from "lib/config";
-import { SITE_TITLE } from "lib/constants";
+// import { SITE_TITLE } from "lib/constants";
 import { urlFor, usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -87,10 +87,10 @@ export default function HomePage({ data: initialData }) {
   const isWide = useMediaQuery(`(min-width: ${rem(1280)})`);
 
   return (
-    <Layout description={description}>
-      <Head>
+    <Layout title="" description={description}>
+      {/* <Head>
         <title>{SITE_TITLE}</title>
-      </Head>
+      </Head> */}
 
       <style jsx global>
         {`

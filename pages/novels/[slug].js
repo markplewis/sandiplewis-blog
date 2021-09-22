@@ -1,11 +1,11 @@
 import BlockContent from "@sanity/block-content-to-react";
 
 import ErrorPage from "next/error";
-import Head from "next/head";
+// import Head from "next/head";
 import { useRouter } from "next/router";
 
 import config from "lib/config";
-import { SITE_TITLE } from "lib/constants";
+// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -92,12 +92,12 @@ export default function Novel({ data: initialData }) {
   return !router.isFallback && !novel?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout description={novel?.description}>
-      <Head>
+    <Layout title={novel?.title} description={novel?.description}>
+      {/* <Head>
         <title>
           {novel?.title} | {SITE_TITLE}
         </title>
-      </Head>
+      </Head> */}
 
       <style jsx global>
         {`

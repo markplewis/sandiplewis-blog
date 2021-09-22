@@ -1,10 +1,10 @@
 import ErrorPage from "next/error";
-import Head from "next/head";
+// import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { SITE_TITLE } from "lib/constants";
+// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -34,10 +34,10 @@ export default function Authors({ data: initialData }) {
   return !router.isFallback && !authors ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout description="Authors">
-      <Head>
+    <Layout title="Authors" description="Authors">
+      {/* <Head>
         <title>Authors | {SITE_TITLE}</title>
-      </Head>
+      </Head> */}
       <div className={commonStyles.page}>
         <PageTitle>Authors</PageTitle>
 

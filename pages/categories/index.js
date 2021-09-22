@@ -1,9 +1,9 @@
 import ErrorPage from "next/error";
-import Head from "next/head";
+// import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { SITE_TITLE } from "lib/constants";
+// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -32,10 +32,10 @@ export default function Categories({ data: initialData }) {
   return !router.isFallback && !categories ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout description="Blog post categories">
-      <Head>
+    <Layout title="Categories" description="Blog post categories">
+      {/* <Head>
         <title>Categories | {SITE_TITLE}</title>
-      </Head>
+      </Head> */}
       <div className={commonStyles.page}>
         <PageTitle>Categories</PageTitle>
         <ul>

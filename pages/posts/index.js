@@ -1,10 +1,10 @@
 import ErrorPage from "next/error";
-import Head from "next/head";
+// import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { SITE_TITLE } from "lib/constants";
+// import { SITE_TITLE } from "lib/constants";
 import { usePreviewSubscription, urlFor } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -36,10 +36,10 @@ export default function Posts({ data: initialData }) {
   return !router.isFallback && !posts ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout description="A listing of Sandi Plewis' blog posts">
-      <Head>
+    <Layout title="Posts" description="A listing of Sandi Plewis' blog posts">
+      {/* <Head>
         <title>Posts | {SITE_TITLE}</title>
-      </Head>
+      </Head> */}
       <div className={commonStyles.page}>
         <PageTitle>Posts</PageTitle>
 
