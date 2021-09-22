@@ -5,6 +5,8 @@ import PageTitle from "components/PageTitle";
 
 import commonStyles from "pages/styles/common.module.css";
 
+// For Facebook: "This policy must comply with applicable law and regulations and must accurately and clearly explain what data you are Processing, how you are Processing it, the purposes for which you are Processing it, and how Users may request deletion of that data." - https://developers.facebook.com/terms
+
 export default function PrivacyPolicy() {
   return (
     <Layout description="Privacy policy">
