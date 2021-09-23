@@ -50,7 +50,7 @@ export default function Author({ data: initialData }) {
     <Layout
       title={author?.name}
       description={author?.description}
-      image={{ url: author?.image, portrait: true }}>
+      image={{ image: author?.image, portrait: true, crop: true }}>
       <div className={commonStyles.page}>
         {author?.image ? (
           <div style={{ width: "188px" }}>

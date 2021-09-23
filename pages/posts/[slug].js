@@ -147,7 +147,10 @@ export default function Post({ data: initialData }) {
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout title={post?.title} description={post?.description} image={{ url: post?.image }}>
+    <Layout
+      title={post?.title}
+      description={post?.description}
+      image={{ image: post?.image, portrait: false, crop: true }}>
       {router.isFallback ? (
         <PageTitle>Loading…</PageTitle>
       ) : (

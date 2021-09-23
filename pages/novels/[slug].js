@@ -93,7 +93,7 @@ export default function Novel({ data: initialData }) {
     <Layout
       title={novel?.title}
       description={novel?.description}
-      image={{ url: novel?.image, portrait: true }}>
+      image={{ image: novel?.image, portrait: true, crop: false }}>
       <style jsx global>
         {`
           body {

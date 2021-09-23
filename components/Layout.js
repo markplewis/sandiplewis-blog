@@ -17,16 +17,25 @@ import { urlFor } from "lib/sanity";
 // `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/
 // TODO: regenerate all of these when I've finalized the design
 
-const imageSizes = {
-  // Roughly 9:14
-  portrait: {
-    width: 770,
-    height: 1200
+const sizes = {
+  // "Summary Card with Large Image": aspect ratio of 2:1 with minimum dimensions of 300 x 157
+  // https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
+  twitter: {
+    width: 600,
+    height: 314
   },
-  // 1.91:1 (as recommended by https://www.kapwing.com/resources/what-is-an-og-image-make-and-format-og-images-for-your-blog-or-webpage/)
-  landscape: {
-    width: 1200,
-    height: 630
+  // 1.91:1 aspect ratio (equivalent to 40:21) with minimum dimensions of 1200 x 630
+  // https://developers.facebook.com/docs/sharing/webmasters/images/
+  facebook: {
+    landscape: {
+      width: 1200,
+      height: 630
+    },
+    // Roughly 9:14 (becuase 1:1.91 is too narrow for headshots and book covers)
+    portrait: {
+      width: 770,
+      height: 1200
+    }
   }
 };
 
@@ -34,20 +43,32 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
   const router = useRouter();
   const url = `${BASE_URL}${router.asPath}`;
   const fullTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
-  let imageOrientation;
-  let imageURL;
+  const imageAlt = image?.image?.alt;
 
-  if (image.url && image.portrait) {
-    imageOrientation = "portrait";
-    imageURL = urlFor(image.url)
-      .width(imageSizes.portrait.width)
-      .height(imageSizes.portrait.height)
+  const twitterImageURL =
+    image.image &&
+    urlFor(image.image)
+      .ignoreImageParams() // Workaround for https://github.com/sanity-io/sanity/issues/524
+      .width(sizes.twitter.width)
+      .height(sizes.twitter.height)
+      .fit(image.crop ? "crop" : "fill")
+      .bg(image?.image?.palette?.vibrant?.background?.replace("#", "") ?? "666") // TODO: not working
       .url();
-  } else if (image.url && !image.portrait) {
-    imageOrientation = "landscape";
-    imageURL = urlFor(image.url)
-      .width(imageSizes.landscape.width)
-      .height(imageSizes.landscape.height)
+
+  let facebookImageOrientation;
+  let facebookImageURL;
+
+  if (image.image && image.portrait) {
+    facebookImageOrientation = "portrait";
+    facebookImageURL = urlFor(image.image)
+      .width(sizes.facebook.portrait.width)
+      .height(sizes.facebook.portrait.height)
+      .url();
+  } else if (image.image && !image.portrait) {
+    facebookImageOrientation = "landscape";
+    facebookImageURL = urlFor(image.image)
+      .width(sizes.facebook.landscape.width)
+      .height(sizes.facebook.landscape.height)
       .url();
   }
   return (
@@ -57,9 +78,11 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
         <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
         {/* TODO: replace this with the line below it */}
         <meta name="robots" content="noindex" />
-        <title>{fullTitle}</title>
         {/* {process.env.NODE_ENV === "production" ? null : <meta name="robots" content="noindex" />} */}
+        <title>{fullTitle}</title>
         {description && <meta name="description" content={description} />}
+
+        {/* Icons */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -67,17 +90,38 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="msapplication-TileColor" content="#00aba9" />
         <meta name="theme-color" content="#cccccc" />
-        {/* TODO: add OpenGraph meta tags, Twitter cards, etc. */}
+
+        {/* Twitter */}
+        {/* https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary */}
+        <meta name="twitter:card" content="summary_large_image" />
+        {/* <meta name="twitter:card" content="summary" /> */}
+        <meta name="twitter:site" content="@SandiPlewis" />
+        <meta name="twitter:title" content={title || SITE_TITLE} />
+        <meta name="twitter:description" content={description} />
+        {twitterImageURL && <meta name="twitter:image" content={twitterImageURL} />}
+        {imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
+
+        {/* Facebook */}
+        {/* https://developers.facebook.com/docs/sharing/webmasters/ */}
         <meta property="og:url" content={url} />
         <meta property="og:title" content={title || SITE_TITLE} />
         <meta property="og:description" content={description} />
-        {imageURL && imageOrientation && (
+        <meta property="og:type" content="website" />
+        <meta property="fb:app_id" content="656375675249762" />
+        {facebookImageURL && facebookImageOrientation && (
           <>
-            <meta property="og:image" content={imageURL} />
-            <meta property="og:image:width" content={imageSizes[imageOrientation].width} />
-            <meta property="og:image:height" content={imageSizes[imageOrientation].height} />
+            <meta property="og:image" content={facebookImageURL} />
+            <meta
+              property="og:image:width"
+              content={sizes.facebook[facebookImageOrientation].width}
+            />
+            <meta
+              property="og:image:height"
+              content={sizes.facebook[facebookImageOrientation].height}
+            />
           </>
         )}
+        {imageAlt && <meta name="og:image:alt" content={imageAlt} />}
       </Head>
       <SkipLink />
       <Header>

@@ -85,7 +85,10 @@ export default function HomePage({ data: initialData }) {
   const isWide = useMediaQuery(`(min-width: ${rem(1280)})`);
 
   return (
-    <Layout title="" description={description} image={{ url: novel?.image, portrait: true }}>
+    <Layout
+      title=""
+      description={description}
+      image={{ image: novel?.image, portrait: true, crop: false }}>
       <style jsx global>
         {`
           body {
