@@ -59,7 +59,7 @@ export default function ShortStory({ data: initialData }) {
     <Layout
       title={shortStory?.title}
       description={shortStory?.description}
-      image={{ image: shortStory?.image, portrait: true, fill: true }}>
+      image={{ image: shortStory?.image, portrait: true, crop: false }}>
       <div className={commonStyles.page}>
         {shortStory?.image ? (
           <div style={{ width: "188px" }}>

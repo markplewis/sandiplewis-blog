@@ -1,7 +1,7 @@
 import AbortController from "abort-controller";
 import Router from "next/router";
 import NProgress from "nprogress";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+// import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { AppProvider } from "utils/useApp";
 
 // Global styles
@@ -27,13 +27,14 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }) {
   return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
-      scriptProps={{ async: true, defer: true }}>
-      <AppProvider>
-        <Component {...pageProps} />
-      </AppProvider>
-    </GoogleReCaptchaProvider>
+    // See `CommentForm` for the commented out ReCaptcha implementation
+    // <GoogleReCaptchaProvider
+    //   reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
+    //   scriptProps={{ async: true, defer: true }}>
+    <AppProvider>
+      <Component {...pageProps} />
+    </AppProvider>
+    // </GoogleReCaptchaProvider>
   );
 }
 

@@ -1,7 +1,9 @@
 import DOMPurify from "dompurify";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+
+import FriendlyCaptcha from "components/FriendlyCaptcha";
+
 import { emailRegex } from "utils/forms";
 import useDebug from "utils/useDebug";
 
@@ -34,56 +36,31 @@ export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [hasFailed, setHasFailed] = useState(false);
-  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
 
-  const { executeRecaptcha } = useGoogleReCaptcha();
   const debug = useDebug();
 
-  const submitReCaptcha = useCallback(async () => {
-    if (!executeRecaptcha) {
-      debug && console.log("Execute reCAPTCHA not yet available");
-      return;
-    }
-    const token = await executeRecaptcha("contactSubmit");
-    try {
-      let response = await fetch("/api/verifyReCaptcha", {
-        method: "POST",
-        body: JSON.stringify({ token }),
-        type: "application/json"
-      });
-      response = await response.json();
-      debug && console.log("reCAPTCHA response", response);
-      const verified = response.success && response.score >= 0.5;
-      setCaptchaVerified(verified);
-      return verified;
-    } catch (err) {
-      debug && console.error(err);
-    }
-  }, [debug, executeRecaptcha]);
+  const onCaptchaSuccess = solution => {
+    console.log("Captcha was solved. The form can be submitted.");
+    console.log(solution);
+    setIsEnabled(true);
+  };
 
-  // Trigger the verification as soon as the component is loaded
-  // TODO: is this something that we really want to do?
-  useEffect(() => {
-    submitReCaptcha();
-  }, [submitReCaptcha]);
+  const onCaptchaError = err => {
+    console.log("There was an error when trying to solve the Captcha.");
+    console.log(err);
+    setIsEnabled(false);
+  };
 
   const onSubmit = async data => {
     setIsSubmitting(true);
     setFormData(data);
-    debug && console.log(`reCAPTCHA ${captchaVerified ? "already" : "not yet"} verified`);
 
-    const captchaIsVerified = captchaVerified || (await submitReCaptcha());
-    if (!captchaIsVerified) {
-      debug && console.log("reCAPTCHA not verified");
-      return;
-    } else {
-      debug && console.log("reCAPTCHA verified");
-    }
     try {
       const sanitizedData = JSON.stringify({
         ...data,
@@ -111,7 +88,6 @@ export default function ContactForm() {
     <>
       {isSubmitting && <h2>Submitting form</h2>}
 
-      {/* {hasSubmitted && <h2>Form submitted</h2>} */}
       {hasSubmitted && (
         <>
           <h2>Form submitted</h2>
@@ -152,14 +128,11 @@ export default function ContactForm() {
                 rows="8"></textarea>
               {errors.message && <p>{errors.message.message}</p>}
             </div>
-            <input type="submit" value="Submit" />
+
+            <FriendlyCaptcha onSuccess={onCaptchaSuccess} onError={onCaptchaError} />
+
+            <input type="submit" value="Submit" disabled={!isEnabled} />
           </form>
-          {/* https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed */}
-          <p>
-            This site is protected by reCAPTCHA and the Google{" "}
-            <a href="https://policies.google.com/privacy">Privacy Policy</a> and{" "}
-            <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-          </p>
         </>
       )}
     </>

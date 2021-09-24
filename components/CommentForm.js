@@ -1,63 +1,65 @@
 import DOMPurify from "dompurify";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+// import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { emailRegex } from "utils/forms";
 import useDebug from "utils/useDebug";
+
+// I deleted the ReCaptcha v3 "sites" that I had created at: https://www.google.com/recaptcha/admin/
 
 export default function CommentForm({ _id }) {
   const [formData, setFormData] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [captchaVerified, setCaptchaVerified] = useState(false);
+  // const [captchaVerified, setCaptchaVerified] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
 
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  // const { executeRecaptcha } = useGoogleReCaptcha();
   const debug = useDebug();
 
-  const submitReCaptcha = useCallback(async () => {
-    if (!executeRecaptcha) {
-      debug && console.log("Execute reCAPTCHA not yet available");
-      return;
-    }
-    const token = await executeRecaptcha("commentSubmit");
-    try {
-      let response = await fetch("/api/verifyReCaptcha", {
-        method: "POST",
-        body: JSON.stringify({ token }),
-        type: "application/json"
-      });
-      response = await response.json();
-      debug && console.log("reCAPTCHA response", response);
-      const verified = response.success && response.score >= 0.5;
-      setCaptchaVerified(verified);
-      return verified;
-    } catch (err) {
-      debug && console.error(err);
-    }
-  }, [debug, executeRecaptcha]);
+  // const submitReCaptcha = useCallback(async () => {
+  //   if (!executeRecaptcha) {
+  //     debug && console.log("Execute reCAPTCHA not yet available");
+  //     return;
+  //   }
+  //   const token = await executeRecaptcha("commentSubmit");
+  //   try {
+  //     let response = await fetch("/api/verifyReCaptcha", {
+  //       method: "POST",
+  //       body: JSON.stringify({ token }),
+  //       type: "application/json"
+  //     });
+  //     response = await response.json();
+  //     debug && console.log("reCAPTCHA response", response);
+  //     const verified = response.success && response.score >= 0.5;
+  //     setCaptchaVerified(verified);
+  //     return verified;
+  //   } catch (err) {
+  //     debug && console.error(err);
+  //   }
+  // }, [debug, executeRecaptcha]);
 
   // Trigger the verification as soon as the component is loaded
-  useEffect(() => {
-    submitReCaptcha();
-  }, [submitReCaptcha]);
+  // useEffect(() => {
+  //   submitReCaptcha();
+  // }, [submitReCaptcha]);
 
   const onSubmit = async data => {
     setIsSubmitting(true);
     setFormData(data);
-    debug && console.log(`reCAPTCHA ${captchaVerified ? "already" : "not yet"} verified`);
+    // debug && console.log(`reCAPTCHA ${captchaVerified ? "already" : "not yet"} verified`);
 
-    const captchaIsVerified = captchaVerified || (await submitReCaptcha());
-    if (!captchaIsVerified) {
-      debug && console.log("reCAPTCHA not verified");
-      return;
-    } else {
-      debug && console.log("reCAPTCHA verified");
-    }
+    // const captchaIsVerified = captchaVerified || (await submitReCaptcha());
+    // if (!captchaIsVerified) {
+    //   debug && console.log("reCAPTCHA not verified");
+    //   return;
+    // } else {
+    //   debug && console.log("reCAPTCHA verified");
+    // }
     try {
       const sanitizedData = {
         ...data,
@@ -84,7 +86,6 @@ export default function CommentForm({ _id }) {
     <>
       {isSubmitting && <h2>Submitting comment</h2>}
 
-      {/* {hasSubmitted && <h2>Comment submitted</h2>} */}
       {hasSubmitted && (
         <>
           <h2>Comment submitted</h2>
@@ -127,11 +128,11 @@ export default function CommentForm({ _id }) {
             <input type="submit" value="Submit" />
           </form>
           {/* https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed */}
-          <p>
+          {/* <p>
             This site is protected by reCAPTCHA and the Google{" "}
             <a href="https://policies.google.com/privacy">Privacy Policy</a> and{" "}
             <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-          </p>
+          </p> */}
         </>
       )}
     </>

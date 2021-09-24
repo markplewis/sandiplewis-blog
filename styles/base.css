@@ -182,6 +182,6 @@ http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
 Hide Google reCAPTCHA badge
 See: https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed
 */
-.grecaptcha-badge {
+/* .grecaptcha-badge {
   visibility: hidden;
-}
+} */
