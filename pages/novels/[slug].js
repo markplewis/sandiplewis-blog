@@ -17,7 +17,6 @@ import { getColorData } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
-// import commonStyles from "pages/styles/common.module.css";
 import styles from "pages/styles/novel.module.css";
 
 const query = `

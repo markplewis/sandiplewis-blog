@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
         <PageTitle>Privacy Policy</PageTitle>
         <p>Last updated: September 25, 2021</p>
         <p>
-          This website does not collect or store the personal data of its users. It doesn&apos;t use
+          This website does not collect or store the personal data of its users. It doesn’t use
           cookies, analytics tools (e.g. Google Analytics), social media share buttons, nor any
           other method to track the behaviour or locations of its users.
         </p>
@@ -31,18 +31,19 @@ export default function PrivacyPolicy() {
           code is added to the page by these companies.
         </p>
         <p>
-          This website&apos;s contact form sends an email immediately upon submission and the
-          submitted data is not retained afterward.
+          This website’s contact form sends an email immediately upon submission and the submitted
+          data is not retained afterward.
         </p>
         <p>
-          The &ldquio;anti-robot verification&rdquo; feature of this website&apos;s contact form is
-          a spam-prevention service provided by{" "}
-          <a href="https://friendlycaptcha.com/">Friendly Captcha</a>. This service does not collect
-          any information about the users of the websites on which it operates. Instead, it
-          generates a unique cryptographic puzzle for the users&apos; computer to solve. This is
-          known as a &ldquio;proof-of-work&rdquo; challenge.
+          The “anti-robot verification” feature of this website’s contact form is a spam-prevention
+          service provided by <a href="https://friendlycaptcha.com/">Friendly Captcha</a>. This
+          service does not collect any information about the users of the websites’ on which it
+          operates. Instead, it generates a unique cryptographic puzzle for the users’ computer to
+          solve. This is known as a “proof-of-work” challenge.
         </p>
       </div>
     </Layout>
   );
 }
+
+// macOS curly quotes key bindings: https://mybyways.com/blog/visual-studio-code-key-bindings-for-curly-quotes

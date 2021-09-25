@@ -1,0 +1,54 @@
+.formContainer {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.fieldGroup {
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+}
+.form input[type="text"],
+.form input[type="email"],
+.form textarea {
+  padding: 8px;
+  border: 2px solid #666;
+  border-radius: 0 10px;
+}
+.form label {
+  margin-bottom: 4px;
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-bold);
+}
+.captcha {
+  margin-bottom: 22px;
+}
+.error {
+  margin: 8px 0 0 0;
+  display: flex;
+  align-items: center;
+  color: #cc0000;
+}
+.error svg {
+  margin-right: 4px;
+  fill: #cc0000;
+}
+.submitButton {
+  margin-left: auto;
+  padding: 8px 12px;
+  background-color: var(--base-font-color);
+  color: #fff;
+  transition: transform 0.25s ease-out;
+}
+.submitButton:hover,
+.submitButton:focus {
+  /* TODO: vertically center text when button scales */
+  transform: scale3d(1.1, 1.1, 1.1);
+}
+.submitButton:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+.submitButton:disabled:hover,
+.submitButton:disabled:focus {
+  transform: none;
+}

@@ -1,11 +1,14 @@
 import DOMPurify from "dompurify";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaExclamationCircle } from "react-icons/fa";
 
 import FriendlyCaptcha from "components/FriendlyCaptcha";
 
 import { emailRegex } from "utils/forms";
 import useDebug from "utils/useDebug";
+
+import styles from "components/ContactForm.module.css";
 
 // async function saveMessage(data) {
 //   let response = await fetch("/api/createContactFormSubmission", {
@@ -94,56 +97,107 @@ export default function ContactForm() {
   };
 
   return (
-    <>
-      {isSubmitting && <h2>Submitting form</h2>}
-
+    <div className={styles.formContainer}>
       {hasSubmitted && (
         <>
-          <h2>Form submitted</h2>
-          <ul>
-            <li>Name: {formData.name}</li>
-            <li>Email: {formData.email}</li>
-            <li>Message: {formData.message}</li>
-          </ul>
+          <h2>Your message has been sent</h2>
+          <p>Thanks for reaching out!</p>
+          {debug && (
+            <ul>
+              <li>
+                <strong>Name:</strong> {formData.name}
+              </li>
+              <li>
+                <strong>Email:</strong> {formData.email}
+              </li>
+              <li>
+                <strong>Message:</strong> {formData.message}
+              </li>
+            </ul>
+          )}
         </>
       )}
 
-      {hasFailed && <h2>Error</h2>}
-
-      {!isSubmitting && !hasSubmitted && !hasFailed && (
+      {!hasSubmitted && (
         <>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
+          {/* TODO: replace this with a spinner because it's too jarring? */}
+          {isSubmitting && <h2>Sending your message...</h2>}
+
+          {hasFailed && (
+            <>
+              <h2>Oops!</h2>
+              <p>An error occurred and your message could not be sent.</p>
+            </>
+          )}
+
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <div className={styles.fieldGroup}>
               <label htmlFor="name">Name</label>
-              <input {...register("name", { required: "Name is required" })} id="name" />
-              {errors.name && <p>{errors.name.message}</p>}
+              <input
+                {...register("name", { required: "Name is required" })}
+                type="text"
+                autoComplete="name"
+                aria-required="true"
+                aria-invalid={errors.name ? true : null}
+                aria-describedby={errors.name ? "name-error" : null}
+                id="name"
+              />
+              {errors.name && (
+                <p className={styles.error} id="name-error">
+                  <FaExclamationCircle />
+                  {errors.name.message}
+                </p>
+              )}
             </div>
-            <div>
+            <div className={styles.fieldGroup}>
               <label htmlFor="email">Email</label>
               <input
                 {...register("email", {
                   required: "Email address is required",
                   pattern: { value: emailRegex, message: "Invalid email address" }
                 })}
+                type="email"
+                autoComplete="email"
+                aria-required="true"
+                aria-invalid={errors.email ? true : null}
+                aria-describedby={errors.email ? "email-error" : null}
                 id="email"
               />
-              {errors.email && <p>{errors.email.message}</p>}
+              {errors.email && (
+                <p className={styles.error} id="email-error">
+                  <FaExclamationCircle />
+                  {errors.email.message}
+                </p>
+              )}
             </div>
-            <div>
+            <div className={styles.fieldGroup}>
               <label htmlFor="message">Message</label>
               <textarea
                 {...register("message", { required: "Message is required" })}
+                aria-required="true"
+                aria-invalid={errors.message ? true : null}
+                aria-describedby={errors.message ? "message-error" : null}
                 id="message"
                 rows="8"></textarea>
-              {errors.message && <p>{errors.message.message}</p>}
+              {errors.message && (
+                <p className={styles.error} id="message-error">
+                  <FaExclamationCircle />
+                  {errors.message.message}
+                </p>
+              )}
             </div>
-
-            <FriendlyCaptcha onSuccess={onCaptchaSuccess} onError={onCaptchaError} />
-
-            <input type="submit" value="Submit" disabled={!isEnabled} />
+            <div className={styles.captcha}>
+              <FriendlyCaptcha onSuccess={onCaptchaSuccess} onError={onCaptchaError} />
+            </div>
+            <input
+              className={`u-button-appearance-none ${styles.submitButton}`}
+              type="submit"
+              value="Submit"
+              disabled={!isEnabled || isSubmitting}
+            />
           </form>
         </>
       )}
-    </>
+    </div>
   );
 }

@@ -177,11 +177,3 @@ http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
 .u-hidden {
   display: none !important;
 }
-
-/*
-Hide Google reCAPTCHA badge
-See: https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed
-*/
-/* .grecaptcha-badge {
-  visibility: hidden;
-} */
