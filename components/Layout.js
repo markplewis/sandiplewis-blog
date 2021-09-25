@@ -107,7 +107,10 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
         <meta property="og:title" content={title || SITE_TITLE} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
+
+        {/* TODO: delete this Facebook app! */}
         {/* <meta property="fb:app_id" content="656375675249762" /> */}
+
         {facebookImageURL && facebookImageOrientation && (
           <>
             <meta property="og:image" content={facebookImageURL} />

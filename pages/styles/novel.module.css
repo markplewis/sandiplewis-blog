@@ -83,6 +83,11 @@
   transform: translate(-22px, 22px);
 }
 @media (min-width: 768px) {
+  .coverImage {
+    margin-bottom: 22px;
+  }
+}
+@media (min-width: 768px) {
   .patternBlock {
     margin-top: 66px;
   }
