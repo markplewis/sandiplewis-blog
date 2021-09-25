@@ -1,13 +1,12 @@
 import ErrorPage from "next/error";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { usePreviewSubscription, urlFor } from "lib/sanity";
+import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
+import PostList from "components/PostList";
 
 import commonStyles from "pages/styles/common.module.css";
 // import "pages/styles/writing.module.css";
@@ -51,69 +50,24 @@ export default function Writing({ data: initialData }) {
       <div className={commonStyles.page}>
         <PageTitle>Writing</PageTitle>
 
-        {novels.length ? <h2>Novels</h2> : null}
+        {novels.length ? (
+          <>
+            <h2>Novels</h2>
+            <PostList posts={novels} path="novels" size="large" orientation="portrait" />
+          </>
+        ) : null}
 
-        {novels.map(novel => {
-          return (
-            <div key={novel._id}>
-              {novel?.image ? (
-                <div style={{ width: "188px" }}>
-                  <Image
-                    src={urlFor(novel.image.asset).width(376).height(600).url()}
-                    width={188}
-                    height={300}
-                    sizes="188px"
-                    layout="responsive"
-                    alt={novel.image.alt || novel.title}
-                    placeholder="blur"
-                    // Data URL generated here: https://png-pixel.com/
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                  />
-                </div>
-              ) : null}
-
-              <h3>{novel.title}</h3>
-              <p>{novel.description}</p>
-              <p>
-                <Link as={`/novels/${novel?.slug}`} href="/novels/[slug]">
-                  <a>Read more</a>
-                </Link>
-              </p>
-            </div>
-          );
-        })}
-
-        {shortStories.length ? <h2>Short stories</h2> : null}
-
-        {shortStories.map(shortStory => {
-          return (
-            <div key={shortStory._id}>
-              {shortStory?.image ? (
-                <div style={{ width: "188px" }}>
-                  <Image
-                    src={urlFor(shortStory.image.asset).width(376).height(600).url()}
-                    width={188}
-                    height={300}
-                    sizes="188px"
-                    layout="responsive"
-                    alt={shortStory.image.alt || shortStory.title}
-                    placeholder="blur"
-                    // Data URL generated here: https://png-pixel.com/
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                  />
-                </div>
-              ) : null}
-
-              <h3>{shortStory.title}</h3>
-              <p>{shortStory.description}</p>
-              <p>
-                <Link as={`/short-stories/${shortStory?.slug}`} href="/short-stories/[slug]">
-                  <a>Read more</a>
-                </Link>
-              </p>
-            </div>
-          );
-        })}
+        {shortStories.length ? (
+          <>
+            <h2>Short stories</h2>
+            <PostList
+              posts={shortStories}
+              path="short-stories"
+              size="large"
+              orientation="portrait"
+            />
+          </>
+        ) : null}
       </div>
     </Layout>
   );

@@ -10,6 +10,7 @@ import { client } from "lib/sanity.server";
 import Layout from "components/Layout";
 import MoreLink from "components/MoreLink";
 import PageTitle from "components/PageTitle";
+import PostList from "components/PostList";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
@@ -186,35 +187,7 @@ export default function HomePage({ data: initialData }) {
         {posts && posts.length ? (
           <div className={styles.posts}>
             <h2 className={styles.postsHeading}>Recent posts</h2>
-            <ul className={styles.postList}>
-              {posts.map(post => (
-                <li className={styles.postItem} key={post?._id}>
-                  <Link as={`/posts/${post?.slug}`} href="/posts/[slug]">
-                    <a className={styles.postLink}>
-                      {post?.image ? (
-                        <div className={styles.postImage}>
-                          <Image
-                            src={urlFor(post?.image).width(166).height(110).url()}
-                            width={83}
-                            height={55}
-                            sizes="(max-width: 800px) 100vw, 83px"
-                            layout="responsive"
-                            alt={post?.image?.alt}
-                            placeholder="blur"
-                            // Data URL generated here: https://png-pixel.com/
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                          />
-                        </div>
-                      ) : null}
-                      <div className={styles.postInfo}>
-                        <h3 className={styles.postTitle}>{post?.title}</h3>
-                        <p className={styles.postDescription}>{post?.description}</p>
-                      </div>
-                    </a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <PostList posts={posts} size="small" />
             <MoreLink as={"/posts"} href="/posts" text="More posts" />
           </div>
         ) : null}
