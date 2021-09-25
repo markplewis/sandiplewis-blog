@@ -7,15 +7,15 @@ import FriendlyCaptcha from "components/FriendlyCaptcha";
 import { emailRegex } from "utils/forms";
 import useDebug from "utils/useDebug";
 
-async function saveMessage(data) {
-  let response = await fetch("/api/createContactFormSubmission", {
-    method: "POST",
-    body: data,
-    type: "application/json"
-  });
-  response = await response.json();
-  return response;
-}
+// async function saveMessage(data) {
+//   let response = await fetch("/api/createContactFormSubmission", {
+//     method: "POST",
+//     body: data,
+//     type: "application/json"
+//   });
+//   response = await response.json();
+//   return response;
+// }
 
 async function sendEmail(data) {
   try {
@@ -46,14 +46,14 @@ export default function ContactForm() {
   const debug = useDebug();
 
   const onCaptchaSuccess = solution => {
-    console.log("Captcha was solved. The form can be submitted.");
-    console.log(solution);
+    debug && console.log("Captcha was solved. The form can be submitted.");
+    debug && console.log(solution);
     setIsEnabled(true);
   };
 
   const onCaptchaError = err => {
-    console.log("There was an error when trying to solve the Captcha.");
-    console.log(err);
+    debug && console.log("There was an error when trying to solve the Captcha.");
+    debug && console.error(err);
     setIsEnabled(false);
   };
 
@@ -67,17 +67,26 @@ export default function ContactForm() {
         name: DOMPurify.sanitize(data.name),
         message: DOMPurify.sanitize(data.message)
       });
-      Promise.allSettled([saveMessage(sanitizedData), sendEmail(sanitizedData)]).then(results => {
-        const success = results.every(result => result.status === "fulfilled");
-        setIsSubmitting(false);
-
-        if (success) {
-          setHasSubmitted(true);
-        } else {
+      sendEmail(sanitizedData)
+        .catch(e => {
+          setIsSubmitting(false);
           setHasFailed(true);
-          debug && console.log(results);
-        }
-      });
+          debug && console.error(e);
+        })
+        .then(() => {
+          setIsSubmitting(false);
+          setHasSubmitted(true);
+        });
+      // Promise.allSettled([saveMessage(sanitizedData), sendEmail(sanitizedData)]).then(results => {
+      //   const success = results.every(result => result.status === "fulfilled");
+      //   setIsSubmitting(false);
+      //   if (success) {
+      //     setHasSubmitted(true);
+      //   } else {
+      //     setHasFailed(true);
+      //     debug && console.log(results);
+      //   }
+      // });
     } catch (err) {
       debug && console.error("Form submission error:", err);
       setFormData(err);
