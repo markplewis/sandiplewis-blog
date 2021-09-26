@@ -16,7 +16,7 @@ export default function Header({ children }) {
   const router = useRouter();
   const pathName = router.pathname;
   const active = styles.navItemActive;
-  const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
+  const isMedium = useMediaQuery(`(min-width: ${rem(820)})`);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuHidden, setMenuHidden] = useState(true);
   const menuButtonRef = useRef();
@@ -133,10 +133,11 @@ export default function Header({ children }) {
               aria-label="Follow Sandi on Twitter"
               target="_blank"
               rel="noopener noreferrer">
+              {isMedium && <span>Follow</span>}
               <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
                 <use xlinkHref="#icon-twitter" />
               </svg>
-              <span>Follow Sandi on Twitter</span>
+              {!isMedium && <span>Follow Sandi on Twitter</span>}
             </a>
           </Link>
         </li>

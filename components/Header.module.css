@@ -19,7 +19,7 @@
   flex-wrap: wrap;
   grid-column: 2 / 3;
 }
-@media (min-width: 768px) {
+@media (min-width: 820px) {
   .header {
     padding-bottom: 32px;
     align-items: baseline;
@@ -130,6 +130,8 @@
     transform: translateY(0);
   }
 }
+
+/* Inside menu */
 .navMenu .navList {
   list-style-type: none;
   margin: 0;
@@ -156,7 +158,6 @@
   font-size: var(--font-size-4);
   color: #fff;
   text-decoration: none;
-  /* transition: background-color 0.1s linear; */
   display: block;
 }
 .navMenu .navLink:hover,
@@ -164,30 +165,27 @@
   text-decoration: underline;
   background-color: #191919;
 }
+
 /* Twitter */
 .shareButton {
-  width: 44px;
-  height: 44px;
-  /* background-color: var(--compBgColor); */
-  /* border-radius: 10px 0; */
-  /* border: 1px solid black; */
-  display: block;
-  transition: transform 0.25s ease-out;
-  transform: translateY(-7px);
+  font-size: var(--font-size-4);
+  color: var(--base-font-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .shareButton:hover,
 .shareButton:focus {
-  transform: translateY(-7px) scale3d(1.2, 1.2, 1.2);
+  text-decoration: underline;
 }
 .shareButton svg {
-  width: 100%;
-  height: 100%;
+  width: 30px;
+  height: 30px;
   margin: 0;
-  padding: 5px;
+  padding: 0;
   fill: #191919;
-}
-.shareButton span {
-  display: none;
+  flex-shrink: 0;
 }
 
 /* Twitter inside menu */
@@ -196,26 +194,13 @@
   height: 70px; /* TODO: how to achieve this with padding instead? */
   padding-left: max(var(--column-margin), env(safe-area-inset-left));
   padding-right: max(var(--column-margin), env(safe-area-inset-right));
-  font-size: var(--font-size-4);
   color: #fff;
-  text-decoration: none;
   transform: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 .navMenu .shareButton:hover,
 .navMenu .shareButton:focus {
-  text-decoration: underline;
   background-color: #191919;
-  transform: none;
 }
 .navMenu .shareButton svg {
-  width: 44px;
-  height: 44px;
   fill: #fff;
-  flex-shrink: 0;
-}
-.navMenu .shareButton span {
-  display: block;
 }
