@@ -17,7 +17,7 @@ import { getColorData } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
-import styles from "pages/styles/novel.module.css";
+import styles from "pages/styles/novelAndShortStory.module.css";
 
 const query = `
   *[_type == "novel" && slug.current == $slug][0] {
@@ -164,13 +164,13 @@ export default function Novel({ data: initialData }) {
 
           {novel?.reviews?.length ? (
             <div className={styles.reviews}>
-              <h2 className={styles.reviewsHeading}>Reviews</h2>
+              <h2>Reviews</h2>
               <ul className={styles.reviewList}>
                 {novel.reviews.map(review => (
                   <li className={styles.reviewItem} key={review?._id}>
                     <h3 className={styles.reviewTitle}>{review?.title}</h3>
                     <p className={styles.reviewBody}>{review?.review}</p>
-                    <p className={styles.reviewAuthor}>— {review?.author}</p>
+                    <p>— {review?.author}</p>
                   </li>
                 ))}
               </ul>

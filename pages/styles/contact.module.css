@@ -1,0 +1,19 @@
+.page::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: -10%;
+  width: 120%;
+  height: 700px;
+  transform: rotate(-2deg);
+  background: linear-gradient(100deg, #ccc 0%, #333 100%);
+  opacity: 0.1;
+}
+.page h1,
+.pageInner {
+  position: relative;
+}
+.pageInner {
+  max-width: 1280px;
+  margin: 0 auto;
+}

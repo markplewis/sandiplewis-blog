@@ -5,13 +5,16 @@ import { urlFor } from "lib/sanity";
 
 import { rem } from "utils/units";
 
+import Date from "components/Date";
 import styles from "components/PostList.module.css";
 
 export default function PostList({
   posts,
   path = "posts",
   size = "small",
-  orientation = "landscape"
+  orientation = "landscape",
+  showDates = false,
+  showBackground = false
 }) {
   // 9:14 aspect ratio for portrait, 3:2 for landscape
   const imageWidth = size === "small" ? 83 : 120;
@@ -22,36 +25,44 @@ export default function PostList({
     imageHeight = size === "small" ? 55 : 80;
   }
   return (
-    <ul className={styles.postList}>
+    <ul className={`${styles.postList} ${showBackground && styles.postListPadded}`}>
       {posts.map(post => (
-        <li className={styles.postItem} key={post?._id}>
-          <Link as={`/${path}/${post?.slug}`} href={`/${path}/[slug]`}>
-            <a className={styles.postLink}>
-              {post?.image ? (
-                <div className={styles.postImage} style={{ width: rem(imageWidth) }}>
-                  <Image
-                    src={urlFor(post?.image)
-                      .width(imageWidth * 2)
-                      .height(imageHeight * 2)
-                      .url()}
-                    width={imageWidth}
-                    height={imageHeight}
-                    sizes={`(max-width: 800px) 100vw, ${imageWidth}px`}
-                    layout="responsive"
-                    alt={post?.image?.alt}
-                    placeholder="blur"
-                    // Data URL generated here: https://png-pixel.com/
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                  />
+        <>
+          <li key={post?._id}>
+            <Link as={`/${path}/${post?.slug}`} href={`/${path}/[slug]`}>
+              <a className={styles.postLink}>
+                {post?.image ? (
+                  <div className={styles.postImage} style={{ width: rem(imageWidth) }}>
+                    <Image
+                      src={urlFor(post?.image)
+                        .width(imageWidth * 2)
+                        .height(imageHeight * 2)
+                        .url()}
+                      width={imageWidth}
+                      height={imageHeight}
+                      sizes={`(max-width: 800px) 100vw, ${imageWidth}px`}
+                      layout="responsive"
+                      alt={post?.image?.alt}
+                      placeholder="blur"
+                      // Data URL generated here: https://png-pixel.com/
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
+                    />
+                  </div>
+                ) : null}
+                <div className={styles.postInfo}>
+                  <h3 className={styles.postTitle}>{post?.title}</h3>
+                  {showDates && (
+                    <p className={styles.postDate}>
+                      <Date dateString={post?.date} />
+                    </p>
+                  )}
+                  <p className={styles.postDescription}>{post?.description}</p>
                 </div>
-              ) : null}
-              <div className={styles.postInfo}>
-                <h3 className={styles.postTitle}>{post?.title}</h3>
-                <p className={styles.postDescription}>{post?.description}</p>
-              </div>
-            </a>
-          </Link>
-        </li>
+              </a>
+            </Link>
+          </li>
+          {posts.length < 2 && <li aria-hidden="true"></li>}
+        </>
       ))}
     </ul>
   );

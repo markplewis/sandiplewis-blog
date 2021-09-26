@@ -5,13 +5,13 @@ import styles from "components/Footer.module.css";
 
 export default function Footer() {
   const router = useRouter();
-  return (
+  return router.pathname !== "/privacy-policy" ? (
     <footer className={styles.footer}>
-      {router.pathname !== "/privacy-policy" ? (
+      <div className={styles.footerInner}>
         <Link href="/privacy-policy">
           <a className={styles.footerLink}>Privacy policy</a>
         </Link>
-      ) : null}
+      </div>
     </footer>
-  );
+  ) : null;
 }

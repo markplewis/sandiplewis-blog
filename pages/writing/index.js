@@ -9,7 +9,7 @@ import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
 
 import commonStyles from "pages/styles/common.module.css";
-// import "pages/styles/writing.module.css";
+import styles from "pages/styles/writingAndPosts.module.css";
 
 const novelsQuery = `
   *[_type == "novel"][] | order(publishedAt desc) {
@@ -47,27 +47,36 @@ export default function Writing({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     <Layout title="Writing" description="A listing of Sandi Plewis' novels and short stories">
-      <div className={commonStyles.page}>
+      <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>Writing</PageTitle>
 
-        {novels.length ? (
-          <>
-            <h2>Novels</h2>
-            <PostList posts={novels} path="novels" size="large" orientation="portrait" />
-          </>
-        ) : null}
+        <div className={styles.pageInner}>
+          {novels.length ? (
+            <div className={styles.novels}>
+              <h2>Novels</h2>
+              <PostList
+                posts={novels}
+                path="novels"
+                size="large"
+                orientation="portrait"
+                showBackground={true}
+              />
+            </div>
+          ) : null}
 
-        {shortStories.length ? (
-          <>
-            <h2>Short stories</h2>
-            <PostList
-              posts={shortStories}
-              path="short-stories"
-              size="large"
-              orientation="portrait"
-            />
-          </>
-        ) : null}
+          {shortStories.length ? (
+            <div className={styles.posts}>
+              <h2>Short stories</h2>
+              <PostList
+                posts={shortStories}
+                path="short-stories"
+                size="large"
+                orientation="portrait"
+                showBackground={true}
+              />
+            </div>
+          ) : null}
+        </div>
       </div>
     </Layout>
   );

@@ -1,10 +1,14 @@
 .postList {
   list-style-type: none;
-  margin: 0;
+  margin: 0 0 44px 0;
   padding: 0;
+  display: grid;
+  gap: 44px;
 }
-.postItem {
-  margin-bottom: 44px;
+@media (min-width: 600px) {
+  .postList {
+    grid-template-columns: repeat(auto-fit, minmax(53ch, 65ch));
+  }
 }
 .postLink {
   color: var(--base-font-color);
@@ -16,9 +20,6 @@
 .postLink:focus .postTitle {
   text-decoration: underline;
 }
-/* .postImage {
-  width: 83px;
-} */
 .postInfo {
   flex: 1 1;
 }
@@ -26,6 +27,28 @@
   margin: 0;
   font-size: var(--font-size-4);
 }
+.postDate {
+  margin: 8px 0;
+}
 .postDescription {
   margin: 8px 0 0 0;
+}
+/* Padded */
+.postListPadded {
+  justify-content: center;
+}
+@media (min-width: 1350px) {
+  .postListPadded {
+    justify-content: flex-start;
+  }
+}
+.postListPadded .postLink {
+  height: 100%;
+  padding: 22px;
+  background-color: #fff;
+  border: 4px solid #eee;
+  border-radius: 10px 0;
+}
+.postListPadded .postImage > div {
+  box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);
 }

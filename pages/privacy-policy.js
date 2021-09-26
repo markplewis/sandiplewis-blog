@@ -25,11 +25,13 @@ export default function PrivacyPolicy() {
           cookies, analytics tools (e.g. Google Analytics), social media share buttons, nor any
           other method to track the behaviour or locations of its users.
         </p>
+        <h2>Social media share buttons</h2>
         <p>
           The social media share buttons on this website are simple, direct links to their
           respective social media platforms (i.e. Twitter and Facebook), so no third-party tracking
           code is added to the page by these companies.
         </p>
+        <h2>Contact form</h2>
         <p>
           This website’s contact form sends an email immediately upon submission and the submitted
           data is not retained afterward.

@@ -132,9 +132,10 @@ export default function Post({ data: initialData }) {
           </div>
         ) : null}
 
-        {post?.tags && post.tags.length ? (
+        {/* TODO */}
+        {/* {post?.tags && post.tags.length ? (
           <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
-        ) : null}
+        ) : null} */}
 
         {post?.image?.creditLine && (
           <p className={styles.credit}>Photo credit: {post.image.creditLine}</p>

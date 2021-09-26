@@ -17,7 +17,7 @@ import { getColorData } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
-import styles from "pages/styles/novel.module.css";
+import styles from "pages/styles/novelAndShortStory.module.css";
 
 const query = `
   *[_type == "shortStory" && slug.current == $slug][0] {

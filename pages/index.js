@@ -165,13 +165,12 @@ export default function HomePage({ data: initialData }) {
 
         {reviews && reviews.length ? (
           <div className={styles.reviews}>
-            {/* <p>Reviews</p> */}
             <ul className={styles.reviewList}>
               {reviews.map(review => (
                 <li className={styles.reviewItem} key={review?._id}>
                   <h2 className={styles.reviewTitle}>{review?.title}</h2>
                   <p className={styles.reviewBody}>{review?.review}</p>
-                  <p className={styles.reviewAuthor}>— {review?.author}</p>
+                  <p>— {review?.author}</p>
                 </li>
               ))}
             </ul>
@@ -187,8 +186,11 @@ export default function HomePage({ data: initialData }) {
         {posts && posts.length ? (
           <div className={styles.posts}>
             <h2 className={styles.postsHeading}>Recent posts</h2>
-            <PostList posts={posts} size="small" />
-            <MoreLink as={"/posts"} href="/posts" text="More posts" />
+            <PostList posts={posts} size="small" orientation="landscape" />
+
+            <div className={styles.postsMoreLink}>
+              <MoreLink as={"/posts"} href="/posts" text="More posts" />
+            </div>
           </div>
         ) : null}
 
@@ -210,7 +212,7 @@ export default function HomePage({ data: initialData }) {
               </div>
             ) : null}
 
-            <div className={styles.bioInfo}>
+            <div>
               <h2 className={styles.bioHeading}>Biography</h2>
 
               {author?.shortBiography ? (

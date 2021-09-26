@@ -9,7 +9,7 @@ import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
 
 import commonStyles from "pages/styles/common.module.css";
-// import "pages/styles/post.module.css";
+import styles from "pages/styles/writingAndPosts.module.css";
 
 const query = `
   *[_type == "post"][] | order(publishedAt desc) {
@@ -34,9 +34,19 @@ export default function Posts({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     <Layout title="Posts" description="A listing of Sandi Plewis' blog posts">
-      <div className={commonStyles.page}>
+      <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>Posts</PageTitle>
-        <PostList posts={posts} path="posts" size="large" />
+
+        <div className={styles.pageInner}>
+          <PostList
+            posts={posts}
+            path="posts"
+            size="large"
+            orientation="portrait"
+            showDates={true}
+            showBackground={true}
+          />
+        </div>
       </div>
     </Layout>
   );
