@@ -126,6 +126,20 @@ export default function Header({ children }) {
             <a className={styles.navLink}>Contact</a>
           </Link>
         </li>
+        <li className={styles.navItem}>
+          <Link href="https://twitter.com/SandiPlewis">
+            <a
+              className={styles.shareButton}
+              aria-label="Follow Sandi on Twitter"
+              target="_blank"
+              rel="noopener noreferrer">
+              <svg role="img" aria-hidden={true} focusable={false} pointerEvents="none">
+                <use xlinkHref="#icon-twitter" />
+              </svg>
+              <span>Follow Sandi on Twitter</span>
+            </a>
+          </Link>
+        </li>
       </ul>
     </nav>
   );

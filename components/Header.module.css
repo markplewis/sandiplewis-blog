@@ -164,3 +164,58 @@
   text-decoration: underline;
   background-color: #191919;
 }
+/* Twitter */
+.shareButton {
+  width: 44px;
+  height: 44px;
+  /* background-color: var(--compBgColor); */
+  /* border-radius: 10px 0; */
+  /* border: 1px solid black; */
+  display: block;
+  transition: transform 0.25s ease-out;
+  transform: translateY(-7px);
+}
+.shareButton:hover,
+.shareButton:focus {
+  transform: translateY(-7px) scale3d(1.2, 1.2, 1.2);
+}
+.shareButton svg {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 5px;
+  fill: #191919;
+}
+.shareButton span {
+  display: none;
+}
+
+/* Twitter inside menu */
+.navMenu .shareButton {
+  width: 100%;
+  height: 70px; /* TODO: how to achieve this with padding instead? */
+  padding-left: max(var(--column-margin), env(safe-area-inset-left));
+  padding-right: max(var(--column-margin), env(safe-area-inset-right));
+  font-size: var(--font-size-4);
+  color: #fff;
+  text-decoration: none;
+  transform: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.navMenu .shareButton:hover,
+.navMenu .shareButton:focus {
+  text-decoration: underline;
+  background-color: #191919;
+  transform: none;
+}
+.navMenu .shareButton svg {
+  width: 44px;
+  height: 44px;
+  fill: #fff;
+  flex-shrink: 0;
+}
+.navMenu .shareButton span {
+  display: block;
+}

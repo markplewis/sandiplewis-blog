@@ -18,7 +18,7 @@
 .footerLink {
   padding: 10px 16px;
   background-color: #fff;
-  border: 2px solid #ddd;
+  /* border: 2px solid #ddd; */
   border-radius: 5px;
   font-size: var(--font-size-5);
   color: var(--base-font-color);

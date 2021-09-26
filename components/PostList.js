@@ -28,7 +28,7 @@ export default function PostList({
     <ul className={`${styles.postList} ${showBackground && styles.postListPadded}`}>
       {posts.map(post => (
         <>
-          <li key={`${path}-${post?._id}`}>
+          <li key={`${path}-${post?._id}-${post?.slug}`}>
             <Link as={`/${path}/${post?.slug}`} href={`/${path}/[slug]`}>
               <a className={styles.postLink}>
                 {post?.image ? (

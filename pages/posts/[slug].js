@@ -119,7 +119,7 @@ export default function Post({ data: initialData }) {
         {post?.categories && post.categories.length ? (
           <div className={styles.categories}>
             <p className={styles.categoriesHeading}>
-              {post.categories.length > 1 ? "Categories" : "Category"}
+              {post.categories.length > 1 ? "Categories:" : "Category:"}
             </p>
             <CategoryList categories={post?.categories} />
           </div>
