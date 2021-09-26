@@ -93,13 +93,12 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
 
         {/* Twitter */}
         {/* https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary */}
-        <meta name="twitter:card" content="summary_large_image" />
-        {/* <meta name="twitter:card" content="summary" /> */}
+        <meta name="twitter:card" content={twitterImageURL ? "summary_large_image" : "summary"} />
         <meta name="twitter:site" content="@SandiPlewis" />
         <meta name="twitter:title" content={title || SITE_TITLE} />
         <meta name="twitter:description" content={description} />
         {twitterImageURL && <meta name="twitter:image" content={twitterImageURL} />}
-        {imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
+        {twitterImageURL && imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
 
         {/* Facebook */}
         {/* https://developers.facebook.com/docs/sharing/webmasters/ */}
@@ -107,10 +106,6 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
         <meta property="og:title" content={title || SITE_TITLE} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-
-        {/* TODO: delete this Facebook app! */}
-        {/* <meta property="fb:app_id" content="656375675249762" /> */}
-
         {facebookImageURL && facebookImageOrientation && (
           <>
             <meta property="og:image" content={facebookImageURL} />
@@ -124,7 +119,7 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
             />
           </>
         )}
-        {imageAlt && <meta name="og:image:alt" content={imageAlt} />}
+        {facebookImageURL && imageAlt && <meta name="og:image:alt" content={imageAlt} />}
       </Head>
       <SkipLink />
       <Header>

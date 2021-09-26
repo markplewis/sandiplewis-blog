@@ -1,23 +1,23 @@
 import ErrorPage from "next/error";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { usePreviewSubscription, urlFor } from "lib/sanity";
+import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
+import PostList from "components/PostList";
 
 import commonStyles from "pages/styles/common.module.css";
-// import "pages/styles/author.module.css";
+import styles from "pages/styles/writingAndPosts.module.css";
 
 const query = `
   *[_type == "author"][] | order(name asc) {
     _id,
     name,
     "slug": slug.current,
-    "image": image{..., ...asset->{creditLine, description, url}}
+    "image": image{..., ...asset->{creditLine, description, url}},
+    description
   }
 `;
 
@@ -33,37 +33,18 @@ export default function Authors({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     <Layout title="Authors" description="Authors">
-      <div className={commonStyles.page}>
+      <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>Authors</PageTitle>
 
-        {authors.map(author => {
-          return (
-            <div key={author._id}>
-              {author?.image ? (
-                <div style={{ width: "188px" }}>
-                  <Image
-                    src={urlFor(author.image.asset).width(376).height(600).url()}
-                    width={188}
-                    height={300}
-                    sizes="188px"
-                    layout="responsive"
-                    alt={author.image.alt || author.name}
-                    placeholder="blur"
-                    // Data URL generated here: https://png-pixel.com/
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mM8UQ8AAhUBSQV8WJQAAAAASUVORK5CYII="
-                  />
-                </div>
-              ) : null}
-
-              <h3>{author.name}</h3>
-              <p>
-                <Link as={`/authors/${author?.slug}`} href="/authors/[slug]">
-                  <a>Read more</a>
-                </Link>
-              </p>
-            </div>
-          );
-        })}
+        <div className={styles.pageInner}>
+          <PostList
+            posts={authors}
+            path="authors"
+            size="large"
+            orientation="portrait"
+            showBackground={true}
+          />
+        </div>
       </div>
     </Layout>
   );

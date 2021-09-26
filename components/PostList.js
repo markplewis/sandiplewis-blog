@@ -28,7 +28,7 @@ export default function PostList({
     <ul className={`${styles.postList} ${showBackground && styles.postListPadded}`}>
       {posts.map(post => (
         <>
-          <li key={post?._id}>
+          <li key={`${path}-${post?._id}`}>
             <Link as={`/${path}/${post?.slug}`} href={`/${path}/[slug]`}>
               <a className={styles.postLink}>
                 {post?.image ? (
@@ -50,13 +50,17 @@ export default function PostList({
                   </div>
                 ) : null}
                 <div className={styles.postInfo}>
-                  <h3 className={styles.postTitle}>{post?.title}</h3>
-                  {showDates && (
+                  {/* TODO: make this component work for both posts and authors */}
+                  <h3 className={styles.postTitle}>{post?.title || post?.name}</h3>
+
+                  {showDates && post?.date && (
                     <p className={styles.postDate}>
                       <Date dateString={post?.date} />
                     </p>
                   )}
-                  <p className={styles.postDescription}>{post?.description}</p>
+                  {post?.description && (
+                    <p className={styles.postDescription}>{post?.description}</p>
+                  )}
                 </div>
               </a>
             </Link>

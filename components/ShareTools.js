@@ -27,17 +27,8 @@ export default function ShareTools({ text, position }) {
       positionClass = styles.shareToolsVertical;
       break;
   }
-  // TODO: explain this in privacy policy: https://www.tunnelbear.com/blog/why-we-created-our-own-social-media-buttons-on-our-website/
-
+  // Inspiration: https://www.tunnelbear.com/blog/why-we-created-our-own-social-media-buttons-on-our-website/
   const twitterURL = `https://twitter.com/share?${encodeUrlParams({ url, text })}`;
-  // const facebookURL = `https://www.facebook.com/dialog/feed/?${encodeUrlParams({
-  //   // https://developers.facebook.com/docs/sharing/reference/share-dialog
-  //   app_id: "656375675249762",
-  //   // display: "popup",
-  //   // href: url,
-  //   link: url,
-  //   redirect_uri: url
-  // })}`;
   const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
   const emailURL = `mailto:?body=From SandiPlewis.com: ${text} - ${url}`;
 

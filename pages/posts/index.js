@@ -33,9 +33,9 @@ export default function Posts({ data: initialData }) {
   return !router.isFallback && !posts ? (
     <ErrorPage statusCode={404} />
   ) : (
-    <Layout title="Posts" description="A listing of Sandi Plewis' blog posts">
+    <Layout title="Blog posts" description="A listing of Sandi Plewis' blog posts">
       <div className={`${commonStyles.page} ${styles.page}`}>
-        <PageTitle>Posts</PageTitle>
+        <PageTitle>Blog posts</PageTitle>
 
         <div className={styles.pageInner}>
           <PostList

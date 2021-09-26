@@ -21,27 +21,26 @@ export default function PrivacyPolicy() {
         <PageTitle>Privacy Policy</PageTitle>
         <p>Last updated: September 25, 2021</p>
         <p>
-          This website does not collect or store the personal data of its users. It doesn’t use
-          cookies, analytics tools (e.g. Google Analytics), social media share buttons, nor any
+          This website does not collect or store any personal data about its users. It doesn’t use
+          cookies, analytics tools such as Google Analytics, social media share buttons, nor any
           other method to track the behaviour or locations of its users.
         </p>
         <h2>Social media share buttons</h2>
         <p>
           The social media share buttons on this website are simple, direct links to their
-          respective social media platforms (i.e. Twitter and Facebook), so no third-party tracking
-          code is added to the page by these companies.
+          respective social media platforms (i.e. Twitter and Facebook). Therefore, no third-party
+          tracking code is added to the page by these companies or their affiliates.
         </p>
         <h2>Contact form</h2>
         <p>
           This website’s contact form sends an email immediately upon submission and the submitted
-          data is not retained afterward.
+          data is not retained thereafter.
         </p>
         <p>
           The “anti-robot verification” feature of this website’s contact form is a spam-prevention
           service provided by <a href="https://friendlycaptcha.com/">Friendly Captcha</a>. This
           service does not collect any information about the users of the websites’ on which it
-          operates. Instead, it generates a unique cryptographic puzzle for the users’ computer to
-          solve. This is known as a “proof-of-work” challenge.
+          operates.
         </p>
       </div>
     </Layout>
