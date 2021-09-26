@@ -1,15 +1,16 @@
 import ErrorPage from "next/error";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
+import CategoryList from "components/CategoryList";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 
 import commonStyles from "pages/styles/common.module.css";
-// import "pages/styles/category.module.css";
+import styles from "pages/styles/writingAndPosts.module.css";
+import { rem } from "utils/units";
 
 const query = `
   *[_type == "category"][] | order(title asc) {
@@ -31,19 +32,23 @@ export default function Categories({ data: initialData }) {
     <ErrorPage statusCode={404} />
   ) : (
     <Layout title="Categories" description="Blog post categories">
-      <div className={commonStyles.page}>
-        <PageTitle>Categories</PageTitle>
-        <ul>
-          {categories.map(category => {
-            return (
-              <li key={category._id}>
-                <Link as={`/categories/${category?.slug}`} href="/categories/[slug]">
-                  <a>{category.title}</a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+      <style jsx global>
+        {`
+          body {
+            --compBgColor: #fff;
+            --compFgColor: #333;
+          }
+        `}
+      </style>
+
+      <div className={`${commonStyles.page} ${styles.page}`}>
+        <PageTitle>Blog post categories</PageTitle>
+
+        <div className={styles.pageInner}>
+          <div style={{ marginTop: rem(44), marginBottom: rem(44) }}>
+            <CategoryList categories={categories} />
+          </div>
+        </div>
       </div>
     </Layout>
   );

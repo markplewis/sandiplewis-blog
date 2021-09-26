@@ -6,13 +6,14 @@ import { useRouter } from "next/router";
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
-import PostBody from "components/PostBody";
+import CategoryList from "components/CategoryList";
 import Comments from "components/Comments";
 import CommentForm from "components/CommentForm";
+import CoverImage from "components/CoverImage";
+import Date from "components/Date";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
-import Date from "components/Date";
-import CoverImage from "components/CoverImage";
+import PostBody from "components/PostBody";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
@@ -120,15 +121,7 @@ export default function Post({ data: initialData }) {
             <p className={styles.categoriesHeading}>
               {post.categories.length > 1 ? "Categories" : "Category"}
             </p>
-            <ul className={styles.categoryList}>
-              {post.categories.map(({ slug, title }) => (
-                <li key={slug}>
-                  <Link as={`/categories/${slug}`} href="/categories/[slug]">
-                    <a className={styles.category}>{title}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <CategoryList categories={post?.categories} />
           </div>
         ) : null}
 

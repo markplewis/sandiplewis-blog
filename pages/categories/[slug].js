@@ -1,5 +1,4 @@
 import ErrorPage from "next/error";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { client } from "lib/sanity.server";
@@ -7,9 +6,10 @@ import { client } from "lib/sanity.server";
 import Layout from "components/Layout";
 import MoreLink from "components/MoreLink";
 import PageTitle from "components/PageTitle";
+import PostList from "components/PostList";
 
 import commonStyles from "pages/styles/common.module.css";
-// import "pages/styles/category.module.css";
+import styles from "pages/styles/writingAndPosts.module.css";
 
 // Get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references
@@ -21,8 +21,12 @@ const query = `
     "slug": slug.current,
     description,
     "posts": *[_type == "post" && references(^._id)]{
+      _id,
       title,
-      "slug": slug.current
+      "date": publishedAt,
+      "slug": slug.current,
+      "image": image{..., ...asset->{creditLine, description, "palette": metadata.palette, url}},
+      description
     }
   }
 `;
@@ -36,28 +40,30 @@ export default function Category({ data: category }) {
     <Layout
       title={`Category: ${category?.title}`}
       description={category?.description ?? `Blog posts in category: ${category?.title}`}>
-      <div className={commonStyles.page}>
+      <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>{category?.title}</PageTitle>
-        <p>{category?.description}</p>
 
-        {category?.posts ? (
-          <>
-            <p>Posts:</p>
-            <ul>
-              {category.posts.map(({ slug, title }) => (
-                <li key={slug}>
-                  <Link as={`/posts/${slug}`} href="/posts/[slug]">
-                    <a>{title}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : null}
+        <div className={styles.pageInner}>
+          <p>{category?.description}</p>
 
-        <p>
-          <MoreLink as="/categories" href="/categories" text="More categories" align="start" />
-        </p>
+          {category?.posts ? (
+            <>
+              <h2>Blog posts in this category:</h2>
+              <PostList
+                posts={category?.posts}
+                path="posts"
+                size="large"
+                orientation="portrait"
+                showDates={true}
+                showBackground={true}
+              />
+            </>
+          ) : null}
+
+          <p>
+            <MoreLink as="/categories" href="/categories" text="More categories" align="start" />
+          </p>
+        </div>
       </div>
     </Layout>
   );
