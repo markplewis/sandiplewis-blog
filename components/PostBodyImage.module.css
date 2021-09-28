@@ -1,0 +1,15 @@
+.image {
+  margin: 0 0 22px 0;
+}
+@media (min-width: 1024px) {
+  .align-left {
+    margin-left: -128px;
+    margin-right: 22px;
+    float: left;
+  }
+  .align-right {
+    margin-left: 22px;
+    margin-right: -128px;
+    float: right;
+  }
+}

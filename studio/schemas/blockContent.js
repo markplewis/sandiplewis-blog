@@ -97,6 +97,7 @@ const BlockContentSchema = {
               { title: "Right", value: "right" },
               { title: "Center", value: "center" }
             ],
+            layout: "radio", // Defaults to "dropdown"
             isHighlighted: true
           }
         }

@@ -15,7 +15,6 @@ const colorFields = [
         { title: "Dark Muted", value: "darkMuted" },
         { title: "Custom", value: "custom" }
       ]
-      // layout: "radio" // defaults to "dropdown"
     }
   },
   {

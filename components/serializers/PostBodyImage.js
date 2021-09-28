@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
+import styles from "components/PostBodyImage.module.css";
+
 const PostBodyImage = ({ node }) => {
   // TODO: how to get expanded asset object with metadata, etc., like we're doing in `CoverImage`
   // See this, maybe? https://github.com/sanity-io/block-content-to-react#specifying-image-options
@@ -18,13 +20,15 @@ const PostBodyImage = ({ node }) => {
     />
   ) : null;
 
+  const alignmentClass = node.alignment ? `align-${node.alignment}` : "";
+
   return node.caption ? (
-    <figure className={`${node.alignment ? `align-${node.alignment}` : ""}`}>
+    <figure className={`${styles.image} ${styles[alignmentClass]}`}>
       {image}
       <figcaption>{node.caption}</figcaption>
     </figure>
   ) : (
-    <div className={`${node.alignment ? `align-${node.alignment}` : ""}`}>{image}</div>
+    <div className={styles[alignmentClass]}>{image}</div>
   );
 };
 
