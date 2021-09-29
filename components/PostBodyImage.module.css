@@ -1,15 +1,23 @@
 .image {
-  margin: 0 0 22px 0;
+  width: 100%;
+  margin: 0 auto 22px auto;
 }
-@media (min-width: 1024px) {
+.image > div {
+  width: 100%;
+}
+@media (min-width: 800px) {
   .align-left {
-    margin-left: -128px;
+    margin-left: -44px;
     margin-right: 22px;
     float: left;
   }
   .align-right {
     margin-left: 22px;
-    margin-right: -128px;
+    margin-right: -44px;
     float: right;
+  }
+  .align-center {
+    margin-left: auto;
+    margin-right: auto;
   }
 }

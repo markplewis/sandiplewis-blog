@@ -88,6 +88,20 @@ const BlockContentSchema = {
           }
         },
         {
+          title: "Orientation",
+          name: "orientation",
+          type: "string",
+          options: {
+            list: [
+              { title: "Landscape", value: "landscape" },
+              { title: "Portrait", value: "portrait" },
+              { title: "Square", value: "square" }
+            ],
+            layout: "radio", // Defaults to "dropdown"
+            isHighlighted: true
+          }
+        },
+        {
           title: "Alignment",
           name: "alignment",
           type: "string",
