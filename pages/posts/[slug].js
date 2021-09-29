@@ -48,7 +48,13 @@ const postQuery = `
     }},
     "author": author->{name, "slug": slug.current, "picture": image.asset->url},
     "categories": categories[]->{title, "slug": slug.current},
-    body,
+    "body": body[] {
+      ...,
+      _type == "image" => {
+        ...,
+        "asset": asset->
+      }
+    },
     description,
     "comments": *[
       _type == "comment" &&

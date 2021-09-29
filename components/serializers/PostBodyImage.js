@@ -1,5 +1,3 @@
-// import { getImageAsset } from "@sanity/asset-utils";
-
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
 
@@ -8,15 +6,20 @@ import { rem } from "utils/units";
 
 const PostBodyImage = ({ node }) => {
   const alignmentClass = node.alignment ? `align-${node.alignment}` : "";
-  // console.log(getImageAsset(node.asset));
+  const creditLine = node?.asset?.creditLine;
+  const width = node?.asset?.metadata?.dimensions?.width;
+  const height = node?.asset?.metadata?.dimensions?.height;
 
-  // TODO: get image creditLine from the inflated image reference (`node.asset`)
-  // console.log(node.asset);
-
+  let orientation = "square";
+  if (width > height) {
+    orientation = "landscape";
+  } else if (height > width) {
+    orientation = "portrait";
+  }
   // 9:14 aspect ratio for portrait, 3:2 for landscape
   let imageWidth;
   let imageHeight;
-  switch (node.orientation) {
+  switch (orientation) {
     case "square":
       imageWidth = node.alignment === "center" ? 600 : 400;
       imageHeight = node.alignment === "center" ? 600 : 400;
@@ -57,14 +60,14 @@ const PostBodyImage = ({ node }) => {
       style={{ maxWidth: rem(imageWidth) }}>
       {image}
       <figcaption>{node.caption}</figcaption>
-      {node.creditLine && <p>Credits: {node.creditLine}</p>}
+      {creditLine && <p>Photo credit: {creditLine}</p>}
     </figure>
   ) : (
     <div
       className={`${styles.image} ${styles[alignmentClass]}`}
       style={{ maxWidth: rem(imageWidth) }}>
       {image}
-      {node.creditLine && <p>Credits: {node.creditLine}</p>}
+      {creditLine && <p>Photo credit: {creditLine}</p>}
     </div>
   );
 };
