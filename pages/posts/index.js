@@ -37,6 +37,8 @@ export default function Posts({ data: initialData }) {
       <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>Blog posts</PageTitle>
 
+        {/* TODO: implement sort filters and search box */}
+
         <div className={styles.pageInner}>
           <PostList
             posts={posts}
