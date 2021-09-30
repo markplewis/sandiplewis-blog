@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-
 import styles from "components/PostBodyImage.module.css";
+import { processCreditLine } from "utils/strings";
 import { rem } from "utils/units";
 
 const PostBodyImage = ({ node }) => {
   const alignmentClass = node.alignment ? `align-${node.alignment}` : "";
-  const creditLine = node?.asset?.creditLine;
   const width = node?.asset?.metadata?.dimensions?.width;
   const height = node?.asset?.metadata?.dimensions?.height;
+  const creditLine = processCreditLine(node?.asset?.creditLine);
 
   let orientation = "square";
   if (width > height) {
@@ -21,17 +21,17 @@ const PostBodyImage = ({ node }) => {
   let imageHeight;
   switch (orientation) {
     case "square":
-      imageWidth = node.alignment === "center" ? 600 : 400;
-      imageHeight = node.alignment === "center" ? 600 : 400;
+      imageWidth = node.alignment === "center" ? 600 : 300;
+      imageHeight = node.alignment === "center" ? 600 : 300;
       break;
     case "portrait":
-      imageWidth = node.alignment === "center" ? 400 : 267;
-      imageHeight = node.alignment === "center" ? 600 : 400;
+      imageWidth = node.alignment === "center" ? 400 : 200;
+      imageHeight = node.alignment === "center" ? 600 : 300;
       break;
     case "landscape":
     default:
-      imageWidth = node.alignment === "center" ? 600 : 400;
-      imageHeight = node.alignment === "center" ? 400 : 267;
+      imageWidth = node.alignment === "center" ? 600 : 300;
+      imageHeight = node.alignment === "center" ? 400 : 200;
       break;
   }
   // TODO: how to get expanded asset object with metadata, etc., like we're doing in `CoverImage`
@@ -54,21 +54,16 @@ const PostBodyImage = ({ node }) => {
     />
   ) : null;
 
-  return node.caption ? (
+  return (
     <figure
-      className={`${styles.image} ${styles[alignmentClass]}`}
+      className={`${styles.figure} ${styles[alignmentClass]}`}
       style={{ maxWidth: rem(imageWidth) }}>
       {image}
-      <figcaption>{node.caption}</figcaption>
-      {creditLine && <p>Photo credit: {creditLine}</p>}
+      <figcaption className={styles.caption}>
+        {node.caption && <span>{node.caption}</span>}{" "}
+        {creditLine && <span dangerouslySetInnerHTML={{ __html: `Photo: ${creditLine}` }} />}
+      </figcaption>
     </figure>
-  ) : (
-    <div
-      className={`${styles.image} ${styles[alignmentClass]}`}
-      style={{ maxWidth: rem(imageWidth) }}>
-      {image}
-      {creditLine && <p>Photo credit: {creditLine}</p>}
-    </div>
   );
 };
 

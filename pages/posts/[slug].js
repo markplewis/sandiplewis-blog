@@ -17,6 +17,7 @@ import PostBody from "components/PostBody";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
+import { processCreditLine } from "utils/strings";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -111,6 +112,8 @@ export default function Post({ data: initialData }) {
   const compBgColor = colorData?.[colorPalette]?.comp?.background ?? null;
   const compFgColor = colorData?.[colorPalette]?.comp?.foreground ?? null;
 
+  const creditLine = processCreditLine(post?.image?.creditLine);
+
   // TODO: why is `post` undefined when Vercel builds the app?
   const postMeta = useMemo(
     () => (
@@ -136,12 +139,15 @@ export default function Post({ data: initialData }) {
           <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
         ) : null} */}
 
-        {post?.image?.creditLine && (
-          <p className={styles.credit}>Photo credit: {post.image.creditLine}</p>
+        {creditLine && (
+          <p
+            className={styles.credit}
+            dangerouslySetInnerHTML={{ __html: `Photo: ${creditLine}` }}
+          />
         )}
       </>
     ),
-    [post]
+    [creditLine, post]
   );
 
   return !router.isFallback && !post?.slug ? (
