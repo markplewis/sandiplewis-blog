@@ -34,7 +34,13 @@ const query = `
       url
     }},
     overview,
-    body,
+    "body": body[] {
+      ...,
+      _type == "image" => {
+        ...,
+        "asset": asset->
+      }
+    },
     description
   }
 `;

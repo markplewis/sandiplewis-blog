@@ -25,7 +25,10 @@ export default function PostList({
     imageHeight = size === "small" ? 55 : 80;
   }
   return (
-    <ul className={`${styles.postList} ${showBackground && styles.postListPadded}`}>
+    <ul
+      className={`${styles.postList} ${showBackground && styles.postListPadded} ${
+        size === "small" && styles.postListSmall
+      }`}>
       {posts.map(post => (
         <li key={`${path}-${post?._id}-${post?.slug}`}>
           <Link as={`/${path}/${post?.slug}`} href={`/${path}/[slug]`}>

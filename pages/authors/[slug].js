@@ -27,7 +27,13 @@ const query = `
       "palette": metadata.palette,
       url
     }},
-    biography,
+    "biography": biography[] {
+      ...,
+      _type == "image" => {
+        ...,
+        "asset": asset->
+      }
+    },
     description
   }
 `;

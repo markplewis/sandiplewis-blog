@@ -21,12 +21,12 @@ const PostBodyImage = ({ node }) => {
   let imageHeight;
   switch (orientation) {
     case "square":
-      imageWidth = node.alignment === "center" ? 600 : 300;
-      imageHeight = node.alignment === "center" ? 600 : 300;
+      imageWidth = node.alignment === "center" ? 600 : 200;
+      imageHeight = node.alignment === "center" ? 600 : 200;
       break;
     case "portrait":
-      imageWidth = node.alignment === "center" ? 400 : 200;
-      imageHeight = node.alignment === "center" ? 600 : 300;
+      imageWidth = node.alignment === "center" ? 400 : 188;
+      imageHeight = node.alignment === "center" ? 622 : 292;
       break;
     case "landscape":
     default:

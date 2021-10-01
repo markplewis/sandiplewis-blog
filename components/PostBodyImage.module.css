@@ -14,13 +14,13 @@
 }
 @media (min-width: 800px) {
   .align-left {
-    margin-left: -44px;
+    margin-left: -64px;
     margin-right: 22px;
     float: left;
   }
   .align-right {
     margin-left: 22px;
-    margin-right: -44px;
+    margin-right: -64px;
     float: right;
   }
   .align-center {
