@@ -12,11 +12,21 @@ export default function MoreLink({
   fgColor = "#fff",
   bgColor = baseFontColor
 }) {
+  let alignClass;
+  switch (align) {
+    case "start":
+      alignClass = styles.moreLinkContainerLeft;
+      break;
+    case "center":
+      alignClass = styles.moreLinkContainerCenter;
+      break;
+    case "end":
+    default:
+      alignClass = styles.moreLinkContainerRight;
+      break;
+  }
   return (
-    <div
-      className={`${styles.moreLinkContainer} ${
-        align === "start" ? styles.moreLinkContainerLeft : styles.moreLinkContainerRight
-      }`}>
+    <div className={`${styles.moreLinkContainer} ${alignClass}`}>
       <Link as={as} href={href}>
         <a className={styles.moreLink} style={{ backgroundColor: bgColor, color: fgColor }}>
           <span>{text}</span>

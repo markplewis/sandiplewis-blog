@@ -19,7 +19,6 @@ const query = `
     _id,
     title,
     "slug": slug.current,
-    description,
     "posts": *[_type == "post" && references(^._id)]{
       _id,
       title,
@@ -39,13 +38,11 @@ export default function Category({ data: category }) {
   ) : (
     <Layout
       title={`Category: ${category?.title}`}
-      description={category?.description ?? `Blog posts in category: ${category?.title}`}>
+      description={`Blog posts in category: ${category?.title}`}>
       <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>{category?.title}</PageTitle>
 
         <div className={styles.pageInner}>
-          <p>{category?.description}</p>
-
           {category?.posts ? (
             <>
               <h2>Blog posts in this category:</h2>
@@ -61,7 +58,7 @@ export default function Category({ data: category }) {
           ) : null}
 
           <p>
-            <MoreLink as="/categories" href="/categories" text="More categories" align="start" />
+            <MoreLink as="/categories" href="/categories" text="More categories" align="center" />
           </p>
         </div>
       </div>

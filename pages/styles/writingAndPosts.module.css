@@ -9,6 +9,9 @@
   background: linear-gradient(100deg, #ccc 0%, #333 100%);
   opacity: 0.1;
 }
+.page h1 {
+  text-align: center;
+}
 .page h1,
 .pageInner {
   position: relative;

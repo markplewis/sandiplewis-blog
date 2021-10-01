@@ -1,4 +1,4 @@
-import description from "../fields/description";
+// import description from "../fields/description";
 
 const CategorySchema = {
   name: "category",
@@ -21,13 +21,13 @@ const CategorySchema = {
         maxLength: 96
       },
       validation: Rule => Rule.required()
-    },
-    {
-      ...description,
-      description:
-        "Optional description to display on the category page. Also used for search engines.",
-      validation: null
     }
+    // {
+    //   ...description,
+    //   description:
+    //     "Optional description to display on the category page. Also used for search engines.",
+    //   validation: null
+    // }
   ]
 };
 export default CategorySchema;

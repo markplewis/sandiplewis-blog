@@ -15,7 +15,12 @@ export default function PageTitle({ className, children }) {
   }, [dispatchApp]);
 
   return (
-    <h1 id="skip-link-target" className={className} tabIndex={-1} ref={skipLinkTargetRef}>
+    <h1
+      id="skip-link-target"
+      className={className}
+      // style={{ textAlign: "center" }}
+      tabIndex={-1}
+      ref={skipLinkTargetRef}>
       {children}
     </h1>
   );

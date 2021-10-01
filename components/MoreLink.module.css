@@ -7,6 +7,9 @@
 .moreLinkContainerRight {
   justify-content: flex-end;
 }
+.moreLinkContainerCenter {
+  justify-content: center;
+}
 .moreLink {
   padding: 8px 12px;
   text-decoration: none;
