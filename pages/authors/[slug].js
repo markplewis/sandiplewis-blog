@@ -11,13 +11,10 @@ import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostBodyImage from "components/serializers/PostBodyImage";
-import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
-import useMediaQuery from "utils/useMediaQuery";
-import { rem } from "utils/units";
 
-import styles from "pages/styles/novelAndShortStory.module.css";
+import styles from "pages/styles/author.module.css";
 
 const query = `
   *[_type == "author" && slug.current == $slug][0] {
@@ -53,9 +50,6 @@ export default function Author({ data: initialData }) {
     }
   };
 
-  const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
-  const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
-
   const palette = author?.colorPalette ?? "darkVibrant";
   const colorData =
     palette === "custom"
@@ -68,13 +62,6 @@ export default function Author({ data: initialData }) {
   const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
   const compBgColor = colorData?.[palette]?.comp?.background ?? null;
   const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
-
-  const overview = author?.description ? (
-    <>
-      <PageTitle className={styles.title}>{author?.name}</PageTitle>
-      <p>{author?.description}</p>
-    </>
-  ) : null;
 
   return !router.isFallback && !author?.slug ? (
     <ErrorPage statusCode={404} />
@@ -96,16 +83,38 @@ export default function Author({ data: initialData }) {
 
       <div className={styles.page}>
         <div className={styles.heroArea}>
-          <div
-            className={styles.patternBlock}
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compBgColor?.replace(
-                "#",
-                "%23"
-              )}' fill-opacity='0.5' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
-            }}></div>
+          <div className={styles.patternBlock}>
+            {/* <div
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='${baseBgColor?.replace(
+                  "#",
+                  "%23"
+                )}' fill-opacity='0.5'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+              }}></div> */}
+            {/* <div
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z' fill='${baseBgColor?.replace(
+                  "#",
+                  "%23"
+                )}' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E")`
+              }}></div> */}
+            {/* <div
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='${baseBgColor?.replace(
+                  "#",
+                  "%23"
+                )}' fill-opacity='0.5' fill-rule='evenodd'/%3E%3C/svg%3E")`
+              }}></div> */}
+            <div
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='88' viewBox='0 0 80 88' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22 21.91V26h-2c-9.94 0-18 8.06-18 18 0 9.943 8.058 18 18 18h2v4.09c8.012.722 14.785 5.738 18 12.73 3.212-6.99 9.983-12.008 18-12.73V62h2c9.94 0 18-8.06 18-18 0-9.943-8.058-18-18-18h-2v-4.09c-8.012-.722-14.785-5.738-18-12.73-3.212 6.99-9.983 12.008-18 12.73zM54 58v4.696c-5.574 1.316-10.455 4.428-14 8.69-3.545-4.262-8.426-7.374-14-8.69V58h-5.993C12.27 58 6 51.734 6 44c0-7.732 6.275-14 14.007-14H26v-4.696c5.574-1.316 10.455-4.428 14-8.69 3.545 4.262 8.426 7.374 14 8.69V30h5.993C67.73 30 74 36.266 74 44c0 7.732-6.275 14-14.007 14H54zM42 88c0-9.94 8.06-18 18-18h2v-4.09c8.016-.722 14.787-5.738 18-12.73v7.434c-3.545 4.262-8.426 7.374-14 8.69V74h-5.993C52.275 74 46 80.268 46 88h-4zm-4 0c0-9.943-8.058-18-18-18h-2v-4.09c-8.012-.722-14.785-5.738-18-12.73v7.434c3.545 4.262 8.426 7.374 14 8.69V74h5.993C27.73 74 34 80.266 34 88h4zm4-88c0 9.943 8.058 18 18 18h2v4.09c8.012.722 14.785 5.738 18 12.73v-7.434c-3.545-4.262-8.426-7.374-14-8.69V14h-5.993C52.27 14 46 7.734 46 0h-4zM0 34.82c3.213-6.992 9.984-12.008 18-12.73V18h2c9.94 0 18-8.06 18-18h-4c0 7.732-6.275 14-14.007 14H14v4.696c-5.574 1.316-10.455 4.428-14 8.69v7.433z' fill='${baseBgColor?.replace(
+                  "#",
+                  "%23"
+                )}' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E")`
+              }}></div>
+          </div>
 
-          <div className={styles.coverImageAndInfo}>
+          <div className={styles.coverImageAndTitle}>
             <CoverImage
               className={styles.coverImage}
               image={author?.image}
@@ -114,31 +123,11 @@ export default function Author({ data: initialData }) {
               width={376}
               height={600}
             />
-            {isMedium && <div className={`${styles.info} ${styles.infoAbove}`}>{overview}</div>}
-            {isWide && (
-              <div className={styles.shareTools}>
-                <ShareTools text={author?.name} position="vertical" />
-              </div>
-            )}
+            <PageTitle className={styles.title}>{author?.name}</PageTitle>
           </div>
-
-          <div
-            className={styles.patternBlock2}
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='${compBgColor?.replace(
-                "#",
-                "%23"
-              )}' fill-opacity='0.5' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`
-            }}></div>
         </div>
 
         <div className={styles.bodyArea}>
-          {!isWide && (
-            <div className={styles.shareTools}>
-              <ShareTools text={author?.name} position="below" />
-            </div>
-          )}
-          {!isMedium && <div className={`${styles.info} ${styles.infoBelow}`}>{overview}</div>}
           <div className={styles.body}>
             {author?.biography && (
               <BlockContent
