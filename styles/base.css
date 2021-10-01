@@ -137,6 +137,7 @@ https://css-tricks.com/almanac/properties/t/text-rendering/
 .u-button-appearance-none {
   cursor: pointer;
   border: none;
+  border-radius: 0;
   background-color: transparent;
   appearance: none;
   display: block;

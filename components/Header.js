@@ -66,17 +66,20 @@ export default function Header({ children }) {
     setMenuHidden(false);
   };
 
-  const closeMenu = e => {
-    setMenuOpen(false);
-    setContentHidden(false);
+  const closeMenu = useCallback(
+    e => {
+      setMenuOpen(false);
+      setContentHidden(false);
 
-    if (e && e.type !== "keydown") {
-      // Don't focus button when user clicked/tapped outside of menu to close it
-      return;
-    }
-    const menuButton = menuButtonRef.current;
-    menuButton?.focus();
-  };
+      if (e && e.type !== "keydown") {
+        // Don't focus button when user clicked/tapped outside of menu to close it
+        return;
+      }
+      const menuButton = menuButtonRef.current;
+      menuButton?.focus();
+    },
+    [setContentHidden]
+  );
 
   const handleMenuClickOutside = e => {
     const menuButton = menuButtonRef.current;
@@ -85,6 +88,10 @@ export default function Header({ children }) {
     }
     closeMenu(e);
   };
+
+  useEffect(() => {
+    router.events.on("routeChangeComplete", () => closeMenu());
+  }, [closeMenu, router.events]);
 
   // Close menu when user presses Escape key
   useEscapeKey(closeMenu);
