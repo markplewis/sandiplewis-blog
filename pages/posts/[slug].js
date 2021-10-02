@@ -211,7 +211,7 @@ export default function Post({ data: initialData }) {
                   <div className={`${styles.meta} ${styles.metaBelow}`}>{postMeta}</div>
                 </>
               )}
-              <PostBody className={styles.body} content={post.body} />
+              {post?.body && <PostBody content={post.body} />}
             </div>
           </article>
 

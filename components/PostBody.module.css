@@ -1,0 +1,29 @@
+.body {
+  margin: 0 -22px;
+  padding: 22px;
+  background-color: #fff;
+  font-size: var(--font-size-4);
+  /* line-height: 1.5; */
+}
+@media (min-width: 768px) {
+  .body {
+    max-width: calc(60ch + 88px);
+    margin: 0 auto;
+    padding: 22px 44px;
+  }
+}
+.bodyContent > *:first-child {
+  margin-top: 0;
+}
+.bodyContent a,
+.bodyContent a:visited,
+.bodyContent a:hover,
+.bodyContent a:focus,
+.bodyContent a:active {
+  color: var(--base-font-color);
+}
+.bodyContent a:hover,
+.bodyContent a:focus,
+.bodyContent a:active {
+  text-decoration: none;
+}

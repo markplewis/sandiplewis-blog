@@ -11,6 +11,7 @@ import Layout from "components/Layout";
 import MoreLink from "components/MoreLink";
 import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
+import ReviewList from "components/ReviewList";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
@@ -165,15 +166,7 @@ export default function HomePage({ data: initialData }) {
 
         {reviews && reviews.length ? (
           <div className={styles.reviews}>
-            <ul className={styles.reviewList}>
-              {reviews.map(review => (
-                <li className={styles.reviewItem} key={review?._id}>
-                  <h2 className={styles.reviewTitle}>{review?.title}</h2>
-                  <p className={styles.reviewBody}>{review?.review}</p>
-                  <p>— {review?.author}</p>
-                </li>
-              ))}
-            </ul>
+            <ReviewList reviews={reviews} />
           </div>
         ) : null}
 
@@ -186,7 +179,7 @@ export default function HomePage({ data: initialData }) {
         {posts && posts.length ? (
           <div className={styles.posts}>
             <h2 className={styles.postsHeading}>Recent posts</h2>
-            <PostList posts={posts} size="small" orientation="landscape" />
+            <PostList posts={posts} size={isWide ? "large" : "small"} orientation="landscape" />
 
             <div className={styles.postsMoreLink}>
               <MoreLink as={"/posts"} href="/posts" text="More posts" />

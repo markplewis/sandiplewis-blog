@@ -4,11 +4,12 @@
   padding: 0;
   display: grid;
   grid-template-columns: 1fr;
+  /* TODO: change all instances of 44 to 48 (divisible by 8) */
   gap: 44px;
 }
 @media (min-width: 600px) {
   .postList {
-    grid-template-columns: repeat(auto-fit, minmax(53ch, 65ch));
+    grid-template-columns: repeat(auto-fit, minmax(53ch, 70ch));
   }
 }
 .postLink {

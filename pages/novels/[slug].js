@@ -10,7 +10,9 @@ import { client } from "lib/sanity.server";
 import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
+import PostBody from "components/PostBody";
 import PostBodyImage from "components/serializers/PostBodyImage";
+import ReviewList from "components/ReviewList";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
@@ -155,31 +157,13 @@ export default function Novel({ data: initialData }) {
             </div>
           )}
           {!isMedium && <div className={`${styles.info} ${styles.infoBelow}`}>{overview}</div>}
-          <div className={styles.body}>
-            {novel?.body && (
-              <>
-                <BlockContent
-                  blocks={novel?.body}
-                  serializers={serializers}
-                  projectId={config.projectId}
-                  dataset={config.dataset}
-                />
-              </>
-            )}
-          </div>
+
+          {novel?.body && <PostBody content={novel.body} />}
 
           {novel?.reviews?.length ? (
             <div className={styles.reviews}>
-              <h2>Reviews</h2>
-              <ul className={styles.reviewList}>
-                {novel.reviews.map(review => (
-                  <li className={styles.reviewItem} key={review?._id}>
-                    <h3 className={styles.reviewTitle}>{review?.title}</h3>
-                    <p className={styles.reviewBody}>{review?.review}</p>
-                    <p>— {review?.author}</p>
-                  </li>
-                ))}
-              </ul>
+              <h2 className={styles.reviewsHeading}>Reviews</h2>
+              <ReviewList reviews={novel.reviews} headings="h3" />
             </div>
           ) : null}
         </div>

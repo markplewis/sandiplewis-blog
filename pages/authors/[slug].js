@@ -1,16 +1,13 @@
-import BlockContent from "@sanity/block-content-to-react";
-
 import ErrorPage from "next/error";
 import { useRouter } from "next/router";
 
-import config from "lib/config";
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
-import PostBodyImage from "components/serializers/PostBodyImage";
+import PostBody from "components/PostBody";
 
 import { getColorData } from "utils/color";
 
@@ -48,13 +45,6 @@ export default function Author({ data: initialData }) {
     initialData,
     enabled: true
   });
-
-  const serializers = {
-    types: {
-      // eslint-disable-next-line react/display-name
-      image: ({ node }) => <PostBodyImage node={node} />
-    }
-  };
 
   const palette = author?.colorPalette ?? "darkVibrant";
   const colorData =
@@ -141,16 +131,7 @@ export default function Author({ data: initialData }) {
         </div>
 
         <div className={styles.bodyArea}>
-          <div className={styles.body}>
-            {author?.biography && (
-              <BlockContent
-                blocks={author.biography}
-                serializers={serializers}
-                projectId={config.projectId}
-                dataset={config.dataset}
-              />
-            )}
-          </div>
+          {author?.biography && <PostBody content={author.biography} />}
         </div>
       </div>
     </Layout>

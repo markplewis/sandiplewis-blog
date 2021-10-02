@@ -60,20 +60,7 @@
 .title {
   margin: 8px 0 0 0;
 }
-.body {
-  margin: 0 -22px;
-  padding: 22px;
-  background-color: #fff;
-  font-size: var(--font-size-4);
-  /* line-height: 1.5; */
-}
-.body > div > *:first-child {
-  margin-top: 0;
-}
-@media (min-width: 768px) {
-  .body {
-    max-width: calc(60ch + 88px);
-    margin: 0 auto;
-    padding: 22px 44px;
-  }
-}
+/* .bodyArea {
+  grid-column: 2 / -2;
+  grid-row: 4 / 5;
+} */

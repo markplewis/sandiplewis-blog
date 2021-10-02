@@ -10,6 +10,7 @@ import { client } from "lib/sanity.server";
 import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
+import PostBody from "components/PostBody";
 import PostBodyImage from "components/serializers/PostBodyImage";
 import ShareTools from "components/ShareTools";
 
@@ -157,18 +158,8 @@ export default function ShortStory({ data: initialData }) {
             </div>
           )}
           {!isMedium && <div className={`${styles.info} ${styles.infoBelow}`}>{overview}</div>}
-          <div className={styles.body}>
-            {shortStory?.body && (
-              <>
-                <BlockContent
-                  blocks={shortStory?.body}
-                  serializers={serializers}
-                  projectId={config.projectId}
-                  dataset={config.dataset}
-                />
-              </>
-            )}
-          </div>
+
+          {shortStory?.body && <PostBody content={shortStory.body} />}
         </div>
       </div>
     </Layout>

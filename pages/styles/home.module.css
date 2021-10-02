@@ -40,7 +40,7 @@
   background-color: var(--baseBgColor);
   color: var(--baseFgColor);
   margin-top: 22px;
-  padding: 44px;
+  padding: 44px 22px 22px 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,51 +68,8 @@
   margin-top: 0;
 }
 .reviews {
-  max-width: 80ch;
+  max-width: 75ch;
   margin: 0 auto;
-}
-.reviewList {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-.reviewItem {
-  margin-bottom: 44px;
-  padding: 0 52px;
-  position: relative;
-}
-.reviewItem::before,
-.reviewItem::after {
-  width: 42px;
-  height: 42px;
-  font-size: 120px;
-  /* background-color: #ccc; */
-  /* opacity: 0.25; */
-  color: var(--compBgColor);
-  display: block;
-  position: absolute;
-}
-.reviewItem::before {
-  content: "“";
-  line-height: 0.7;
-  top: 0;
-  left: 0;
-}
-.reviewItem::after {
-  content: "”";
-  line-height: 0.85;
-  bottom: 32px;
-  right: 0;
-}
-.reviewItem:last-child {
-  margin-bottom: 0;
-}
-.reviewTitle {
-  margin-top: 0;
-  font-size: var(--font-size-3);
-}
-.reviewBody {
-  font-style: italic;
 }
 .posts {
   margin: 0 auto;
@@ -120,6 +77,8 @@
 }
 .postsHeading {
   margin-top: 0;
+  /* TODO: change all instances of 44 to 48 (divisible by 8) */
+  margin-bottom: 44px;
 }
 .bio {
   max-width: 90ch;
@@ -135,22 +94,27 @@
 .bioImage {
   width: 188px;
   margin: 0 auto 44px auto;
-  transform: translateX(11px);
+  transform: translateX(8px); /* Half of the transform below */
   background-color: var(--compBgColor);
+  border-bottom-left-radius: 50px;
 }
 .bioImage > div {
-  transform: translate(-22px, 22px);
+  transform: translate(-16px, 16px);
   box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 100%;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 500px) {
   .posts {
     border-left: 4px solid var(--compBgColor);
-    padding: 22px;
+    padding: 22px 22px 0 22px;
   }
 }
 
 @media (min-width: 600px) {
+  .novel {
+    padding: 44px;
+  }
   .patternBlock {
     width: 300px;
   }
@@ -160,7 +124,7 @@
   }
   .bioImage {
     float: right;
-    margin: 0 0 22px 64px;
+    margin: 0 0 40px 40px;
     transform: none;
   }
 }
@@ -197,7 +161,9 @@
     margin-right: 0;
   }
   .reviews {
-    padding: 44px 0 44px 44px;
+    padding: 22px 0 22px 22px;
+    display: flex;
+    align-items: center;
   }
   .reviews,
   .shareTools {
@@ -208,7 +174,7 @@
 @media (min-width: 1280px) {
   .page {
     padding-top: 44px;
-    grid-template-columns: 1fr 0.1fr 1fr 44px;
+    grid-template-columns: 1fr 0.1fr 1fr 88px;
   }
   .patternBlock {
     margin-top: 44px;
@@ -230,7 +196,7 @@
     grid-column: 2 / 5;
   }
   .reviews {
-    padding: 44px;
+    padding-left: 44px;
   }
   .posts {
     padding-right: 72px;
@@ -241,8 +207,5 @@
 @media (min-width: 1600px) {
   .novel {
     padding: 44px 88px;
-  }
-  .reviews {
-    padding-right: 88px;
   }
 }
