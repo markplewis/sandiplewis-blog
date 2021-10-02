@@ -134,7 +134,7 @@ export default function Author({ data: initialData }) {
               title={author?.name}
               url={author?.image}
               width={376}
-              height={600}
+              height={376}
             />
             <PageTitle className={styles.title}>{author?.name}</PageTitle>
           </div>

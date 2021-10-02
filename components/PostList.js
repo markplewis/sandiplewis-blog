@@ -19,10 +19,16 @@ export default function PostList({
   // 9:14 aspect ratio for portrait, 3:2 for landscape
   const imageWidth = size === "small" ? 83 : 120;
   let imageHeight;
-  if (orientation === "portrait") {
-    imageHeight = size === "small" ? 129 : 187;
-  } else {
-    imageHeight = size === "small" ? 55 : 80;
+  switch (orientation) {
+    case "portrait":
+      imageHeight = size === "small" ? 129 : 187;
+      break;
+    case "landscape":
+      imageHeight = size === "small" ? 55 : 80;
+      break;
+    case "square":
+      imageHeight = imageWidth;
+      break;
   }
   return (
     <ul

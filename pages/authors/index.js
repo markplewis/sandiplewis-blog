@@ -41,7 +41,7 @@ export default function Authors({ data: initialData }) {
             posts={authors}
             path="authors"
             size="large"
-            orientation="portrait"
+            orientation="square"
             showBackground={true}
           />
         </div>

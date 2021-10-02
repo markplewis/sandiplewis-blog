@@ -199,9 +199,9 @@ export default function HomePage({ data: initialData }) {
             {author?.image ? (
               <div className={styles.bioImage}>
                 <Image
-                  src={urlFor(author?.image).width(376).height(566).url()}
+                  src={urlFor(author?.image).width(376).height(376).url()}
                   width={188}
-                  height={283}
+                  height={188}
                   sizes="(max-width: 800px) 100vw, 188px"
                   layout="responsive"
                   alt={author?.image?.alt}
