@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
-import Comments from "components/Comments";
-import CommentForm from "components/CommentForm";
+// import Comments from "components/Comments";
+// import CommentForm from "components/CommentForm";
 import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
@@ -22,14 +22,7 @@ import styles from "pages/styles/post.module.css";
 
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
 
-const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
-
-// Extract a limited set of colour palettes
-// "palette": {
-//   "vibrant": metadata.palette.vibrant,
-//   "darkVibrant": metadata.palette.darkVibrant,
-//   "lightVibrant": metadata.palette.lightVibrant
-// },
+// const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
 
 const postQuery = `
   *[_type == "post" && slug.current == $slug][0] {
@@ -94,10 +87,10 @@ export default function Post({ data: initialData }) {
     enabled: true
   });
 
-  const { data: commentsEnabled } = usePreviewSubscription(commentsEnabledQuery, {
-    initialData: initialData?.commentsEnabled,
-    enabled: true
-  });
+  // const { data: commentsEnabled } = usePreviewSubscription(commentsEnabledQuery, {
+  //   initialData: initialData?.commentsEnabled,
+  //   enabled: true
+  // });
 
   const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
@@ -187,12 +180,12 @@ export default function Post({ data: initialData }) {
             </div>
           </article>
 
-          {commentsEnabled ? (
+          {/* {commentsEnabled ? (
             <>
               <Comments comments={post.comments} />
               <CommentForm _id={post._id} />
             </>
-          ) : null}
+          ) : null} */}
         </>
       )}
     </Layout>
@@ -205,13 +198,13 @@ export async function getStaticProps({ params }) {
   const post = await client.fetch(postQuery, {
     slug: params.slug
   });
-  const commentsEnabled = await client.fetch(commentsEnabledQuery);
+  // const commentsEnabled = await client.fetch(commentsEnabledQuery);
 
   return {
     props: {
       data: {
-        post,
-        commentsEnabled
+        post
+        // commentsEnabled
       }
     }
     // revalidate: 1 // TODO: is this necessary?

@@ -6,7 +6,6 @@ const HomePageSchema = {
   name: "homePage",
   title: "Home page",
   type: "document",
-  __experimental_actions: ["update", "publish"], // Removed "create" and "delete"
   fields: [
     {
       name: "name",

@@ -4,7 +4,6 @@ const SettingsSchema = {
   name: "settings",
   title: "Settings",
   type: "document",
-  __experimental_actions: ["update", "publish"], // Removed "create" and "delete"
   fields: [
     {
       name: "name",

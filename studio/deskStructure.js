@@ -67,7 +67,8 @@ const DeskStructure = () =>
         ),
       ...S.documentTypeListItems()
         .filter(listItem => {
-          return !["homePage", "settings"].includes(listItem.getId());
+          // return !["homePage", "settings"].includes(listItem.getId());
+          return listItem.getId() !== "homePage";
         })
         .map(listItem => {
           switch (listItem.getId()) {
