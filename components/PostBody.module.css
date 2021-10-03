@@ -5,16 +5,19 @@
   font-size: var(--font-size-4);
   /* line-height: 1.5; */
 }
+.body > *:first-child,
+.body > div > *:first-child {
+  margin-top: 0;
+}
 @media (min-width: 768px) {
   .body {
     max-width: calc(60ch + 88px);
     margin: 0 auto;
-    padding: 22px 44px;
+    padding: 44px;
   }
-}
-.body > *:first-child,
-.body > div > *:first-child {
-  margin-top: 0;
+  .body > div > figure:first-child + *:nth-child(2) {
+    margin-top: 0;
+  }
 }
 .body a,
 .body a:visited,
