@@ -1,0 +1,10 @@
+.lineBreak {
+  border: none;
+  height: 1px;
+  background-color: var(--base-font-color);
+  margin: 48px 0;
+  overflow: hidden;
+}
+.lineBreakThick {
+  height: 8px;
+}

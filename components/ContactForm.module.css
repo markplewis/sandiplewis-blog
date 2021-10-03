@@ -42,23 +42,31 @@
   margin-right: 4px;
   fill: #cc0000;
 }
+/* TODO: consolidate these styles with `MoreLink.module.css` */
 .submitButton {
   margin-left: auto;
   padding: 8px 12px;
   background-color: var(--base-font-color);
   color: #fff;
-  transition: transform 0.25s ease-out;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.submitButton:hover,
-.submitButton:focus {
-  /* TODO: vertically center text when button scales */
-  transform: scale3d(1.1, 1.1, 1.1);
+.submitButtonSVG {
+  transition: all 0.1s ease-out;
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+.submitButton:hover .submitButtonSVG,
+.submitButton:focus .submitButtonSVG {
+  transform: translateX(4px);
 }
 .submitButton:disabled {
   background-color: #666;
   cursor: not-allowed;
 }
-.submitButton:disabled:hover,
-.submitButton:disabled:focus {
+.submitButton:disabled:hover .submitButtonSVG,
+.submitButton:disabled:focus .submitButtonSVG {
   transform: none;
 }

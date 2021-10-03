@@ -189,12 +189,27 @@ export default function ContactForm() {
             <div className={styles.captcha}>
               <FriendlyCaptcha onSuccess={onCaptchaSuccess} onError={onCaptchaError} />
             </div>
-            <input
+            {/* <input
               className={`u-button-appearance-none ${styles.submitButton}`}
               type="submit"
               value="Submit"
               disabled={!isEnabled || isSubmitting}
-            />
+            /> */}
+            <button
+              className={`u-button-appearance-none ${styles.submitButton}`}
+              type="submit"
+              disabled={!isEnabled || isSubmitting}>
+              <span>Submit</span>
+              <svg
+                className={styles.submitButtonSVG}
+                // fill={fgColor}
+                role="img"
+                pointerEvents="none"
+                focusable={false}
+                aria-hidden={true}>
+                <use xlinkHref="#icon-arrow-right" />
+              </svg>
+            </button>
           </form>
         </>
       )}

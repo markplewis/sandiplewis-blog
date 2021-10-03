@@ -12,10 +12,10 @@ import MoreLink from "components/MoreLink";
 import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
 import ReviewList from "components/ReviewList";
+import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
-import { internalLinkSerializer } from "utils/serializers";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -75,7 +75,9 @@ const authorBioQuery = `*[_type == "homePage"][0].author->{
 }`;
 
 const serializers = {
-  marks: internalLinkSerializer
+  marks: {
+    internalLink: ({ mark, children }) => <InternalLink mark={mark}>{children}</InternalLink>
+  }
 };
 
 export default function HomePage({ data: initialData }) {

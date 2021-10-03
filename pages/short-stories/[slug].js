@@ -11,10 +11,10 @@ import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostBody from "components/PostBody";
+import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
-import { internalLinkSerializer } from "utils/serializers";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -63,7 +63,9 @@ const query = `
 `;
 
 const serializers = {
-  marks: internalLinkSerializer
+  marks: {
+    internalLink: ({ mark, children }) => <InternalLink mark={mark}>{children}</InternalLink>
+  }
 };
 
 export default function ShortStory({ data: initialData }) {

@@ -1,7 +1,8 @@
 import BlockContent from "@sanity/block-content-to-react";
 import config from "lib/config";
+import InternalLink from "components/serializers/InternalLink";
+import LineBreak from "components/serializers/LineBreak";
 import PostBodyImage from "components/serializers/PostBodyImage";
-import { internalLinkSerializer } from "utils/serializers";
 
 import styles from "components/PostBody.module.css";
 
@@ -15,10 +16,12 @@ import styles from "components/PostBody.module.css";
 
 const serializers = {
   types: {
-    // eslint-disable-next-line react/display-name
-    image: ({ node }) => <PostBodyImage node={node} />
+    image: ({ node }) => <PostBodyImage node={node} />,
+    break: ({ node }) => <LineBreak node={node} />
   },
-  marks: internalLinkSerializer
+  marks: {
+    internalLink: ({ mark, children }) => <InternalLink mark={mark}>{children}</InternalLink>
+  }
 };
 
 export default function PostBody({ content }) {

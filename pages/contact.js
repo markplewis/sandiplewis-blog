@@ -9,7 +9,7 @@ export default function Contact() {
   return (
     <Layout title="Contact" description="Contact Sandi Plewis">
       <div className={`${commonStyles.page} ${styles.page}`}>
-        <PageTitle>Contact</PageTitle>
+        <PageTitle>Contact Sandi</PageTitle>
 
         <div className={styles.pageInner}>
           <ContactForm />

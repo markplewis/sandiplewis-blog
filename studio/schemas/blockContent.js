@@ -1,4 +1,4 @@
-import { AiOutlinePaperClip } from "react-icons/ai";
+import { AiOutlineLine, AiOutlinePaperClip } from "react-icons/ai";
 
 /**
  * This is the schema definition for the rich text fields used for
@@ -74,6 +74,23 @@ const BlockContentSchema = {
               }
             ]
           }
+          // {
+          //   title: "Break",
+          //   name: "break",
+          //   type: "object",
+          //   blockEditor: {
+          //     icon: AiOutlineLine
+          //   },
+          //   fields: [
+          //     {
+          //       name: "style",
+          //       type: "string",
+          //       options: {
+          //         list: ["lineBreak", "readMore"]
+          //       }
+          //     }
+          //   ]
+          // }
         ]
       }
     },
@@ -130,6 +147,26 @@ const BlockContentSchema = {
             ],
             layout: "radio", // Defaults to "dropdown"
             isHighlighted: true
+          }
+        }
+      ]
+    },
+    {
+      title: "Break",
+      name: "break",
+      type: "object",
+      blockEditor: {
+        icon: AiOutlineLine
+      },
+      fields: [
+        {
+          name: "style",
+          type: "string",
+          options: {
+            list: [
+              { title: "Line break (thin)", value: "thin" },
+              { title: "Line break (thick)", value: "thick" }
+            ]
           }
         }
       ]

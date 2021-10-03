@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { urlFor } from "lib/sanity";
-import styles from "components/PostBodyImage.module.css";
+import styles from "components/serializers/PostBodyImage.module.css";
 import { processCreditLine } from "utils/strings";
 import { rem } from "utils/units";
 

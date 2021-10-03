@@ -10,6 +10,7 @@
 .moreLinkContainerCenter {
   justify-content: center;
 }
+/* TODO: consolidate these styles with submit button in `ContactForm.module.css` */
 .moreLink {
   padding: 8px 12px;
   text-decoration: none;

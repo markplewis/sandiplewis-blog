@@ -45,7 +45,7 @@ export default function Category({ data: category }) {
         <div className={styles.pageInner}>
           {category?.posts ? (
             <>
-              <h2 className={styles.subHeading}>Posts in this category:</h2>
+              <h2 className={styles.subHeading}>Posts in this category</h2>
               <PostList
                 posts={category?.posts}
                 path="posts"
