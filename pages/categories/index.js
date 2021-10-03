@@ -46,7 +46,7 @@ export default function Categories({ data: initialData }) {
 
         <div className={styles.pageInner}>
           <div style={{ marginTop: rem(44), marginBottom: rem(44) }}>
-            <CategoryList categories={categories} />
+            <CategoryList categories={categories} themed={true} />
           </div>
         </div>
       </div>

@@ -1,19 +1,16 @@
-import { useMemo } from "react";
 import ErrorPage from "next/error";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
-import CategoryList from "components/CategoryList";
 import Comments from "components/Comments";
 import CommentForm from "components/CommentForm";
 import CoverImage from "components/CoverImage";
-import Date from "components/Date";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostBody from "components/PostBody";
+import PostMeta from "components/PostMeta";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
@@ -114,42 +111,6 @@ export default function Post({ data: initialData }) {
 
   const creditLine = processCreditLine(post?.image?.creditLine);
 
-  // TODO: why is `post` undefined when Vercel builds the app?
-  const postMeta = useMemo(
-    () => (
-      <>
-        <Date className={styles.date} dateString={post?.date} />
-        <p>
-          <Link as={`/authors/${post?.author?.slug}`} href="/authors/[slug]">
-            <a className={styles.author}>{post?.author?.name}</a>
-          </Link>
-        </p>
-
-        {post?.categories && post.categories.length ? (
-          <div className={styles.categories}>
-            <p className={styles.categoriesHeading}>
-              {post.categories.length > 1 ? "Categories:" : "Category:"}
-            </p>
-            <CategoryList categories={post?.categories} />
-          </div>
-        ) : null}
-
-        {/* TODO */}
-        {/* {post?.tags && post.tags.length ? (
-          <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
-        ) : null} */}
-
-        {creditLine && (
-          <p
-            className={styles.credit}
-            dangerouslySetInnerHTML={{ __html: `Photo: ${creditLine}` }}
-          />
-        )}
-      </>
-    ),
-    [creditLine, post]
-  );
-
   return !router.isFallback && !post?.slug ? (
     <ErrorPage statusCode={404} />
   ) : (
@@ -195,7 +156,9 @@ export default function Post({ data: initialData }) {
                 height={imageSize.height}
               />
 
-              <div className={`${styles.meta} ${styles.metaAbove}`}>{isMedium && postMeta}</div>
+              <div className={`${styles.meta} ${styles.metaAbove}`}>
+                {isMedium && <PostMeta creditLine={creditLine} post={post} themed={true} />}
+              </div>
 
               <div
                 className={styles.patternBlock2}
@@ -208,7 +171,9 @@ export default function Post({ data: initialData }) {
               {!isMedium && (
                 <>
                   {<ShareTools text={post.title} position="below" />}
-                  <div className={`${styles.meta} ${styles.metaBelow}`}>{postMeta}</div>
+                  <div className={`${styles.meta} ${styles.metaBelow}`}>
+                    <PostMeta creditLine={creditLine} post={post} themed={false} />
+                  </div>
                 </>
               )}
               {post?.body && <PostBody content={post.body} />}

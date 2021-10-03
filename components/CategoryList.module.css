@@ -8,14 +8,18 @@
 }
 .category {
   padding: 5px 10px 5px 6px;
-  background-color: var(--compFgColor);
-  color: var(--compBgColor);
+  background-color: var(--base-font-color);
+  color: #fff;
   border-radius: 0 20px 20px 0;
   white-space: nowrap;
   text-decoration: none;
   text-shadow: none;
   display: block;
   transition: transform 0.25s ease-out;
+}
+.categoryThemed {
+  background-color: var(--compFgColor);
+  color: var(--compBgColor);
 }
 .category:hover,
 .category:focus {
