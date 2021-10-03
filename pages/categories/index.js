@@ -42,11 +42,11 @@ export default function Categories({ data: initialData }) {
       </style>
 
       <div className={`${commonStyles.page} ${styles.page}`}>
-        <PageTitle>Blog post categories</PageTitle>
+        <PageTitle>Post categories</PageTitle>
 
         <div className={styles.pageInner}>
           <div style={{ marginTop: rem(44), marginBottom: rem(44) }}>
-            <CategoryList categories={categories} themed={true} />
+            <CategoryList categories={categories} themed={true} centered={true} />
           </div>
         </div>
       </div>

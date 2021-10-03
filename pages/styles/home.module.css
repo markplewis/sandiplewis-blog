@@ -199,7 +199,8 @@
     padding-left: 44px;
   }
   .posts {
-    padding-right: 72px;
+    /* padding-right: 72px; */
+    padding-right: 44px;
     padding-left: 44px;
   }
 }

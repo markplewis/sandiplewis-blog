@@ -21,6 +21,9 @@
   background-color: var(--compFgColor);
   color: var(--compBgColor);
 }
+.categoryListCentered {
+  justify-content: center;
+}
 .category:hover,
 .category:focus {
   transform: scale3d(1.1, 1.1, 1.1);
