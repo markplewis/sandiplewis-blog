@@ -1,6 +1,6 @@
 import client from "../client";
 import colorFields from "../fields/colors";
-import description from "../fields/description";
+import descriptionField from "../fields/description";
 
 const PostSchema = {
   name: "post",
@@ -64,7 +64,7 @@ const PostSchema = {
       ]
     },
     {
-      ...description,
+      ...descriptionField,
       description: "Used when linking to this post from another page and also for search engines"
     },
     {

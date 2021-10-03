@@ -1,4 +1,4 @@
-import description from "../fields/description";
+import descriptionField from "../fields/description";
 
 // See: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
 
@@ -35,7 +35,7 @@ const HomePageSchema = {
       type: "reference",
       to: { type: "author" }
     },
-    description
+    descriptionField
   ],
   initialValue: {
     name: "Home page"

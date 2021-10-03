@@ -1,5 +1,6 @@
+import blockContentLightFields from "../fields/blockContentLight";
 import colorFields from "../fields/colors";
-import description from "../fields/description";
+import descriptionField from "../fields/description";
 
 const AuthorSchema = {
   name: "author",
@@ -37,21 +38,14 @@ const AuthorSchema = {
       title: "Short biography",
       description: "Brief overview that will appear on the home page",
       type: "array",
-      of: [
-        {
-          title: "Block",
-          type: "block",
-          styles: [{ title: "Normal", value: "normal" }],
-          lists: []
-        }
-      ]
+      of: blockContentLightFields
     },
     {
       name: "biography",
       title: "Full biography",
       type: "blockContent"
     },
-    description
+    descriptionField
   ],
   preview: {
     select: {

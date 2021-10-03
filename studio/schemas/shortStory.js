@@ -1,6 +1,6 @@
 import client from "../client";
 import colorFields from "../fields/colors";
-import description from "../fields/description";
+import descriptionField from "../fields/description";
 
 const ShortStorySchema = {
   name: "shortStory",
@@ -69,7 +69,7 @@ const ShortStorySchema = {
       type: "blockContent"
     },
     {
-      ...description,
+      ...descriptionField,
       description:
         "Used when linking to this short story from other pages and also for search engines"
     }

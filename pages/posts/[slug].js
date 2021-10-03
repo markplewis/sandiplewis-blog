@@ -51,6 +51,13 @@ const postQuery = `
       _type == "image" => {
         ...,
         "asset": asset->
+      },
+      markDefs[]{
+        ...,
+        _type == "internalLink" => {
+          "type": @.reference->_type,
+          "slug": @.reference->slug
+        }
       }
     },
     description,

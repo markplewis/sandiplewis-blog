@@ -8,7 +8,7 @@ import {
   HiOutlineBookOpen,
   HiOutlineUser,
   HiOutlineDocumentText,
-  HiOutlineCog,
+  // HiOutlineCog,
   HiOutlineChat,
   HiOutlineFolderOpen,
   HiOutlineStar
@@ -90,11 +90,11 @@ const DeskStructure = () =>
             default:
               return listItem;
           }
-        }),
-      S.listItem()
-        .title("Settings")
-        .icon(HiOutlineCog)
-        .child(S.document().documentId("settings").schemaType("settings"))
+        })
+      // S.listItem()
+      //   .title("Settings")
+      //   .icon(HiOutlineCog)
+      //   .child(S.document().documentId("settings").schemaType("settings"))
     ]);
 
 export default DeskStructure;

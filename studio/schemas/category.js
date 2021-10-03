@@ -1,4 +1,4 @@
-// import description from "../fields/description";
+// import descriptionField from "../fields/description";
 
 const CategorySchema = {
   name: "category",
@@ -23,7 +23,7 @@ const CategorySchema = {
       validation: Rule => Rule.required()
     }
     // {
-    //   ...description,
+    //   ...descriptionField,
     //   description:
     //     "Optional description to display on the category page. Also used for search engines.",
     //   validation: null

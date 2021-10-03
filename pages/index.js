@@ -15,6 +15,7 @@ import ReviewList from "components/ReviewList";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
+import { internalLinkSerializer } from "utils/serializers";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -25,7 +26,16 @@ const featuredNovelAndHomePageQuery = `*[_type == "homePage"][0] {
     _id,
     title,
     'slug': slug.current,
-    overview,
+    "overview": overview[] {
+      ...,
+      markDefs[]{
+        ...,
+        _type == "internalLink" => {
+          "type": @.reference->_type,
+          "slug": @.reference->slug
+        }
+      }
+    },
     "image": image{..., ...asset->{
       creditLine,
       description,
@@ -48,7 +58,25 @@ function getRecentPostsQuery(limit) {
 }
 const recentPostsQuery = getRecentPostsQuery(3);
 
-const authorBioQuery = `*[_type == "homePage"][0].author->{name, image, shortBiography, 'slug': slug.current, _id}`;
+const authorBioQuery = `*[_type == "homePage"][0].author->{
+  name,
+  image,
+  'slug': slug.current, _id,
+  shortBiography[]{
+    ...,
+    markDefs[]{
+      ...,
+      _type == "internalLink" => {
+        "type": @.reference->_type,
+        "slug": @.reference->slug
+      }
+    }
+  }
+}`;
+
+const serializers = {
+  marks: internalLinkSerializer
+};
 
 export default function HomePage({ data: initialData }) {
   const { data: novelAndHomePage } = usePreviewSubscription(featuredNovelAndHomePageQuery, {
@@ -148,6 +176,7 @@ export default function HomePage({ data: initialData }) {
               {novel?.overview ? (
                 <BlockContent
                   blocks={novel?.overview}
+                  serializers={serializers}
                   projectId={config.projectId}
                   dataset={config.dataset}
                 />
@@ -211,6 +240,7 @@ export default function HomePage({ data: initialData }) {
               {author?.shortBiography ? (
                 <BlockContent
                   blocks={author?.shortBiography}
+                  serializers={serializers}
                   projectId={config.projectId}
                   dataset={config.dataset}
                 />

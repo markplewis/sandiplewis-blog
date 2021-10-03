@@ -1,3 +1,5 @@
+import { AiOutlinePaperClip } from "react-icons/ai";
+
 /**
  * This is the schema definition for the rich text fields used for
  * for this blog studio. When you import it in schemas.js it can be
@@ -54,6 +56,21 @@ const BlockContentSchema = {
                 title: "URL",
                 name: "href",
                 type: "url"
+              }
+            ]
+          },
+          {
+            title: "Internal link",
+            name: "internalLink",
+            type: "object",
+            blockEditor: {
+              icon: AiOutlinePaperClip
+            },
+            fields: [
+              {
+                name: "reference",
+                type: "reference",
+                to: [{ type: "post" }, { type: "novel" }, { type: "shortStory" }]
               }
             ]
           }

@@ -1,6 +1,7 @@
 import BlockContent from "@sanity/block-content-to-react";
 import config from "lib/config";
 import PostBodyImage from "components/serializers/PostBodyImage";
+import { internalLinkSerializer } from "utils/serializers";
 
 import styles from "components/PostBody.module.css";
 
@@ -12,17 +13,18 @@ import styles from "components/PostBody.module.css";
 // https://medium.com/@kimbjrkman/how-to-use-inline-images-in-rich-text-with-sanity-io-c42594baa509
 // https://www.sanity.io/guides/portable-text-internal-and-external-links
 
+const serializers = {
+  types: {
+    // eslint-disable-next-line react/display-name
+    image: ({ node }) => <PostBodyImage node={node} />
+  },
+  marks: internalLinkSerializer
+};
+
 export default function PostBody({ content }) {
-  const serializers = {
-    types: {
-      // eslint-disable-next-line react/display-name
-      image: ({ node }) => <PostBodyImage node={node} />
-    }
-  };
   return (
     <div className={styles.body}>
       <BlockContent
-        className={styles.bodyContent}
         blocks={content}
         serializers={serializers}
         projectId={config.projectId}

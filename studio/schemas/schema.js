@@ -8,14 +8,14 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import author from "./author";
 import blockContent from "./blockContent";
 import category from "./category";
-import comment from "./comment";
-import contactFormSubmission from "./contactFormSubmission";
+// import comment from "./comment";
+// import contactFormSubmission from "./contactFormSubmission";
 import homePage from "./homePage";
 import novel from "./novel";
 import shortStory from "./shortStory";
 import post from "./post";
 import review from "./review";
-import settings from "./settings";
+// import settings from "./settings";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -33,10 +33,10 @@ export default createSchema({
     shortStory,
     review,
     author,
-    blockContent,
-    contactFormSubmission,
-    comment,
-    settings
+    blockContent
+    // contactFormSubmission,
+    // comment,
+    // settings
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
   ])

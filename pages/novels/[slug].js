@@ -11,11 +11,11 @@ import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostBody from "components/PostBody";
-import PostBodyImage from "components/serializers/PostBodyImage";
 import ReviewList from "components/ReviewList";
 import ShareTools from "components/ShareTools";
 
 import { getColorData } from "utils/color";
+import { internalLinkSerializer } from "utils/serializers";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -35,18 +35,38 @@ const query = `
       "palette": metadata.palette,
       url
     }},
-    overview,
+    "overview": overview[] {
+      ...,
+      markDefs[]{
+        ...,
+        _type == "internalLink" => {
+          "type": @.reference->_type,
+          "slug": @.reference->slug
+        }
+      }
+    },
     "body": body[] {
       ...,
       _type == "image" => {
         ...,
         "asset": asset->
+      },
+      markDefs[]{
+        ...,
+        _type == "internalLink" => {
+          "type": @.reference->_type,
+          "slug": @.reference->slug
+        }
       }
     },
     description,
     "reviews": *[_type=='review' && references(^._id)]{ _id, title, review, author }
   }
 `;
+
+const serializers = {
+  marks: internalLinkSerializer
+};
 
 export default function Novel({ data: initialData }) {
   const router = useRouter();
@@ -58,13 +78,6 @@ export default function Novel({ data: initialData }) {
     initialData,
     enabled: true
   });
-
-  const serializers = {
-    types: {
-      // eslint-disable-next-line react/display-name
-      image: ({ node }) => <PostBodyImage node={node} />
-    }
-  };
 
   const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);

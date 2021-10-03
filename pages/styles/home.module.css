@@ -88,6 +88,18 @@
   padding: 22px;
   align-self: flex-start;
 }
+.bio a,
+.bio a:visited,
+.bio a:hover,
+.bio a:focus,
+.bio a:active {
+  color: var(--base-font-color);
+}
+.bio a:hover,
+.bio a:focus,
+.bio a:active {
+  text-decoration: none;
+}
 .bioHeading {
   margin-top: 0;
 }

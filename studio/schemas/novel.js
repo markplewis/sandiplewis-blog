@@ -1,6 +1,6 @@
 import client from "../client";
 import colorFields from "../fields/colors";
-import description from "../fields/description";
+import descriptionField from "../fields/description";
 
 const NovelSchema = {
   name: "novel",
@@ -138,7 +138,7 @@ const NovelSchema = {
       type: "blockContent"
     },
     {
-      ...description,
+      ...descriptionField,
       description: "Used when linking to this novel from other pages and also for search engines"
     }
   ],
