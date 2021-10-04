@@ -8,7 +8,7 @@ import styles from "pages/styles/staticPage.module.css";
 
 export default function Custom500() {
   return (
-    <Layout title="500" description="A server-side error occurred">
+    <Layout title="500 error" description="A server-side error occurred">
       <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>500 error</PageTitle>
         <div className={styles.pageInner}>

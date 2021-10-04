@@ -120,7 +120,7 @@ export default function HomePage({ data: initialData }) {
     <Layout
       title=""
       description={description}
-      image={{ image: author?.image, portrait: true, crop: false }}>
+      image={{ image: author?.image, portrait: true, crop: true }}>
       <style jsx global>
         {`
           body {

@@ -7,7 +7,7 @@ import styles from "pages/styles/contact.module.css";
 
 export default function Contact() {
   return (
-    <Layout title="Contact" description="Contact Sandi Plewis">
+    <Layout title="Contact Sandi" description="Contact Sandi Plewis">
       <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>Contact Sandi</PageTitle>
 
