@@ -83,6 +83,8 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
         {description && <meta name="description" content={description} />}
 
         {/* Icons */}
+        {/* `favicon.svg` supports dark mode: https://css-tricks.com/dark-mode-favicons/ */}
+        {/* `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/ */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
