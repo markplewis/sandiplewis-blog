@@ -120,7 +120,7 @@ export default function HomePage({ data: initialData }) {
     <Layout
       title=""
       description={description}
-      image={{ image: novel?.image, portrait: true, crop: false }}>
+      image={{ image: author?.image, portrait: true, crop: false }}>
       <style jsx global>
         {`
           body {
@@ -237,7 +237,7 @@ export default function HomePage({ data: initialData }) {
             ) : null}
 
             <div>
-              <h2 className={styles.bioHeading}>Biography</h2>
+              <h2 className={styles.bioHeading}>Sandi Plewis</h2>
 
               {author?.shortBiography ? (
                 <BlockContent

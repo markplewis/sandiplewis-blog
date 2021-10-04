@@ -13,10 +13,6 @@ import { urlFor } from "lib/sanity";
 
 // See: https://nextjs.org/docs/basic-features/layouts
 
-// `favicon.svg` supports dark mode: https://css-tricks.com/dark-mode-favicons/
-// `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/
-// TODO: regenerate all of these when I've finalized the design
-
 const sizes = {
   // "Summary Card with Large Image": aspect ratio of 2:1 with minimum dimensions of 300 x 157
   // https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
@@ -83,13 +79,15 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
         {description && <meta name="description" content={description} />}
 
         {/* Icons */}
+        {/* `favicon.svg` supports dark mode: https://css-tricks.com/dark-mode-favicons/ */}
+        {/* `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/ */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#00aba9" />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="msapplication-TileColor" content="#00aba9" />
-        <meta name="theme-color" content="#cccccc" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#305975" />
+        <meta name="msapplication-TileColor" content="#305975" />
+        <meta name="theme-color" content="#305975" />
 
         {/* Twitter */}
         {/* https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary */}
