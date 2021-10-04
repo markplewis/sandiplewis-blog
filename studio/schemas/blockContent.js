@@ -155,9 +155,7 @@ const BlockContentSchema = {
       title: "Break",
       name: "break",
       type: "object",
-      blockEditor: {
-        icon: AiOutlineLine
-      },
+      icon: AiOutlineLine,
       fields: [
         {
           name: "style",
