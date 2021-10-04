@@ -8,7 +8,7 @@ import styles from "pages/styles/staticPage.module.css";
 
 export default function Custom404() {
   return (
-    <Layout title="404" description="This page could not be found">
+    <Layout title="404 error" description="The page you are looking for could not be found">
       <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>404 error</PageTitle>
         <div className={styles.pageInner}>

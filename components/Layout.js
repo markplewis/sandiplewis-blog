@@ -14,11 +14,19 @@ import { urlFor } from "lib/sanity";
 // See: https://nextjs.org/docs/basic-features/layouts
 
 const sizes = {
-  // "Summary Card with Large Image": aspect ratio of 2:1 with minimum dimensions of 300 x 157
-  // https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
   twitter: {
-    width: 600,
-    height: 314
+    // "Summary Card with Large Image": aspect ratio of 2:1 with minimum dimensions of 300 x 157
+    // https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image
+    landscape: {
+      width: 1200,
+      height: 628
+    },
+    // "Summary Card": apspect ratio of 1:1 with minimum dimensions of 144 x 144
+    // https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary
+    portrait: {
+      width: 600,
+      height: 600
+    }
   },
   // 1.91:1 aspect ratio (equivalent to 40:21) with minimum dimensions of 1200 x 630
   // https://developers.facebook.com/docs/sharing/webmasters/images/
@@ -40,36 +48,51 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
   const url = `${BASE_URL}${router.asPath}`;
   const fullTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
   const imageAlt = image?.image?.alt;
+  const imageOrientation =
+    image?.image && image?.portrait
+      ? "portrait"
+      : image?.image && !image?.portrait
+      ? "landscape"
+      : null;
 
-  const twitterImageURL =
-    image.image &&
-    urlFor(image.image)
-      .ignoreImageParams() // Workaround for https://github.com/sanity-io/sanity/issues/524
-      .width(sizes.twitter.width)
-      .height(sizes.twitter.height)
-      .fit(image.crop ? "crop" : "fill")
-      .bg(image?.image?.palette?.vibrant?.background?.replace("#", "") ?? "666") // TODO: not working
+  let twitterImageURL;
+  if (imageOrientation === "portrait") {
+    if (image.crop) {
+      // Crop portrait images into a square shape
+      twitterImageURL = urlFor(image.image)
+        .width(sizes.twitter.portrait.width)
+        .height(sizes.twitter.portrait.height)
+        // .fit("crop") // This is the default?
+        .url();
+    } else {
+      // Fit portrait images into a square shape by filling in the background with a solid colour
+      twitterImageURL = urlFor(image.image)
+        .ignoreImageParams() // Workaround for https://github.com/sanity-io/sanity/issues/524
+        .width(sizes.twitter.portrait.width)
+        .height(sizes.twitter.portrait.height)
+        .fit("fill")
+        .bg(image?.image?.palette?.vibrant?.background?.replace("#", "") ?? "666") // TODO: not working
+        .url();
+    }
+  } else if (imageOrientation === "landscape") {
+    twitterImageURL = urlFor(image.image)
+      .width(sizes.twitter.landscape.width)
+      .height(sizes.twitter.landscape.height)
       .url();
+  }
 
-  let facebookImageOrientation;
   let facebookImageURL;
-
-  if (image.image && image.portrait) {
-    facebookImageOrientation = "portrait";
+  if (imageOrientation === "portrait") {
     facebookImageURL = urlFor(image.image)
       .width(sizes.facebook.portrait.width)
       .height(sizes.facebook.portrait.height)
       .url();
-  } else if (image.image && !image.portrait) {
-    facebookImageOrientation = "landscape";
+  } else if (imageOrientation === "landscape") {
     facebookImageURL = urlFor(image.image)
       .width(sizes.facebook.landscape.width)
       .height(sizes.facebook.landscape.height)
       .url();
   }
-
-  // `favicon.svg` supports dark mode: https://css-tricks.com/dark-mode-favicons/
-  // `favicon.ico` and other files were generated from SVG via: https://realfavicongenerator.net/
 
   return (
     <>
@@ -95,7 +118,12 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
 
         {/* Twitter */}
         {/* https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary */}
-        <meta name="twitter:card" content={twitterImageURL ? "summary_large_image" : "summary"} />
+        <meta
+          name="twitter:card"
+          content={
+            twitterImageURL && imageOrientation === "landscape" ? "summary_large_image" : "summary"
+          }
+        />
         <meta name="twitter:site" content="@SandiPlewis" />
         <meta name="twitter:title" content={title || SITE_TITLE} />
         <meta name="twitter:description" content={description} />
@@ -108,17 +136,11 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
         <meta property="og:title" content={title || SITE_TITLE} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        {facebookImageURL && facebookImageOrientation && (
+        {facebookImageURL && imageOrientation && (
           <>
             <meta property="og:image" content={facebookImageURL} />
-            <meta
-              property="og:image:width"
-              content={sizes.facebook[facebookImageOrientation].width}
-            />
-            <meta
-              property="og:image:height"
-              content={sizes.facebook[facebookImageOrientation].height}
-            />
+            <meta property="og:image:width" content={sizes.facebook[imageOrientation].width} />
+            <meta property="og:image:height" content={sizes.facebook[imageOrientation].height} />
           </>
         )}
         {facebookImageURL && imageAlt && <meta name="og:image:alt" content={imageAlt} />}
