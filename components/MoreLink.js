@@ -1,8 +1,6 @@
 import Link from "next/link";
 import styles from "components/MoreLink.module.css";
-import { colors } from "utils/color";
-
-const { baseFontColor } = colors;
+import { colors } from "utils/designTokens/colors";
 
 export default function MoreLink({
   as,
@@ -10,7 +8,7 @@ export default function MoreLink({
   text,
   align = "end",
   fgColor = "#fff",
-  bgColor = baseFontColor
+  bgColor = colors?.baseText?.hsl
 }) {
   let alignClass;
   switch (align) {

@@ -1,16 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import ColorSwatches from "components/ColorSwatches";
+
 import { urlFor } from "lib/sanity";
 
-import { getColorData, getSwatches } from "utils/color";
+import { getColorData } from "utils/color";
 import useDebug from "utils/useDebug";
 
 export default function CoverImage({ className, title, image, slug, width = 1240, height = 540 }) {
   const colorData = getColorData(image?.palette);
   const debug = useDebug();
-
-  const swatches = debug ? getSwatches(colorData) : null;
+  const swatches = debug ? <ColorSwatches colorData={colorData} /> : null;
   const swatchOutput = debug ? (
     <div style={{ backgroundColor: "white", padding: "10px" }}>{swatches}</div>
   ) : null;

@@ -14,7 +14,7 @@ import PostBody from "components/PostBody";
 import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
-import { getColorData } from "utils/color";
+import { getColors } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -83,20 +83,16 @@ export default function ShortStory({ data: initialData }) {
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
 
   const palette = shortStory?.colorPalette ?? "darkVibrant";
-  const colorData =
-    palette === "custom"
-      ? getColorData({
-          custom: {
-            primary: shortStory?.primaryColor?.hex,
-            secondary: shortStory?.secondaryColor?.hex
-          }
-        })
-      : getColorData(shortStory?.image?.palette);
-
-  const baseBgColor = colorData?.[palette]?.base?.background ?? null;
-  const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
-  const compBgColor = colorData?.[palette]?.comp?.background ?? null;
-  const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
+  const { baseColor, compColor } = getColors({
+    palettes: shortStory?.image?.palette,
+    paletteKey: palette,
+    customPrimary: shortStory?.primaryColor,
+    customSecondary: shortStory?.secondaryColor
+  });
+  const baseBgColor = baseColor?.background?.hsl;
+  const baseFgColor = baseColor?.foreground?.hsl;
+  const compBgColor = compColor?.background?.hsl;
+  const compFgColor = compColor?.foreground?.hsl;
 
   const overview = shortStory?.overview ? (
     <>

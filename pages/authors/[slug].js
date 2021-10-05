@@ -9,7 +9,7 @@ import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostBody from "components/PostBody";
 
-import { getColorData } from "utils/color";
+import { getColors } from "utils/color";
 
 import styles from "pages/styles/author.module.css";
 
@@ -54,17 +54,16 @@ export default function Author({ data: initialData }) {
   });
 
   const palette = author?.colorPalette ?? "darkVibrant";
-  const colorData =
-    palette === "custom"
-      ? getColorData({
-          custom: { primary: author?.primaryColor?.hex, secondary: author?.secondaryColor?.hex }
-        })
-      : getColorData(author?.image?.palette);
-
-  const baseBgColor = colorData?.[palette]?.base?.background ?? null;
-  const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
-  const compBgColor = colorData?.[palette]?.comp?.background ?? null;
-  const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
+  const { baseColor, compColor } = getColors({
+    palettes: author?.image?.palette,
+    paletteKey: palette,
+    customPrimary: author?.primaryColor,
+    customSecondary: author?.secondaryColor
+  });
+  const baseBgColor = baseColor?.background?.hsl;
+  const baseFgColor = baseColor?.foreground?.hsl;
+  const compBgColor = compColor?.background?.hsl;
+  const compFgColor = compColor?.foreground?.hsl;
 
   return !router.isFallback && !author?.slug ? (
     <ErrorPage statusCode={404} />

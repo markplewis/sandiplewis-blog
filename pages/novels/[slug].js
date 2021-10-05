@@ -15,7 +15,7 @@ import ReviewList from "components/ReviewList";
 import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
-import { getColorData } from "utils/color";
+import { getColors } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -85,17 +85,16 @@ export default function Novel({ data: initialData }) {
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
 
   const palette = novel?.colorPalette ?? "darkVibrant";
-  const colorData =
-    palette === "custom"
-      ? getColorData({
-          custom: { primary: novel?.primaryColor?.hex, secondary: novel?.secondaryColor?.hex }
-        })
-      : getColorData(novel?.image?.palette);
-
-  const baseBgColor = colorData?.[palette]?.base?.background ?? null;
-  const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
-  const compBgColor = colorData?.[palette]?.comp?.background ?? null;
-  const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
+  const { baseColor, compColor } = getColors({
+    palettes: novel?.image?.palette,
+    paletteKey: palette,
+    customPrimary: novel?.primaryColor,
+    customSecondary: novel?.secondaryColor
+  });
+  const baseBgColor = baseColor?.background?.hsl;
+  const baseFgColor = baseColor?.foreground?.hsl;
+  const compBgColor = compColor?.background?.hsl;
+  const compFgColor = compColor?.foreground?.hsl;
 
   const overview = novel?.overview ? (
     <>

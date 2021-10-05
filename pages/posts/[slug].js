@@ -13,7 +13,7 @@ import PostBody from "components/PostBody";
 import PostMeta from "components/PostMeta";
 import ShareTools from "components/ShareTools";
 
-import { getColorData } from "utils/color";
+import { getColors } from "utils/color";
 import { processCreditLine } from "utils/strings";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
@@ -31,6 +31,8 @@ const postQuery = `
     "date": publishedAt,
     "slug": slug.current,
     colorPalette,
+    primaryColor,
+    secondaryColor,
     "image": image{..., ...asset->{
       creditLine,
       description,
@@ -102,12 +104,19 @@ export default function Post({ data: initialData }) {
     height: cinemaRatio ? 531 : 667
   };
 
-  const colorPalette = post?.colorPalette ?? "darkVibrant";
-  const colorData = getColorData(post?.image?.palette);
-  const baseBgColor = colorData?.[colorPalette]?.base?.background ?? null;
-  const baseFgColor = colorData?.[colorPalette]?.base?.foreground ?? null;
-  const compBgColor = colorData?.[colorPalette]?.comp?.background ?? null;
-  const compFgColor = colorData?.[colorPalette]?.comp?.foreground ?? null;
+  const palette = post?.colorPalette ?? "darkVibrant";
+  const { baseColor, compColor } = getColors({
+    palettes: post?.image?.palette,
+    paletteKey: palette,
+    customPrimary: post?.primaryColor,
+    customSecondary: post?.secondaryColor
+  });
+  const baseBgColor = baseColor?.background?.hsl;
+  const baseFgColor = baseColor?.foreground?.hsl;
+  const compBgColor = compColor?.background?.hsl;
+  const compFgColor = compColor?.foreground?.hsl;
+
+  // console.log("BG", { baseColor });
 
   const creditLine = processCreditLine(post?.image?.creditLine);
 

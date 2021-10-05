@@ -15,7 +15,7 @@ import ReviewList from "components/ReviewList";
 import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
-import { getColorData } from "utils/color";
+import { getColors } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -100,19 +100,18 @@ export default function HomePage({ data: initialData }) {
 
   const { novel, description = "" } = novelAndHomePage;
   const { colorPalette, primaryColor, secondaryColor } = novel;
+
   const palette = colorPalette ?? "lightVibrant";
-
-  const colorData =
-    palette === "custom"
-      ? getColorData({
-          custom: { primary: primaryColor?.hex, secondary: secondaryColor?.hex }
-        })
-      : getColorData(novel?.image?.palette);
-
-  const baseBgColor = colorData?.[palette]?.base?.background ?? null;
-  const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
-  const compBgColor = colorData?.[palette]?.comp?.background ?? null;
-  const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
+  const { baseColor, compColor } = getColors({
+    palettes: novel?.image?.palette,
+    paletteKey: palette,
+    customPrimary: primaryColor,
+    customSecondary: secondaryColor
+  });
+  const baseBgColor = baseColor?.background?.hsl;
+  const baseFgColor = baseColor?.foreground?.hsl;
+  const compBgColor = compColor?.background?.hsl;
+  const compFgColor = compColor?.foreground?.hsl;
 
   const isWide = useMediaQuery(`(min-width: ${rem(1280)})`);
 
