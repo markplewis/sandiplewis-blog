@@ -1,8 +1,5 @@
 import { colors } from "utils/designTokens/colors";
 
-const blackLuminance = luminance(51, 51, 51); // #333
-const whiteLuminance = luminance(255, 255, 255); // #fff
-
 // https://css-tricks.com/converting-color-spaces-in-javascript/#hex-to-hsl
 // https://www.sarasoueidan.com/blog/hex-rgb-to-hsl/#hsl-and-color-harmonies
 // https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
@@ -21,7 +18,8 @@ function hexToRGB(H) {
     g = "0x" + H[3] + H[4];
     b = "0x" + H[5] + H[6];
   }
-  return { r, g, b };
+  // Prepend the variables with + to convert them from strings back to numbers
+  return { r: +r, g: +g, b: +b };
 }
 
 function hexToHSL(H) {
@@ -60,6 +58,10 @@ function hexToHSL(H) {
 }
 
 function HSLToRGB(h, s, l) {
+  // Ensure that hue value is positive
+  // if (h < 0) {
+  //   h = 360 + h;
+  // }
   // Must be fractions of 1
   s /= 100;
   l /= 100;
@@ -135,165 +137,162 @@ function contrastRatio(bgLuminance, fgLuminance) {
   };
 }
 
-function getPaletteEntryData(palette, key) {
-  // Base colour
-  let baseHex;
-  let baseHSL;
-  let baseRGB;
-  let baseLuminance;
-
-  if (key === "custom" && palette.primary) {
-    baseHex = palette.primary;
-    baseHSL = hexToHSL(palette.primary);
-    baseRGB = hexToRGB(palette.primary);
-  } else {
-    baseHex = palette.background;
-    baseHSL = hexToHSL(palette.background);
-    baseRGB = hexToRGB(palette.background);
-  }
-  baseLuminance = luminance(baseRGB.r, baseRGB.g, baseRGB.b);
-
-  // Complimentary colour
-  let compHex;
-  let compHSL;
-  let compRGB;
-  let compLuminance;
-
-  if (key === "custom" && palette.secondary) {
-    compHex = palette.secondary;
-    compHSL = hexToHSL(palette.secondary);
-    compRGB = hexToRGB(palette.secondary);
-    compLuminance = luminance(compRGB.r, compRGB.g, compRGB.b);
-  } else {
-    // Even though negative hue values produce valid HSL colours, the `HSLToRGB`
-    // function doesn't return the correct values when passed a negative hue
-    const h1 = baseHSL.h - 180;
-    const h2 = baseHSL.h + 180;
-    compHSL = {
-      h: h1 < 0 ? h2 : h1,
-      s: baseHSL.s,
-      l: baseHSL.l
-    };
-    compRGB = HSLToRGB(compHSL.h, compHSL.s, compHSL.l);
-    compHex = RGBToHex(compRGB.r, compRGB.g, compRGB.b);
-    compLuminance = luminance(compRGB.r, compRGB.g, compRGB.b);
-  }
-
+function generateColorFromHSL(h, s, l) {
+  const { r, g, b } = HSLToRGB(h, s, l);
+  const hex = RGBToHex(r, g, b);
+  const lum = luminance(r, g, b);
   return {
-    key,
-    base: {
-      hex: baseHex,
-      ...baseHSL,
-      ...baseRGB,
-      hsl: `hsl(${baseHSL.h}deg, ${baseHSL.s}%, ${baseHSL.l}%)`,
-      rgb: `rgb(${baseRGB.r}, ${baseRGB.g}, ${baseRGB.b})`,
-      luminance: baseLuminance
-    },
-    comp: {
-      hex: compHex,
-      ...compHSL,
-      ...compRGB,
-      hsl: `hsl(${compHSL.h}deg, ${compHSL.s}%, ${compHSL.l}%)`,
-      rgb: `rgb(${compRGB.r}, ${compRGB.g}, ${compRGB.b})`,
-      luminance: compLuminance
-    }
+    hex,
+    h,
+    s,
+    l,
+    r,
+    g,
+    b,
+    hsl: `hsl(${h}deg, ${s}%, ${l}%)`,
+    rgb: `rgb(${r}, ${g}, ${b})`,
+    luminance: lum
   };
-}
-
-function getPaletteData(palette) {
-  const paletteKeys = [
-    "darkMuted",
-    "darkVibrant",
-    "dominant",
-    "lightMuted",
-    "lightVibrant",
-    "muted",
-    "vibrant",
-    "custom"
-  ];
-  return paletteKeys
-    .map(key => {
-      if (!palette || !palette[key]) {
-        return null;
-      }
-      return getPaletteEntryData(palette[key], key);
-    })
-    .filter(obj => obj);
 }
 
 // AA  large text - 3:1
 // AA  small text - 4.5:1
 // AAA large text - 4.5:1
 // AAA small text - 7:1
-
 const testResults = num => {
   return [num < 1 / 3, num < 1 / 4.5, num < 1 / 7].filter(v => v);
 };
 
-export function getColorData(palette) {
-  const paletteData = getPaletteData(palette);
-  const colorData = {};
+function getColorForegroundData(color) {
+  const { float: contrastOnBlack } = contrastRatio(color.luminance, 0);
+  const { float: contrastOnWhite } = contrastRatio(color.luminance, 1);
 
-  paletteData.forEach(({ key, base, comp }) => {
-    // Colour contrast on black
-    const { float: baseContrastFloatBlack, ratio: baseContrastRatioBlack } = contrastRatio(
-      base.luminance,
-      blackLuminance
-    );
-    const { float: compContrastFloatBlack, ratio: compContrastRatioBlack } = contrastRatio(
-      comp.luminance,
-      blackLuminance
-    );
-    // Colour contrast on white
-    const { float: baseContrastFloatWhite, ratio: baseContrastRatioWhite } = contrastRatio(
-      base.luminance,
-      whiteLuminance
-    );
-    const { float: compContrastFloatWhite, ratio: compContrastRatioWhite } = contrastRatio(
-      comp.luminance,
-      whiteLuminance
-    );
+  const darkForegroundPreferred =
+    testResults(contrastOnBlack).length > testResults(contrastOnWhite).length;
 
-    const baseBlackTextPreferred =
-      testResults(baseContrastFloatBlack).length > testResults(baseContrastFloatWhite).length;
+  const foreground = darkForegroundPreferred
+    ? generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 10))
+    : colors.baseBackground; // White
+  // : generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 90), true);
 
-    const compBlackTextPreferred =
-      testResults(compContrastFloatBlack).length > testResults(compContrastFloatWhite).length;
-
-    colorData[key] = {
-      base: {
-        background: base,
-        foreground: baseBlackTextPreferred ? colors.baseText : colors.baseBackground,
-        contrastRatio: baseBlackTextPreferred ? baseContrastRatioBlack : baseContrastRatioWhite,
-        contrastFloat: baseBlackTextPreferred ? baseContrastFloatBlack : baseContrastFloatWhite
-      },
-      comp: {
-        background: comp,
-        foreground: compBlackTextPreferred ? colors.baseText : colors.baseBackground,
-        contrastRatio: compBlackTextPreferred ? compContrastRatioBlack : compContrastRatioWhite,
-        contrastFloat: compBlackTextPreferred ? compContrastFloatBlack : compContrastFloatWhite
-      }
-    };
-  });
-
-  return colorData;
+  return foreground;
 }
 
-export function getColors({
-  palettes,
-  paletteKey = "darkVibrant",
-  customPrimary,
-  customSecondary
-}) {
+function generateAccessibleColor(originalColor, testColor = null, increment = false) {
+  if (!testColor) {
+    testColor = originalColor;
+  }
+  const current = parseFloat(testColor.l);
+  let l = null;
+  if (increment && current + 1 <= 100) {
+    l = current + 1;
+  } else if (!increment && current - 1 >= 0) {
+    l = current - 1;
+  }
+  if (l === null) {
+    // console.log(`${increment ? "+" : "-"} fail`);
+    return testColor;
+  }
+  // console.log(`${increment ? "+" : "-"} try: ${l}`);
+
+  const newColor = generateColorFromHSL(testColor.h, testColor.s, l);
+  const { float } = contrastRatio(originalColor.luminance, newColor.luminance);
+  const results = testResults(float);
+
+  if (results.length < 2) {
+    return generateAccessibleColor(originalColor, newColor, increment);
+  } else {
+    // console.log(`${increment ? "+" : "-"} success: ${parseFloat(newColor.l)}`);
+    return newColor;
+  }
+}
+
+// { background, foreground }
+// { primary, secondary }
+function getPaletteData(palette, key) {
+  // Base colour
+  const baseHex = key === "custom" && palette?.primary ? palette.primary : palette.background;
+  const baseHSL = hexToHSL(baseHex);
+  const base = generateColorFromHSL(baseHSL.h, baseHSL.s, baseHSL.l);
+
+  // Complimentary colour
+  let comp;
+  if (key === "custom" && palette?.secondary) {
+    const compHex = palette.secondary;
+    const compHSL = hexToHSL(compHex);
+    comp = generateColorFromHSL(compHSL.h, compHSL.s, compHSL.l);
+  } else {
+    // Even though negative hue values produce valid HSL colours when passed to CSS' hsl() function,
+    // the `HSLToRGB` function doesn't return the correct values when passed a negative hue
+    const h1 = baseHSL.h - 180;
+    const h2 = baseHSL.h + 180;
+    const h = h1 < 0 ? h2 : h1;
+    comp = generateColorFromHSL(h, baseHSL.s, baseHSL.l);
+  }
+  return { base, comp };
+}
+
+export function getColorData(palette, paletteKey) {
+  const { base, comp } = getPaletteData(palette, paletteKey);
+  return {
+    base: {
+      background: base,
+      foreground: getColorForegroundData(base)
+    },
+    comp: {
+      background: comp,
+      foreground: getColorForegroundData(comp)
+    }
+  };
+}
+
+function getColors({ palette, paletteKey, customPrimary, customSecondary }) {
   const colorData =
     paletteKey === "custom" && customPrimary?.hex && customSecondary?.hex
-      ? getColorData({
-          custom: { primary: customPrimary.hex, secondary: customSecondary.hex }
-        })
-      : getColorData(palettes);
-
+      ? getColorData({ primary: customPrimary.hex, secondary: customSecondary.hex }, paletteKey)
+      : getColorData(palette, paletteKey);
   return {
-    baseColor: colorData?.[paletteKey]?.base ?? null,
-    compColor: colorData?.[paletteKey]?.comp ?? null
+    base: {
+      background: colorData?.base?.background ?? colors.baseBackground,
+      foreground: colorData?.base?.foreground ?? colors.baseText
+    },
+    comp: {
+      background: colorData?.comp?.background ?? colors.baseBackground,
+      foreground: colorData?.comp?.foreground ?? colors.baseText
+    }
   };
+}
+
+export function getPageColors(post) {
+  const palettes = post?.image?.palette;
+  const paletteKey = post?.colorPalette ?? "darkVibrant";
+  const palette = palettes?.[paletteKey];
+
+  if (
+    (paletteKey === "custom" && (!post?.primaryColor || !post?.secondaryColor)) ||
+    (paletteKey !== "custom" && !palette)
+  ) {
+    console.log("Missing something", {
+      palette,
+      primaryColor: post?.primaryColor,
+      secondaryColor: post?.secondaryColor
+    });
+    return {
+      base: {
+        background: colors.baseBackground,
+        foreground: colors.baseText
+      },
+      comp: {
+        background: colors.baseBackground,
+        foreground: colors.baseText
+      }
+    };
+  }
+
+  return getColors({
+    palette: palettes?.[paletteKey], // { background, foreground } || undefined
+    paletteKey,
+    customPrimary: post?.primaryColor, // { hex } || null
+    customSecondary: post?.secondaryColor
+  });
 }

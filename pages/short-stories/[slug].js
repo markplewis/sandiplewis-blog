@@ -14,7 +14,7 @@ import PostBody from "components/PostBody";
 import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
-import { getColors } from "utils/color";
+import { getPageColors } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -82,17 +82,8 @@ export default function ShortStory({ data: initialData }) {
   const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
 
-  const palette = shortStory?.colorPalette ?? "darkVibrant";
-  const { baseColor, compColor } = getColors({
-    palettes: shortStory?.image?.palette,
-    paletteKey: palette,
-    customPrimary: shortStory?.primaryColor,
-    customSecondary: shortStory?.secondaryColor
-  });
-  const baseBgColor = baseColor?.background?.hsl;
-  const baseFgColor = baseColor?.foreground?.hsl;
-  const compBgColor = compColor?.background?.hsl;
-  const compFgColor = compColor?.foreground?.hsl;
+  // Colours
+  const { base: baseColor, comp: compColor } = getPageColors(shortStory);
 
   const overview = shortStory?.overview ? (
     <>
@@ -116,10 +107,10 @@ export default function ShortStory({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --baseBgColor: ${baseBgColor};
-            --baseFgColor: ${baseFgColor};
-            --compBgColor: ${compBgColor};
-            --compFgColor: ${compFgColor};
+            --baseBgColor: ${baseColor?.background?.hsl};
+            --baseFgColor: ${baseColor?.foreground?.hsl};
+            --compBgColor: ${compColor?.background?.hsl};
+            --compFgColor: ${compColor?.foreground?.hsl};
           }
         `}
       </style>
@@ -129,7 +120,7 @@ export default function ShortStory({ data: initialData }) {
           <div
             className={styles.patternBlock}
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compBgColor?.replace(
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compColor?.background?.hex?.replace(
                 "#",
                 "%23"
               )}' fill-opacity='0.5' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
@@ -155,7 +146,7 @@ export default function ShortStory({ data: initialData }) {
           <div
             className={styles.patternBlock2}
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='${compBgColor?.replace(
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='${compColor?.background?.hex?.replace(
                 "#",
                 "%23"
               )}' fill-opacity='0.5' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`

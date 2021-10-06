@@ -1,20 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-
 import ColorSwatches from "components/ColorSwatches";
-
 import { urlFor } from "lib/sanity";
-
-import { getColorData } from "utils/color";
 import useDebug from "utils/useDebug";
 
 export default function CoverImage({ className, title, image, slug, width = 1240, height = 540 }) {
-  const colorData = getColorData(image?.palette);
   const debug = useDebug();
-  const swatches = debug ? <ColorSwatches colorData={colorData} /> : null;
-  const swatchOutput = debug ? (
-    <div style={{ backgroundColor: "white", padding: "10px" }}>{swatches}</div>
-  ) : null;
+  const swatches = debug ? <ColorSwatches palette={image?.palette} /> : null;
 
   // See: https://nextjs.org/docs/api-reference/next/image
   // Can't produce <picture> elements (no art direction)
@@ -43,12 +35,12 @@ export default function CoverImage({ className, title, image, slug, width = 1240
           <Link as={`/posts/${slug}`} href="/posts/[slug]">
             <a aria-label={title}>{img}</a>
           </Link>
-          {swatchOutput}
+          {swatches}
         </>
       ) : (
         <>
           {img}
-          {swatchOutput}
+          {swatches}
         </>
       )}
     </div>

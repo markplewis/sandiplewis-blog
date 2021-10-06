@@ -1,3 +1,5 @@
+import { getColorData } from "utils/color";
+
 import styles from "components/ColorSwatches.module.css";
 
 const pass = <span style={{ textTransform: "uppercase", color: "green" }}>Pass</span>;
@@ -20,30 +22,34 @@ const stats = (num, label) => {
   );
 };
 
-export default function ColorSwatches({ colorData }) {
+export default function ColorSwatches({ palette }) {
+  const colorData = getColorData(palette);
+
   return Object.keys(colorData).map(key => {
     return (
-      <div key={key} className={styles.paletteGroup}>
-        <p>
-          <strong>{key}</strong>
-        </p>
-        {Object.entries(colorData[key]).map(
-          ([label, { background, foreground, contrastRatio, contrastFloat }]) => {
-            return (
-              <div key={`${key}-${label}-${background.hex}`} className={styles.swatchGroup}>
-                <div
-                  className={styles.swatch}
-                  style={{
-                    backgroundColor: background.hex,
-                    color: foreground.hex
-                  }}>
-                  {contrastRatio}
+      <div key={key} style={{ backgroundColor: "white", padding: "10px" }}>
+        <div className={styles.paletteGroup}>
+          <p>
+            <strong>{key}</strong>
+          </p>
+          {Object.entries(colorData[key]).map(
+            ([label, { background, foreground, contrastRatio, contrastFloat }]) => {
+              return (
+                <div key={`${key}-${label}-${background.hex}`} className={styles.swatchGroup}>
+                  <div
+                    className={styles.swatch}
+                    style={{
+                      backgroundColor: background.hex,
+                      color: foreground.hex
+                    }}>
+                    {contrastRatio}
+                  </div>
+                  {stats(contrastFloat, label)}
                 </div>
-                {stats(contrastFloat, label)}
-              </div>
-            );
-          }
-        )}
+              );
+            }
+          )}
+        </div>
       </div>
     );
   });

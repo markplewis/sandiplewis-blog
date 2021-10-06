@@ -13,7 +13,8 @@ import PostBody from "components/PostBody";
 import PostMeta from "components/PostMeta";
 import ShareTools from "components/ShareTools";
 
-import { getColors } from "utils/color";
+import { getPageColors } from "utils/color";
+// import { colors } from "utils/designTokens/colors";
 import { processCreditLine } from "utils/strings";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
@@ -104,19 +105,8 @@ export default function Post({ data: initialData }) {
     height: cinemaRatio ? 531 : 667
   };
 
-  const palette = post?.colorPalette ?? "darkVibrant";
-  const { baseColor, compColor } = getColors({
-    palettes: post?.image?.palette,
-    paletteKey: palette,
-    customPrimary: post?.primaryColor,
-    customSecondary: post?.secondaryColor
-  });
-  const baseBgColor = baseColor?.background?.hsl;
-  const baseFgColor = baseColor?.foreground?.hsl;
-  const compBgColor = compColor?.background?.hsl;
-  const compFgColor = compColor?.foreground?.hsl;
-
-  // console.log("BG", { baseColor });
+  // Colours
+  const { base: baseColor, comp: compColor } = getPageColors(post);
 
   const creditLine = processCreditLine(post?.image?.creditLine);
 
@@ -135,10 +125,10 @@ export default function Post({ data: initialData }) {
           <style jsx global>
             {`
               body {
-                --baseBgColor: ${baseBgColor};
-                --baseFgColor: ${baseFgColor};
-                --compBgColor: ${compBgColor};
-                --compFgColor: ${compFgColor};
+                --baseBgColor: ${baseColor?.background?.hsl};
+                --baseFgColor: ${baseColor?.foreground?.hsl};
+                --compBgColor: ${compColor?.background?.hsl};
+                --compFgColor: ${compColor?.foreground?.hsl};
               }
             `}
           </style>
