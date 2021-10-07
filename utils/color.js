@@ -1,12 +1,4 @@
-import swatchStyles from "components/CoverImage.module.css";
-
-export const colors = {
-  baseBackgroundColor: "#fff",
-  baseFontColor: "#333"
-};
-
-const blackLuminance = luminance(0, 0, 0);
-const whiteLuminance = luminance(255, 255, 255);
+import { colors } from "utils/designTokens/colors";
 
 // https://css-tricks.com/converting-color-spaces-in-javascript/#hex-to-hsl
 // https://www.sarasoueidan.com/blog/hex-rgb-to-hsl/#hsl-and-color-harmonies
@@ -26,7 +18,8 @@ function hexToRGB(H) {
     g = "0x" + H[3] + H[4];
     b = "0x" + H[5] + H[6];
   }
-  return { r, g, b };
+  // Prepend the variables with + to convert them from strings back to numbers
+  return { r: +r, g: +g, b: +b };
 }
 
 function hexToHSL(H) {
@@ -65,6 +58,10 @@ function hexToHSL(H) {
 }
 
 function HSLToRGB(h, s, l) {
+  // Ensure that hue value is positive
+  // if (h < 0) {
+  //   h = 360 + h;
+  // }
   // Must be fractions of 1
   s /= 100;
   l /= 100;
@@ -108,6 +105,18 @@ function HSLToRGB(h, s, l) {
   return { r, g, b };
 }
 
+function RGBToHex(r, g, b) {
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+
+  if (r.length == 1) r = "0" + r;
+  if (g.length == 1) g = "0" + g;
+  if (b.length == 1) b = "0" + b;
+
+  return "#" + r + g + b;
+}
+
 function luminance(r, g, b) {
   let a = [r, g, b].map(v => {
     v /= 255;
@@ -128,168 +137,159 @@ function contrastRatio(bgLuminance, fgLuminance) {
   };
 }
 
-function getPaletteData(palette) {
-  const paletteKeys = [
-    "darkMuted",
-    "darkVibrant",
-    "dominant",
-    "lightMuted",
-    "lightVibrant",
-    "muted",
-    "vibrant",
-    "custom"
-  ];
-  return paletteKeys
-    .map(key => {
-      if (!palette || !palette[key]) {
-        return null;
-      }
-      // Base colour
-      let baseHSL;
-      let baseRGB;
-
-      if (key === "custom" && palette[key].primary) {
-        baseHSL = hexToHSL(palette[key].primary);
-        baseRGB = hexToRGB(palette[key].primary);
-      } else {
-        baseHSL = hexToHSL(palette[key].background);
-        baseRGB = hexToRGB(palette[key].background);
-      }
-      const baseLuminance = luminance(baseRGB.r, baseRGB.g, baseRGB.b);
-
-      // Complimentary colour
-      let compHSL;
-      let compRGB;
-      let compLuminance;
-
-      if (key === "custom" && palette[key].secondary) {
-        compHSL = hexToHSL(palette[key].secondary);
-        compRGB = hexToRGB(palette[key].secondary);
-        compLuminance = luminance(compRGB.r, compRGB.g, compRGB.b);
-      } else {
-        compHSL = {
-          h: baseHSL.h - 180,
-          s: baseHSL.s,
-          l: baseHSL.l
-        };
-        compRGB = HSLToRGB(...Object.values(compHSL));
-        compLuminance = luminance(...Object.values(compRGB));
-      }
-
-      return {
-        key,
-        base: {
-          ...baseHSL,
-          luminance: baseLuminance
-        },
-        comp: {
-          ...compHSL,
-          luminance: compLuminance
-        }
-      };
-    })
-    .filter(obj => obj);
+function generateColorFromHSL(h, s, l) {
+  const { r, g, b } = HSLToRGB(h, s, l);
+  const hex = RGBToHex(r, g, b);
+  const lum = luminance(r, g, b);
+  return {
+    hex,
+    h,
+    s,
+    l,
+    r,
+    g,
+    b,
+    hsl: `hsl(${h}deg, ${s}%, ${l}%)`,
+    rgb: `rgb(${r}, ${g}, ${b})`,
+    luminance: lum
+  };
 }
 
+// AA  large text - 3:1
+// AA  small text - 4.5:1
+// AAA large text - 4.5:1
+// AAA small text - 7:1
 const testResults = num => {
-  return [num < 1 / 3, num < 1 / 4.5, num < 1 / 4.5, num < 1 / 7].filter(v => v);
+  return [num < 1 / 3, num < 1 / 4.5, num < 1 / 7].filter(v => v);
 };
 
-export function getColorData(palette) {
-  const paletteData = getPaletteData(palette);
-  const colorData = {};
+function getColorForegroundData(color) {
+  const { float: contrastOnBlack } = contrastRatio(color.luminance, 0);
+  const { float: contrastOnWhite } = contrastRatio(color.luminance, 1);
 
-  paletteData.forEach(({ key, base, comp }) => {
-    // Black
-    const { float: baseFloatBlack, ratio: baseRatioBlack } = contrastRatio(
-      base.luminance,
-      blackLuminance
-    );
-    const { float: compFloatBlack, ratio: compRatioBlack } = contrastRatio(
-      comp.luminance,
-      blackLuminance
-    );
-    // White
-    const { float: baseFloatWhite, ratio: baseRatioWhite } = contrastRatio(
-      base.luminance,
-      whiteLuminance
-    );
-    const { float: compFloatWhite, ratio: compRatioWhite } = contrastRatio(
-      comp.luminance,
-      whiteLuminance
-    );
+  const darkForegroundPreferred =
+    testResults(contrastOnBlack).length > testResults(contrastOnWhite).length;
 
-    const baseBgColor = `hsl(${base.h}deg, ${base.s}%, ${base.l}%)`;
-    const compBgColor = `hsl(${comp.h}deg, ${comp.s}%, ${comp.l}%)`;
+  const foreground = darkForegroundPreferred
+    ? generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 10)) // Nearly black
+    : generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 90), true); // Nearly white
+  // : colors.white; // White
 
-    const baseBlackPreferred =
-      testResults(baseFloatBlack).length > testResults(baseFloatWhite).length;
+  return foreground;
+}
 
-    const compBlackPreferred =
-      testResults(compFloatBlack).length > testResults(compFloatWhite).length;
+function generateAccessibleColor(originalColor, testColor = null, increment = false) {
+  if (!testColor) {
+    testColor = originalColor;
+  }
+  const current = parseFloat(testColor.l);
+  let l = null;
+  if (increment && current + 1 <= 100) {
+    l = current + 1;
+  } else if (!increment && current - 1 >= 0) {
+    l = current - 1;
+  }
+  if (l === null) {
+    // Colour bottoms out at zero (black) or reaches 100 (white)
+    // console.log(`${increment ? "+" : "-"} fail`);
+    return testColor;
+  }
+  // console.log(`${increment ? "+" : "-"} try: ${l}`);
 
-    colorData[key] = {
+  const newColor = generateColorFromHSL(testColor.h, testColor.s, l);
+  const { float } = contrastRatio(originalColor.luminance, newColor.luminance);
+  const results = testResults(float);
+
+  if (results.length < 3) {
+    return generateAccessibleColor(originalColor, newColor, increment);
+  } else {
+    // console.log(`${increment ? "+" : "-"} success: ${parseFloat(newColor.l)}`);
+    return newColor;
+  }
+}
+
+// { background, foreground }
+// { primary, secondary }
+function getPaletteData(palette, key) {
+  // Base colour
+  const baseHex = key === "custom" && palette?.primary ? palette.primary : palette.background;
+  const baseHSL = hexToHSL(baseHex);
+  const base = generateColorFromHSL(baseHSL.h, baseHSL.s, baseHSL.l);
+
+  // Complimentary colour
+  let comp;
+  if (key === "custom" && palette?.secondary) {
+    const compHex = palette.secondary;
+    const compHSL = hexToHSL(compHex);
+    comp = generateColorFromHSL(compHSL.h, compHSL.s, compHSL.l);
+  } else {
+    // Even though negative hue values produce valid HSL colours when passed to CSS' hsl() function,
+    // the `HSLToRGB` function doesn't return the correct values when passed a negative hue
+    const h1 = baseHSL.h - 180;
+    const h2 = baseHSL.h + 180;
+    const h = h1 < 0 ? h2 : h1;
+    comp = generateColorFromHSL(h, baseHSL.s, baseHSL.l);
+  }
+  return { base, comp };
+}
+
+export function getColorData(palette, paletteKey) {
+  const { base, comp } = getPaletteData(palette, paletteKey);
+  return {
+    base: {
+      background: base,
+      foreground: getColorForegroundData(base)
+    },
+    comp: {
+      background: comp,
+      foreground: getColorForegroundData(comp)
+    }
+  };
+}
+
+function getColors({ palette, paletteKey, customPrimary, customSecondary }) {
+  const colorData =
+    paletteKey === "custom" && customPrimary?.hex && customSecondary?.hex
+      ? getColorData({ primary: customPrimary.hex, secondary: customSecondary.hex }, paletteKey)
+      : getColorData(palette, paletteKey);
+  return {
+    base: {
+      background: colorData?.base?.background ?? colors.white,
+      foreground: colorData?.base?.foreground ?? colors.black
+    },
+    comp: {
+      background: colorData?.comp?.background ?? colors.white,
+      foreground: colorData?.comp?.foreground ?? colors.black
+    }
+  };
+}
+
+export function getPageColors(post) {
+  const palettes = post?.image?.palette;
+  const paletteKey = post?.colorPalette ?? "darkVibrant";
+  const palette = palettes?.[paletteKey];
+
+  if (
+    (paletteKey === "custom" && (!post?.primaryColor || !post?.secondaryColor)) ||
+    (paletteKey !== "custom" && !palette)
+  ) {
+    // Fallback colours
+    return {
       base: {
-        background: baseBgColor,
-        foreground: baseBlackPreferred ? "black" : "white",
-        ratio: baseBlackPreferred ? baseRatioBlack : baseRatioWhite,
-        float: baseBlackPreferred ? baseFloatBlack : baseFloatWhite
+        background: colors.white,
+        foreground: colors.black
       },
       comp: {
-        background: compBgColor,
-        foreground: compBlackPreferred ? "black" : "white",
-        ratio: compBlackPreferred ? compRatioBlack : compRatioWhite,
-        float: compBlackPreferred ? compFloatBlack : compFloatWhite
+        background: colors.black,
+        foreground: colors.white
       }
     };
-  });
+  }
 
-  return colorData;
-}
-
-const pass = <span style={{ textTransform: "uppercase", color: "green" }}>Pass</span>;
-const fail = <span style={{ textTransform: "uppercase", color: "red" }}>Fail</span>;
-
-const stats = (num, label) => {
-  return (
-    <div>
-      <p>
-        <strong>{label}</strong>
-      </p>
-      AA lg (3:1) {num < 1 / 3 ? pass : fail}
-      <br />
-      AA sm (4.5:1) {num < 1 / 4.5 ? pass : fail}
-      <br />
-      AAA lg (4.5:1) {num < 1 / 4.5 ? pass : fail}
-      <br />
-      AAA sm (7:1) {num < 1 / 7 ? pass : fail}
-    </div>
-  );
-};
-
-export function getSwatches(colorData) {
-  return Object.keys(colorData).map(key => {
-    return (
-      <div key={key} className={swatchStyles.paletteGroup}>
-        <p>
-          <strong>{key}</strong>
-        </p>
-        {Object.entries(colorData[key]).map(([label, { background, foreground, ratio, float }]) => {
-          return (
-            <div key={`${key}-${label}-${background}`} className={swatchStyles.swatchGroup}>
-              <div
-                className={swatchStyles.swatch}
-                style={{
-                  backgroundColor: background,
-                  color: foreground
-                }}>
-                {ratio}
-              </div>
-              {stats(float, label)}
-            </div>
-          );
-        })}
-      </div>
-    );
+  return getColors({
+    palette: palettes?.[paletteKey], // { background, foreground } || undefined
+    paletteKey,
+    customPrimary: post?.primaryColor, // { hex } || null
+    customSecondary: post?.secondaryColor
   });
 }

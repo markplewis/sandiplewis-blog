@@ -17,6 +17,7 @@
 .postLink:hover .postTitle,
 .postLink:focus .postTitle {
   text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 .postInfo {
   flex: 1 1;

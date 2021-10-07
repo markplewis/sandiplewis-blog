@@ -10,6 +10,8 @@ import PageTitle from "components/PageTitle";
 
 import commonStyles from "pages/styles/common.module.css";
 import styles from "pages/styles/writingAndPosts.module.css";
+
+import { colors } from "utils/designTokens/colors";
 import { rem } from "utils/units";
 
 const query = `
@@ -35,8 +37,8 @@ export default function Categories({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --compBgColor: #fff;
-            --compFgColor: #333;
+            --compBgColor: ${colors?.white?.hsl};
+            --compFgColor: ${colors?.black?.hsl};
           }
         `}
       </style>

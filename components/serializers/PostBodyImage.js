@@ -10,6 +10,9 @@ const PostBodyImage = ({ node }) => {
   const height = node?.asset?.metadata?.dimensions?.height;
   const creditLine = processCreditLine(node?.asset?.creditLine);
 
+  // TODO: larger images at mobile breakpoint (when they're still centered)?
+  // Make sure they're still server-rendered though
+
   let orientation = "square";
   if (width > height) {
     orientation = "landscape";

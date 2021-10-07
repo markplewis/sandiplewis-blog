@@ -3,7 +3,6 @@
   padding: 22px;
   background-color: #fff;
   font-size: var(--font-size-4);
-  /* line-height: 1.5; */
 }
 .body > *:first-child,
 .body > div > *:first-child {
@@ -26,11 +25,11 @@
 .body a:active {
   color: var(--base-font-color);
 }
-.body a:hover,
+/* .body a:hover,
 .body a:focus,
 .body a:active {
   text-decoration: none;
-}
+} */
 .body h2,
 .body h3,
 .body h4,

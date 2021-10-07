@@ -13,7 +13,8 @@ import PostBody from "components/PostBody";
 import PostMeta from "components/PostMeta";
 import ShareTools from "components/ShareTools";
 
-import { getColorData } from "utils/color";
+import { getPageColors } from "utils/color";
+// import { colors } from "utils/designTokens/colors";
 import { processCreditLine } from "utils/strings";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
@@ -31,6 +32,8 @@ const postQuery = `
     "date": publishedAt,
     "slug": slug.current,
     colorPalette,
+    primaryColor,
+    secondaryColor,
     "image": image{..., ...asset->{
       creditLine,
       description,
@@ -102,12 +105,8 @@ export default function Post({ data: initialData }) {
     height: cinemaRatio ? 531 : 667
   };
 
-  const colorPalette = post?.colorPalette ?? "darkVibrant";
-  const colorData = getColorData(post?.image?.palette);
-  const baseBgColor = colorData?.[colorPalette]?.base?.background ?? null;
-  const baseFgColor = colorData?.[colorPalette]?.base?.foreground ?? null;
-  const compBgColor = colorData?.[colorPalette]?.comp?.background ?? null;
-  const compFgColor = colorData?.[colorPalette]?.comp?.foreground ?? null;
+  // Colours
+  const { base: baseColor, comp: compColor } = getPageColors(post);
 
   const creditLine = processCreditLine(post?.image?.creditLine);
 
@@ -126,10 +125,10 @@ export default function Post({ data: initialData }) {
           <style jsx global>
             {`
               body {
-                --baseBgColor: ${baseBgColor};
-                --baseFgColor: ${baseFgColor};
-                --compBgColor: ${compBgColor};
-                --compFgColor: ${compFgColor};
+                --baseBgColor: ${baseColor?.background?.hsl};
+                --baseFgColor: ${baseColor?.foreground?.hsl};
+                --compBgColor: ${compColor?.background?.hsl};
+                --compFgColor: ${compColor?.foreground?.hsl};
               }
             `}
           </style>
@@ -156,7 +155,7 @@ export default function Post({ data: initialData }) {
                 height={imageSize.height}
               />
 
-              <div className={`${styles.meta} ${styles.metaAbove}`}>
+              <div className={styles.metaAbove}>
                 {isMedium && <PostMeta creditLine={creditLine} post={post} themed={true} />}
               </div>
 
@@ -171,7 +170,7 @@ export default function Post({ data: initialData }) {
               {!isMedium && (
                 <>
                   {<ShareTools text={post.title} position="below" />}
-                  <div className={`${styles.meta} ${styles.metaBelow}`}>
+                  <div className={styles.metaBelow}>
                     <PostMeta creditLine={creditLine} post={post} themed={false} />
                   </div>
                 </>

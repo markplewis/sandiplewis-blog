@@ -15,7 +15,7 @@ import ReviewList from "components/ReviewList";
 import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
-import { getColorData } from "utils/color";
+import { getPageColors } from "utils/color";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
 
@@ -99,20 +99,9 @@ export default function HomePage({ data: initialData }) {
   });
 
   const { novel, description = "" } = novelAndHomePage;
-  const { colorPalette, primaryColor, secondaryColor } = novel;
-  const palette = colorPalette ?? "lightVibrant";
 
-  const colorData =
-    palette === "custom"
-      ? getColorData({
-          custom: { primary: primaryColor?.hex, secondary: secondaryColor?.hex }
-        })
-      : getColorData(novel?.image?.palette);
-
-  const baseBgColor = colorData?.[palette]?.base?.background ?? null;
-  const baseFgColor = colorData?.[palette]?.base?.foreground ?? null;
-  const compBgColor = colorData?.[palette]?.comp?.background ?? null;
-  const compFgColor = colorData?.[palette]?.comp?.foreground ?? null;
+  // Colours
+  const { base: baseColor, comp: compColor } = getPageColors(novel);
 
   const isWide = useMediaQuery(`(min-width: ${rem(1280)})`);
 
@@ -124,10 +113,10 @@ export default function HomePage({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --baseBgColor: ${baseBgColor};
-            --baseFgColor: ${baseFgColor};
-            --compBgColor: ${compBgColor};
-            --compFgColor: ${compFgColor};
+            --baseBgColor: ${baseColor?.background?.hsl};
+            --baseFgColor: ${baseColor?.foreground?.hsl};
+            --compBgColor: ${compColor?.background?.hsl};
+            --compFgColor: ${compColor?.foreground?.hsl};
           }
         `}
       </style>
@@ -143,10 +132,10 @@ export default function HomePage({ data: initialData }) {
       <div
         className={styles.patternBlock}
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compBgColor?.replace(
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compColor?.background?.hex?.replace(
             "#",
             "%23"
-          )}' fill-opacity='0.5' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
+          )}' fill-opacity='0.6' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
         }}></div>
 
       <div className={styles.page}>
@@ -188,8 +177,8 @@ export default function HomePage({ data: initialData }) {
                 as={`/novels/${novel?.slug}`}
                 href="/novels/[slug]"
                 text="More information"
-                fgColor={compFgColor}
-                bgColor={compBgColor}
+                fgColor={compColor?.foreground?.hsl}
+                bgColor={compColor?.background?.hsl}
               />
             </div>
           </div>

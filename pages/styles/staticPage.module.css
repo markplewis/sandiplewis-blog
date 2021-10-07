@@ -30,8 +30,8 @@
 .pageInner a:active {
   color: var(--base-font-color);
 }
-.pageInner a:hover,
+/* .pageInner a:hover,
 .pageInner a:focus,
 .pageInner a:active {
-  text-decoration: none;
-}
+  text-decoration-thickness: 2px;
+} */
