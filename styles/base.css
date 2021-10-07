@@ -19,6 +19,7 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
   src: local("Times New Roman");
 }
 :root {
+  /* TODO: import these values from `utils/designTokens/colors.js` */
   --base-background-color: #fff;
   --base-font-color: #333;
   --base-font-family: "Open Sans", "Open Sans fallback", Verdana, sans-serif;
@@ -130,7 +131,17 @@ in order to avoid having to apply "display: inline-block" to every <a> that wrap
 :focus,
 :hover:focus {
   outline: 2px solid var(--focus-outline-color);
-  outline-offset: 0;
+  outline-offset: 2px;
+}
+
+a {
+  text-underline-offset: 1px;
+  text-decoration-thickness: 1px;
+}
+a:hover,
+a:focus,
+a:active {
+  text-decoration-thickness: 2px;
 }
 
 /* Utilities */

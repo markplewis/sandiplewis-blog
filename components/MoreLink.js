@@ -7,8 +7,8 @@ export default function MoreLink({
   href,
   text,
   align = "end",
-  fgColor = "#fff",
-  bgColor = colors?.baseText?.hsl
+  fgColor = colors?.white?.hsl,
+  bgColor = colors?.black?.hsl
 }) {
   let alignClass;
   switch (align) {

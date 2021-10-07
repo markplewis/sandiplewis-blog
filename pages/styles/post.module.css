@@ -97,6 +97,10 @@
   padding-left: 22px;
   grid-column: 5 / -2;
 }
+/* .metaAbove :focus,
+.metaAbove :hover:focus {
+  outline-color: var(--baseFgColor);
+} */
 .metaBelow {
   margin: 0 -22px;
   padding: 22px;

@@ -13,7 +13,8 @@ export default function resolveProductionUrl(document) {
   const doc = document.displayed || document;
 
   if (doc._type && doc.slug) {
-    return `${projectUrl}/${doc._type}s/${doc.slug.current}`;
+    const type = doc._type === "shortStory" ? "short-stories" : `${doc._type}s`;
+    return `${projectUrl}/${type}/${doc.slug.current}`;
   } else if (doc._type === "homePage") {
     return `${projectUrl}/`;
   }

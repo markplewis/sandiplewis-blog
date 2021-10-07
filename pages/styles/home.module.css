@@ -46,6 +46,10 @@
   align-items: center;
   gap: 22px;
 }
+.novel ul,
+.novel ol {
+  line-height: 1.8;
+}
 .novel a,
 .novel a:visited,
 .novel a:hover,
@@ -53,11 +57,15 @@
 .novel a:active {
   color: var(--baseFgColor);
 }
-.novel a:hover,
+.novel :focus,
+.novel :hover:focus {
+  outline-color: var(--baseFgColor);
+}
+/* .novel a:hover,
 .novel a:focus,
 .novel a:active {
-  text-decoration: none;
-}
+  text-decoration-thickness: 2px;
+} */
 .novelImage {
   width: 188px;
 }
@@ -95,11 +103,11 @@
 .bio a:active {
   color: var(--base-font-color);
 }
-.bio a:hover,
+/* .bio a:hover,
 .bio a:focus,
 .bio a:active {
-  text-decoration: none;
-}
+  text-decoration-thickness: 2px;
+} */
 .bioHeading {
   margin-top: 0;
 }

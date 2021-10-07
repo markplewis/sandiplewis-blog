@@ -1,4 +1,4 @@
-const baseBackground = {
+const white = {
   hex: "#fff",
   r: 255,
   g: 255,
@@ -8,7 +8,7 @@ const baseBackground = {
   l: 100
 };
 
-const baseText = {
+const black = {
   hex: "#333",
   r: 51,
   g: 51,
@@ -18,7 +18,7 @@ const baseText = {
   l: 20
 };
 
-function generateColors(color) {
+function generateCSSValues(color) {
   return {
     ...color,
     hsl: `hsl(${color.h}deg, ${color.s}%, ${color.l}%)`,
@@ -27,6 +27,6 @@ function generateColors(color) {
 }
 
 export const colors = {
-  baseBackground: generateColors(baseBackground),
-  baseText: generateColors(baseText)
+  white: generateCSSValues(white),
+  black: generateCSSValues(black)
 };

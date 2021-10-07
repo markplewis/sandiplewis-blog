@@ -14,12 +14,12 @@
 .credit a {
   color: var(--base-font-color);
 }
-.author:hover,
+/* .author:hover,
 .author:focus,
 .credit a:hover,
 .credit a:focus {
   text-decoration: none;
-}
+} */
 .categories {
   display: flex;
   align-items: baseline;
@@ -48,4 +48,8 @@
 }
 .metaThemed .credit a {
   color: var(--compFgColor);
+}
+.metaThemed :focus,
+.metaThemed :hover:focus {
+  outline-color: var(--compFgColor);
 }

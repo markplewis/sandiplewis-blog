@@ -60,6 +60,10 @@
   justify-content: center;
   gap: 44px;
 }
+.coverImageAndInfo :focus,
+.coverImageAndInfo :hover:focus {
+  outline-color: var(--baseFgColor);
+}
 .patternBlock,
 .patternBlock2,
 .coverImage,
@@ -101,6 +105,10 @@
   display: block;
   grid-column: 4 / -1;
 }
+.info ul,
+.info ol {
+  line-height: 1.8;
+}
 .infoAbove {
   color: var(--baseFgColor);
 }
@@ -114,11 +122,11 @@
 .infoAbove a:active {
   color: var(--baseFgColor);
 }
-.infoAbove a:hover,
+/* .infoAbove a:hover,
 .infoAbove a:focus,
 .infoAbove a:active {
-  text-decoration: none;
-}
+  text-decoration-thickness: 2px;
+} */
 .shareTools {
   margin-left: auto;
 }
@@ -134,11 +142,11 @@
 .infoBelow a:active {
   color: var(--base-font-color);
 }
-.infoBelow a:hover,
+/* .infoBelow a:hover,
 .infoBelow a:focus,
 .infoBelow a:active {
-  text-decoration: none;
-}
+  text-decoration-thickness: 2px;
+} */
 .bodyArea {
   grid-column: 2 / -2;
   grid-row: 4 / 5;

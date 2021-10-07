@@ -155,7 +155,7 @@ export default function Post({ data: initialData }) {
                 height={imageSize.height}
               />
 
-              <div className={`${styles.meta} ${styles.metaAbove}`}>
+              <div className={styles.metaAbove}>
                 {isMedium && <PostMeta creditLine={creditLine} post={post} themed={true} />}
               </div>
 
@@ -170,7 +170,7 @@ export default function Post({ data: initialData }) {
               {!isMedium && (
                 <>
                   {<ShareTools text={post.title} position="below" />}
-                  <div className={`${styles.meta} ${styles.metaBelow}`}>
+                  <div className={styles.metaBelow}>
                     <PostMeta creditLine={creditLine} post={post} themed={false} />
                   </div>
                 </>

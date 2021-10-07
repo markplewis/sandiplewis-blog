@@ -171,9 +171,9 @@ function getColorForegroundData(color) {
     testResults(contrastOnBlack).length > testResults(contrastOnWhite).length;
 
   const foreground = darkForegroundPreferred
-    ? generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 10))
-    : colors.baseBackground; // White
-  // : generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 90), true);
+    ? generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 10)) // Nearly black
+    : generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 90), true); // Nearly white
+  // : colors.white; // White
 
   return foreground;
 }
@@ -190,6 +190,7 @@ function generateAccessibleColor(originalColor, testColor = null, increment = fa
     l = current - 1;
   }
   if (l === null) {
+    // Colour bottoms out at zero (black) or reaches 100 (white)
     // console.log(`${increment ? "+" : "-"} fail`);
     return testColor;
   }
@@ -199,7 +200,7 @@ function generateAccessibleColor(originalColor, testColor = null, increment = fa
   const { float } = contrastRatio(originalColor.luminance, newColor.luminance);
   const results = testResults(float);
 
-  if (results.length < 2) {
+  if (results.length < 3) {
     return generateAccessibleColor(originalColor, newColor, increment);
   } else {
     // console.log(`${increment ? "+" : "-"} success: ${parseFloat(newColor.l)}`);
@@ -253,12 +254,12 @@ function getColors({ palette, paletteKey, customPrimary, customSecondary }) {
       : getColorData(palette, paletteKey);
   return {
     base: {
-      background: colorData?.base?.background ?? colors.baseBackground,
-      foreground: colorData?.base?.foreground ?? colors.baseText
+      background: colorData?.base?.background ?? colors.white,
+      foreground: colorData?.base?.foreground ?? colors.black
     },
     comp: {
-      background: colorData?.comp?.background ?? colors.baseBackground,
-      foreground: colorData?.comp?.foreground ?? colors.baseText
+      background: colorData?.comp?.background ?? colors.white,
+      foreground: colorData?.comp?.foreground ?? colors.black
     }
   };
 }
@@ -272,19 +273,15 @@ export function getPageColors(post) {
     (paletteKey === "custom" && (!post?.primaryColor || !post?.secondaryColor)) ||
     (paletteKey !== "custom" && !palette)
   ) {
-    console.log("Missing something", {
-      palette,
-      primaryColor: post?.primaryColor,
-      secondaryColor: post?.secondaryColor
-    });
+    // Fallback colours
     return {
       base: {
-        background: colors.baseBackground,
-        foreground: colors.baseText
+        background: colors.white,
+        foreground: colors.black
       },
       comp: {
-        background: colors.baseBackground,
-        foreground: colors.baseText
+        background: colors.black,
+        foreground: colors.white
       }
     };
   }

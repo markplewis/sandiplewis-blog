@@ -37,8 +37,8 @@ export default function Categories({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --compBgColor: ${colors?.baseBackground?.hls};
-            --compFgColor: ${colors?.baseText?.hls};
+            --compBgColor: ${colors?.white?.hsl};
+            --compFgColor: ${colors?.black?.hsl};
           }
         `}
       </style>
