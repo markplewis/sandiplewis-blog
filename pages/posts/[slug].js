@@ -205,8 +205,8 @@ export async function getStaticProps({ params }) {
         post
         // commentsEnabled
       }
-    }
-    // revalidate: 1 // TODO: is this necessary?
+    },
+    revalidate: 10
   };
 }
 
@@ -218,7 +218,8 @@ export async function getStaticPaths() {
   );
   return {
     paths,
-    // See: https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required
+    // https://nextjs.org/docs/basic-features/data-fetching#fallback-false
+    // https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required
     fallback: true
   };
 }
