@@ -12,9 +12,10 @@ export default async function sendEmail(req, res) {
     mg({
       auth: {
         api_key: process.env.MAILGUN_PRIVATE_API_KEY,
-        // TODO: add a `mail.sandiplewis.com` subdomain and configure its MX records
-        // https://help.mailgun.com/hc/en-us/articles/203637190
-        domain: "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org"
+        domain:
+          process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+            ? "mg.sandiplewis.com"
+            : "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org"
       }
     })
   );
