@@ -1,5 +1,5 @@
-import ErrorPage from "next/error";
-import { useRouter } from "next/router";
+// import ErrorPage from "next/error";
+// import { useRouter } from "next/router";
 
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
@@ -32,7 +32,7 @@ const shortStoriesQuery = `
 `;
 
 export default function Writing({ data: initialData }) {
-  const router = useRouter();
+  // const router = useRouter();
 
   const { data: novels } = usePreviewSubscription(novelsQuery, {
     initialData: initialData?.novels,
@@ -43,9 +43,10 @@ export default function Writing({ data: initialData }) {
     enabled: true
   });
 
-  return !router.isFallback && !novels && !shortStories ? (
-    <ErrorPage statusCode={404} />
-  ) : (
+  // return !router.isFallback && !novels && !shortStories ? (
+  //   <ErrorPage statusCode={404} />
+  // ) : ();
+  return (
     <Layout title="Writing" description="A listing of Sandi Plewis' novels and short stories">
       <div className={`${commonStyles.page} ${styles.page}`}>
         <PageTitle>Writing</PageTitle>
@@ -88,6 +89,7 @@ export async function getStaticProps() {
   return {
     props: {
       data: { novels, shortStories }
-    }
+    },
+    revalidate: 10
   };
 }

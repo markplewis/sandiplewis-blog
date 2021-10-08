@@ -1,5 +1,5 @@
-import ErrorPage from "next/error";
-import { useRouter } from "next/router";
+// import ErrorPage from "next/error";
+// import { useRouter } from "next/router";
 
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
@@ -23,16 +23,17 @@ const query = `
 `;
 
 export default function Categories({ data: initialData }) {
-  const router = useRouter();
+  // const router = useRouter();
 
   const { data: categories } = usePreviewSubscription(query, {
     initialData,
     enabled: true
   });
 
-  return !router.isFallback && !categories ? (
-    <ErrorPage statusCode={404} />
-  ) : (
+  // return !router.isFallback && !categories ? (
+  //   <ErrorPage statusCode={404} />
+  // ) : ();
+  return (
     <Layout title="Categories" description="Blog post categories">
       <style jsx global>
         {`
@@ -61,6 +62,7 @@ export async function getStaticProps() {
   return {
     props: {
       data
-    }
+    },
+    revalidate: 10
   };
 }
