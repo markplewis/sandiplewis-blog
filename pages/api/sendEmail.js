@@ -12,12 +12,6 @@ export default async function sendEmail(req, res) {
     mg({
       auth: {
         api_key: process.env.MAILGUN_PRIVATE_API_KEY,
-        // TODO: point the sandiplewis.com domain's nameservers to Vercel and assign
-        // `www.sandiplewis.com` and `dev.sandiplewis.com` to their respective deployment branches.
-        // Also, make `sandiplewis.com` redirect to `www.sandiplewis.com`.
-        // Hover is the registrar and the nameservers currently point to JaguarPC.
-        // https://vercel.com/support/articles/zero-downtime-migration-for-dns
-        // https://vercel.com/docs/projects/custom-domains
         // TODO: add a `mail.sandiplewis.com` subdomain and configure its MX records
         // https://help.mailgun.com/hc/en-us/articles/203637190
         domain: "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org"
