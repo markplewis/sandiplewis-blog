@@ -99,8 +99,9 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-        {/* TODO: replace this with the line below it */}
-        {process.env.NODE_ENV === "production" ? null : <meta name="robots" content="noindex" />}
+        {process.env.NEXT_PUBLIC_VERCEL_ENV === "production" ? null : (
+          <meta name="robots" content="noindex" />
+        )}
         <title>{fullTitle}</title>
         {description && <meta name="description" content={description} />}
 
