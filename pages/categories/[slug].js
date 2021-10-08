@@ -1,5 +1,5 @@
-import ErrorPage from "next/error";
-import { useRouter } from "next/router";
+// import ErrorPage from "next/error";
+// import { useRouter } from "next/router";
 
 import { client } from "lib/sanity.server";
 
@@ -31,11 +31,12 @@ const query = `
 `;
 
 export default function Category({ data: category }) {
-  const router = useRouter();
+  // const router = useRouter();
 
-  return !router.isFallback && !category?.slug ? (
-    <ErrorPage statusCode={404} />
-  ) : (
+  // return !router.isFallback && !category?.slug ? (
+  //   <ErrorPage statusCode={404} />
+  // ) : ();
+  return (
     <Layout
       title={`Category: ${category?.title}`}
       description={`Blog posts in category: ${category?.title}`}>
@@ -70,10 +71,16 @@ export async function getStaticProps({ params }) {
   const data = await client.fetch(query, {
     slug: params.slug
   });
+  if (!data) {
+    return {
+      notFound: true // Return a 404 status and page
+    };
+  }
   return {
     props: {
       data
-    }
+    },
+    revalidate: 10
   };
 }
 
@@ -83,6 +90,6 @@ export async function getStaticPaths() {
   );
   return {
     paths,
-    fallback: true
+    fallback: "blocking"
   };
 }

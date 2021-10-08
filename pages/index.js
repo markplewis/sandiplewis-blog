@@ -262,6 +262,7 @@ export async function getStaticProps() {
   return {
     props: {
       data: { novelAndHomePage, reviews, posts, author }
-    }
+    },
+    revalidate: 10
   };
 }

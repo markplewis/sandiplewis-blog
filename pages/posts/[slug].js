@@ -1,5 +1,5 @@
-import ErrorPage from "next/error";
-import { useRouter } from "next/router";
+// import ErrorPage from "next/error";
+// import { useRouter } from "next/router";
 
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
@@ -72,7 +72,7 @@ const postQuery = `
 `;
 
 export default function Post({ data: initialData }) {
-  const router = useRouter();
+  // const router = useRouter();
 
   // If we wanted to, we could use Next's cookie-based preview mode
   // instead or Sanity's live subscription-based preview feature:
@@ -110,95 +110,106 @@ export default function Post({ data: initialData }) {
 
   const creditLine = processCreditLine(post?.image?.creditLine);
 
-  return !router.isFallback && !post?.slug ? (
-    <ErrorPage statusCode={404} />
-  ) : (
+  // return !router.isFallback && !post?.slug ? (
+  //   <ErrorPage statusCode={404} />
+  // ) : ();
+  return (
     <Layout
       title={post?.title}
       description={post?.description}
       image={{ image: post?.image, portrait: false, crop: true }}>
-      {router.isFallback ? (
+      {/* {router.isFallback ? (
         <PageTitle>Loading…</PageTitle>
-      ) : (
-        <>
-          {/* https://nextjs.org/blog/styling-next-with-styled-jsx */}
-          <style jsx global>
-            {`
-              body {
-                --baseBgColor: ${baseColor?.background?.hsl};
-                --baseFgColor: ${baseColor?.foreground?.hsl};
-                --compBgColor: ${compColor?.background?.hsl};
-                --compFgColor: ${compColor?.foreground?.hsl};
-              }
-            `}
-          </style>
+      ) : ()} */}
+      <>
+        {/* https://nextjs.org/blog/styling-next-with-styled-jsx */}
+        <style jsx global>
+          {`
+            body {
+              --baseBgColor: ${baseColor?.background?.hsl};
+              --baseFgColor: ${baseColor?.foreground?.hsl};
+              --compBgColor: ${compColor?.background?.hsl};
+              --compFgColor: ${compColor?.foreground?.hsl};
+            }
+          `}
+        </style>
 
-          <article className={styles.article}>
-            <div className={styles.titleAndShareTools}>
-              <PageTitle className={styles.title}>{post.title}</PageTitle>
-              {isMedium && <ShareTools text={post.title} position="above" />}
+        <article className={styles.article}>
+          <div className={styles.titleAndShareTools}>
+            <PageTitle className={styles.title}>{post.title}</PageTitle>
+            {isMedium && <ShareTools text={post.title} position="above" />}
+          </div>
+
+          <div className={styles.coverImageAndMeta}>
+            <div
+              className={styles.patternBlock}
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='white' fill-opacity='0.1' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
+              }}></div>
+
+            <CoverImage
+              className={styles.coverImage}
+              image={post.image}
+              title={post.title}
+              url={post.image}
+              width={imageSize.width}
+              height={imageSize.height}
+            />
+
+            <div className={styles.metaAbove}>
+              {isMedium && <PostMeta creditLine={creditLine} post={post} themed={true} />}
             </div>
 
-            <div className={styles.coverImageAndMeta}>
-              <div
-                className={styles.patternBlock}
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='white' fill-opacity='0.1' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
-                }}></div>
+            <div
+              className={styles.patternBlock2}
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='white' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`
+              }}></div>
+          </div>
 
-              <CoverImage
-                className={styles.coverImage}
-                image={post.image}
-                title={post.title}
-                url={post.image}
-                width={imageSize.width}
-                height={imageSize.height}
-              />
+          <div className={styles.bodyArea}>
+            {!isMedium && (
+              <>
+                {<ShareTools text={post.title} position="below" />}
+                <div className={styles.metaBelow}>
+                  <PostMeta creditLine={creditLine} post={post} themed={false} />
+                </div>
+              </>
+            )}
+            {post?.body && <PostBody content={post.body} />}
+          </div>
+        </article>
 
-              <div className={styles.metaAbove}>
-                {isMedium && <PostMeta creditLine={creditLine} post={post} themed={true} />}
-              </div>
-
-              <div
-                className={styles.patternBlock2}
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='white' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`
-                }}></div>
-            </div>
-
-            <div className={styles.bodyArea}>
-              {!isMedium && (
-                <>
-                  {<ShareTools text={post.title} position="below" />}
-                  <div className={styles.metaBelow}>
-                    <PostMeta creditLine={creditLine} post={post} themed={false} />
-                  </div>
-                </>
-              )}
-              {post?.body && <PostBody content={post.body} />}
-            </div>
-          </article>
-
-          {/* {commentsEnabled ? (
-            <>
-              <Comments comments={post.comments} />
-              <CommentForm _id={post._id} />
-            </>
-          ) : null} */}
-        </>
-      )}
+        {/* {commentsEnabled ? (
+          <>
+            <Comments comments={post.comments} />
+            <CommentForm _id={post._id} />
+          </>
+        ) : null} */}
+      </>
     </Layout>
   );
 }
 
-// See: https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
+// Incremental Static Regeneration (ISR)
+// https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
 
+// Static Generation: Fetch data at build time
+// https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
+
+// This function gets called at build time on the server side. It may be called again,
+// on a serverless function, if revalidation is enabled and a new request comes in.
 export async function getStaticProps({ params }) {
   const post = await client.fetch(postQuery, {
     slug: params.slug
   });
   // const commentsEnabled = await client.fetch(commentsEnabledQuery);
 
+  if (!post) {
+    return {
+      notFound: true // Return a 404 status and page
+    };
+  }
   return {
     props: {
       data: {
@@ -206,20 +217,30 @@ export async function getStaticProps({ params }) {
         // commentsEnabled
       }
     },
-    revalidate: 10
+    // When `revalidate` is `false` (its default value) the page will be cached as built
+    // until your next build. Otherwise, Next.js will attempt to re-generate the page when:
+    // - A request comes in
+    // - At most once every 10 seconds
+    revalidate: 10 // In seconds
   };
 }
 
-// See: https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
+// Static Generation: Specify dynamic routes to pre-render pages based on data
+// https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
 
+// This function gets called at build time on the server side. It may be called again,
+// on a serverless function, if the path has not been generated.
 export async function getStaticPaths() {
+  // Pre-render only these paths at build time
   const paths = await client.fetch(
     `*[_type == "post" && defined(slug.current)]{ "params": { "slug": slug.current } }`
   );
+  // `fallback: blocking` will server-render pages on demand if the path
+  // wasn't statically pre-rendered (i.e. didn't exist at build time)
+  // https://nextjs.org/docs/basic-features/data-fetching#fallback-blocking
   return {
     paths,
-    // https://nextjs.org/docs/basic-features/data-fetching#fallback-false
     // https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required
-    fallback: true
+    fallback: "blocking"
   };
 }

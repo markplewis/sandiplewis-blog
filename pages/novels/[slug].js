@@ -1,7 +1,7 @@
 import BlockContent from "@sanity/block-content-to-react";
 
-import ErrorPage from "next/error";
-import { useRouter } from "next/router";
+// import ErrorPage from "next/error";
+// import { useRouter } from "next/router";
 
 import config from "lib/config";
 import { usePreviewSubscription } from "lib/sanity";
@@ -71,7 +71,7 @@ const serializers = {
 };
 
 export default function Novel({ data: initialData }) {
-  const router = useRouter();
+  // const router = useRouter();
 
   const { data: novel } = usePreviewSubscription(query, {
     params: {
@@ -99,9 +99,10 @@ export default function Novel({ data: initialData }) {
     </>
   ) : null;
 
-  return !router.isFallback && !novel?.slug ? (
-    <ErrorPage statusCode={404} />
-  ) : (
+  // return !router.isFallback && !novel?.slug ? (
+  //   <ErrorPage statusCode={404} />
+  // ) : ();
+  return (
     <Layout
       title={novel?.title}
       description={novel?.description}
@@ -179,10 +180,16 @@ export default function Novel({ data: initialData }) {
 
 export async function getStaticProps({ params }) {
   const data = await client.fetch(query, { slug: params.slug });
+  if (!data) {
+    return {
+      notFound: true // Return a 404 status and page
+    };
+  }
   return {
     props: {
       data
-    }
+    },
+    revalidate: 10
   };
 }
 
@@ -192,6 +199,6 @@ export async function getStaticPaths() {
   );
   return {
     paths,
-    fallback: true
+    fallback: "blocking"
   };
 }
