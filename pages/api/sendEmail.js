@@ -21,10 +21,11 @@ export default async function sendEmail(req, res) {
   );
   try {
     await transporter.sendMail({
-      from: `"${name}" <${email}>`,
-      // Up to 5 authorized recipients are allowed on the free plan
-      // TODO: add `sandiplewis@gmail.com`
-      // https://help.mailgun.com/hc/en-us/articles/217531258
+      from: `"${name}" <messages@mg.sandiplewis.com>`,
+      // https://help.mailgun.com/hc/en-us/articles/4401814149147-Adding-A-Reply-To-Address
+      replyTo: `"${name}" <${email}>`,
+      // When sending email via the sandbox domain, up to 5 authorized recipients are
+      // allowed on the free plan: https://help.mailgun.com/hc/en-us/articles/217531258
       to: "markplewis1@gmail.com",
       subject: "sandiplewis.com contact form submission",
       html: message
