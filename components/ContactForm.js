@@ -48,9 +48,8 @@ export default function ContactForm() {
 
   const debug = useDebug();
 
-  const onCaptchaSuccess = solution => {
+  const onCaptchaSuccess = () => {
     debug && console.log("Captcha was solved. The form can be submitted.");
-    debug && console.log(solution);
     setIsEnabled(true);
   };
 
