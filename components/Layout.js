@@ -8,8 +8,10 @@ import Header from "components/Header";
 import PreviewMessage from "components/PreviewMessage";
 import SkipLink from "components/SkipLink";
 
-import { BASE_URL, DEFAULT_META_DESCRIPTION, SITE_TITLE } from "lib/constants";
+import { BASE_URL, DEFAULT_META_DESCRIPTION, env, envProd, SITE_TITLE } from "lib/constants";
 import { urlFor } from "lib/sanity";
+
+import useDebug from "utils/useDebug";
 
 // See: https://nextjs.org/docs/basic-features/layouts
 
@@ -44,6 +46,7 @@ const sizes = {
 };
 
 function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, image = {} }) {
+  const debug = useDebug();
   const router = useRouter();
   const url = `${BASE_URL}${router.asPath}`;
   const fullTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
@@ -94,14 +97,14 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
       .url();
   }
 
+  debug && console.log(`env: ${env}`);
+
   return (
     <>
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-        {process.env.NEXT_PUBLIC_VERCEL_ENV === "production" ? null : (
-          <meta name="robots" content="noindex" />
-        )}
+        {envProd ? null : <meta name="robots" content="noindex" />}
         <title>{fullTitle}</title>
         {description && <meta name="description" content={description} />}
 
