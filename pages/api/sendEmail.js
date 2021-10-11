@@ -1,3 +1,32 @@
+import formData from "form-data";
+import Mailgun from "mailgun.js";
+
+const mailgun = new Mailgun(formData);
+const mg = mailgun.client({
+  username: "api",
+  key: process.env.MAILGUN_PRIVATE_API_KEY
+});
+
+export default async function sendEmail(req, res) {
+  const { name, email, message } = JSON.parse(req.body);
+  try {
+    await mg.messages
+      .create("mg.sandiplewis.com", {
+        from: `${name} <mailgun@mg.sandiplewis.com>`,
+        "h:Reply-To": email,
+        to: ["markplewis1@gmail.com"],
+        subject: "sandiplewis.com contact form submission",
+        text: message
+      })
+      .then(msg => console.log(msg)) // logs response data
+      .catch(err => console.log(err)); // logs any error
+  } catch (err) {
+    return res.status(500).json({ message: err });
+  }
+  return res.status(200).json({ message: "success" });
+}
+
+/*
 import nodemailer from "nodemailer";
 import mg from "nodemailer-mailgun-transport";
 
@@ -57,3 +86,4 @@ export default async function sendEmail(req, res) {
   }
   return res.status(200).json({ message: "success" });
 }
+*/

@@ -76,7 +76,8 @@ export default function ContactForm() {
           setHasFailed(true);
           debug && console.error(e);
         })
-        .then(() => {
+        .then(response => {
+          console.log(response);
           setIsSubmitting(false);
           setHasSubmitted(true);
         });
