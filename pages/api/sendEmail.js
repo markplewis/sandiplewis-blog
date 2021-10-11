@@ -19,13 +19,16 @@ export default async function sendEmail(req, res) {
     process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
       ? "mg.sandiplewis.com"
       : "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org";
+  const recipient =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+      ? "sandiplewis@gmail.com"
+      : "markplewis1@gmail.com";
   try {
     await mg.messages
       .create(domain, {
         from: `${name} <mailgun@${domain}>`,
         "h:Reply-To": `${name} <${email}>`,
-        to: ["sandiplewis@gmail.com"],
-        bcc: ["markplewis1@gmail.com"],
+        to: [recipient],
         subject: "sandiplewis.com contact form submission",
         text: message
       })
