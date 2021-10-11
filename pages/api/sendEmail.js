@@ -15,14 +15,14 @@ const mg = mailgun.client({
 
 export default async function sendEmail(req, res) {
   const { name, email, message } = JSON.parse(req.body);
-  // const domain =
-  //   process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-  //     ? "mg.sandiplewis.com"
-  //     : "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org";
+  const domain =
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
+      ? "mg.sandiplewis.com"
+      : "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org";
   try {
     await mg.messages
-      .create("mg.sandiplewis.com", {
-        from: `${name} <mailgun@mg.sandiplewis.com>`,
+      .create(domain, {
+        from: `${name} <mailgun@${domain}>`,
         "h:Reply-To": `${name} <${email}>`,
         to: ["sandiplewis@gmail.com"],
         bcc: ["markplewis1@gmail.com"],

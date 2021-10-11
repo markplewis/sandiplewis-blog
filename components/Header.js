@@ -131,11 +131,11 @@ export default function Header({ children }) {
             <a className={styles.navLink}>Blog</a>
           </Link>
         </li>
-        {/* <li className={`${styles.navItem} ${pathName === "/contact" ? active : ""}`}>
+        <li className={`${styles.navItem} ${pathName === "/contact" ? active : ""}`}>
           <Link href="/contact">
             <a className={styles.navLink}>Contact</a>
           </Link>
-        </li> */}
+        </li>
         <li className={styles.navItem}>
           <Link href="https://twitter.com/SandiPlewis">
             <a
