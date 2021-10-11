@@ -1,6 +1,5 @@
 const environments = {
-  // TODO: update this when I flip the domain over to sandiplewis.com
-  production: "https://sandiplewis-blog.vercel.app",
+  production: "https://www.sandiplewis.com",
   development: "https://sandiplewis-blog-dev.vercel.app",
   local: "http://localhost:3000"
 };
