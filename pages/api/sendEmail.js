@@ -1,6 +1,6 @@
 import formData from "form-data";
 import Mailgun from "mailgun.js";
-import { env, envProd } from "lib/constants";
+import { envProd } from "lib/constants";
 
 // https://vercel.com/docs/solutions/email
 // https://www.mailgun.com/blog/how-to-send-transactional-email-in-a-nodejs-app-using-the-mailgun-api/
@@ -32,5 +32,5 @@ export default async function sendEmail(req, res) {
   } catch (err) {
     return res.status(500).json({ message: err });
   }
-  return res.status(200).json({ message: "success", env });
+  return res.status(200).json({ message: "success" });
 }
