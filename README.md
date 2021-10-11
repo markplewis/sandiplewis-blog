@@ -3,7 +3,7 @@
 This repository contains two separate applications:
 
 1. A [Next.js](https://nextjs.org) application that serves as the front-end for [www.sandiplewis.com](https://www.sandiplewis.com).
-2. A [Sanity](https://www.sanity.io)-powered CMS that provides content for the front-end application to consume, via the Sanity API.
+2. A [Sanity](https://www.sanity.io)-powered CMS that provides content for the front-end application to consume (via the Sanity API).
 
 This project uses [Vercel](https://vercel.com) for continuous integration and delivery (CI/CD).
 
@@ -42,7 +42,7 @@ npm run next-start
 npm run sanity-start
 ```
 
-It's worth noting that, when running the applications locally, the `.env.local` file gets copied into the `studio` directory so that Sanity Studio share environment variables with the Next.js application.
+It's worth noting that, when running the applications locally, the `.env.local` file gets copied into the `studio` directory so that Sanity Studio can share environment variables with Next.js.
 
 The Next.js application will run at `http://localhost:3000` and Sanity Studio will run at `http://localhost:3333`.
 
