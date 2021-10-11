@@ -1,5 +1,6 @@
 import formData from "form-data";
 import Mailgun from "mailgun.js";
+import { env, envProd } from "lib/constants";
 
 // https://vercel.com/docs/solutions/email
 // https://www.mailgun.com/blog/how-to-send-transactional-email-in-a-nodejs-app-using-the-mailgun-api/
@@ -15,27 +16,20 @@ const mg = mailgun.client({
 
 export default async function sendEmail(req, res) {
   const { name, email, message } = JSON.parse(req.body);
-  const domain =
-    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-      ? "mg.sandiplewis.com"
-      : "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org";
-  const recipient =
-    process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
-      ? "sandiplewis@gmail.com"
-      : "markplewis1@gmail.com";
+  const domain = envProd
+    ? "mg.sandiplewis.com"
+    : "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org";
+  const recipient = envProd ? "sandiplewis@gmail.com" : "markplewis1@gmail.com";
   try {
-    await mg.messages
-      .create(domain, {
-        from: `${name} <mailgun@${domain}>`,
-        "h:Reply-To": `${name} <${email}>`,
-        to: [recipient],
-        subject: "sandiplewis.com contact form submission",
-        text: message
-      })
-      .then(msg => console.log(msg))
-      .catch(err => console.log(err));
+    await mg.messages.create(domain, {
+      from: `${name} <mailgun@${domain}>`,
+      "h:Reply-To": `${name} <${email}>`,
+      to: [recipient],
+      subject: "sandiplewis.com contact form submission",
+      text: message
+    });
   } catch (err) {
     return res.status(500).json({ message: err });
   }
-  return res.status(200).json({ message: "success" });
+  return res.status(200).json({ message: "success", env });
 }
