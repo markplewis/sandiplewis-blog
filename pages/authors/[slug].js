@@ -18,6 +18,9 @@ const query = `
     _id,
     name,
     "slug": slug.current,
+    colorPalette,
+    primaryColor,
+    secondaryColor,
     "image": image{..., ...asset->{
       creditLine,
       description,
