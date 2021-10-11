@@ -5,6 +5,24 @@ import mg from "nodemailer-mailgun-transport";
 // https://nodemailer.com/smtp/well-known/
 // https://nodemailer.com/smtp/
 
+// TODO: try this: https://github.com/mailgun/mailgun-js
+// https://www.mailgun.com/blog/how-to-send-transactional-email-in-a-nodejs-app-using-the-mailgun-api/
+
+// export default async function sendEmail(req, res) {
+//   const { name, email, message } = JSON.parse(req.body);
+//   try {
+//     let response = await fetch("https://api.mailgun.net/v3/mg.sandiplewis.com/messages", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/x-www-form-urlencoded" },
+//       body: `secret=${process.env.RECAPTCHA_SECRET}&response=${token}`
+//     });
+//     response = await response.json();
+//     return res.status(200).json({ success: response.success, score: response.score });
+//   } catch (err) {
+//     return res.status(500).json({ message: "reCAPTCHA verification error", err });
+//   }
+// }
+
 export default async function sendEmail(req, res) {
   const { name, email, message } = JSON.parse(req.body);
 
