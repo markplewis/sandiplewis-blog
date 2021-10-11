@@ -19,10 +19,11 @@ export default async function sendEmail(req, res) {
   const domain = envProd
     ? "mg.sandiplewis.com"
     : "sandboxd4d6735182254bcdbd4398e2443b4d2f.mailgun.org";
+  const from = envProd ? "mg.sandiplewis.com" : "sandbox.mgsend.net";
   const recipient = envProd ? "sandiplewis@gmail.com" : "markplewis1@gmail.com";
   try {
     await mg.messages.create(domain, {
-      from: `${name} <mailgun@${domain}>`,
+      from: `${name} <mailgun@${from}>`,
       "h:Reply-To": `${name} <${email}>`,
       to: [recipient],
       subject: "sandiplewis.com contact form submission",
