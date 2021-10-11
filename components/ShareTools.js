@@ -30,7 +30,7 @@ export default function ShareTools({ text, position }) {
   // Inspiration: https://www.tunnelbear.com/blog/why-we-created-our-own-social-media-buttons-on-our-website/
   const twitterURL = `https://twitter.com/share?${encodeUrlParams({ url, text })}`;
   const facebookURL = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-  const emailURL = `mailto:?body=From SandiPlewis.com: ${text} - ${url}`;
+  const emailURL = `mailto:?body=${text} - ${url}`;
 
   return (
     <div className={`${styles.shareTools} ${positionClass}`}>
