@@ -25,7 +25,7 @@ Once the environment variables are ready, run the following command to install t
 npm install
 ```
 
-Because this project uses [Lerna](https://lerna.js.org/), running `npm install` in the root directory will subsequently trigger an `npm install` within the `studio` folder, so both applications' dependencies will be installed.
+Because this project uses [Lerna](https://lerna.js.org/), running `npm install` in the root directory will subsequently trigger an `npm install` within the `studio` directory, so both applications' dependencies will be installed.
 
 ### Startup
 
@@ -42,7 +42,7 @@ npm run next-start
 npm run sanity-start
 ```
 
-It's worth noting that, when running the applications locally, the `.env.local` file gets copied into the `studio` directory so that Sanity Studio can share the environment variables defined within it.
+It's worth noting that, when running the applications locally, the `.env.local` file gets copied into the `studio` directory so that Sanity Studio share environment variables with the Next.js application.
 
 The Next.js application will run at `http://localhost:3000` and Sanity Studio will run at `http://localhost:3333`.
 
@@ -97,7 +97,7 @@ This repo contains two separate apps, both of which have dependencies that need 
 }
 ```
 
-However, we've decided to manage this process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.
+However, I've decided to manage this process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.
 
 ### CLI documentation
 

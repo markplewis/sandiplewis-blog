@@ -3,11 +3,14 @@ import { urlFor } from "lib/sanity";
 import styles from "components/serializers/PostBodyImage.module.css";
 import { processCreditLine } from "utils/strings";
 import { rem } from "utils/units";
+import useMediaQuery from "utils/useMediaQuery";
 
 const PostBodyImage = ({ node }) => {
-  const alignmentClass = node.alignment ? `align-${node.alignment}` : "";
-  const width = node?.asset?.metadata?.dimensions?.width;
-  const height = node?.asset?.metadata?.dimensions?.height;
+  const isMedium = useMediaQuery(`(min-width: ${rem(800)})`);
+  const alignment = isMedium ? node.alignment : "center";
+  const alignmentClass = alignment ? `align-${alignment}` : "";
+  const width = node?.asset?.metadata?.dimensions?.width ?? 0;
+  const height = node?.asset?.metadata?.dimensions?.height ?? 0;
   const creditLine = processCreditLine(node?.asset?.creditLine);
 
   // TODO: larger images at mobile breakpoint (when they're still centered)?
@@ -24,17 +27,17 @@ const PostBodyImage = ({ node }) => {
   let imageHeight;
   switch (orientation) {
     case "square":
-      imageWidth = node.alignment === "center" ? 600 : 200;
-      imageHeight = node.alignment === "center" ? 600 : 200;
+      imageWidth = alignment === "center" ? 600 : 200;
+      imageHeight = alignment === "center" ? 600 : 200;
       break;
     case "portrait":
-      imageWidth = node.alignment === "center" ? 400 : 188;
-      imageHeight = node.alignment === "center" ? 622 : 292;
+      imageWidth = alignment === "center" ? 400 : 188;
+      imageHeight = alignment === "center" ? 622 : 292;
       break;
     case "landscape":
     default:
-      imageWidth = node.alignment === "center" ? 600 : 300;
-      imageHeight = node.alignment === "center" ? 400 : 200;
+      imageWidth = alignment === "center" ? 600 : 300;
+      imageHeight = alignment === "center" ? 400 : 200;
       break;
   }
   // TODO: how to get expanded asset object with metadata, etc., like we're doing in `CoverImage`
