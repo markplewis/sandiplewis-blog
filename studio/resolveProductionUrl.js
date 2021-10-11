@@ -1,6 +1,6 @@
 const environments = {
   production: "https://www.sandiplewis.com",
-  development: "https://sandiplewis-blog-dev.vercel.app",
+  development: "https://dev.sandiplewis.com",
   local: "http://localhost:3000"
 };
 const projectUrl = environments[process.env.SANITY_STUDIO_BUILD_ENV] || environments.local;
