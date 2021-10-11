@@ -24,7 +24,8 @@ export default async function sendEmail(req, res) {
       .create("mg.sandiplewis.com", {
         from: `${name} <mailgun@mg.sandiplewis.com>`,
         "h:Reply-To": `${name} <${email}>`,
-        to: ["markplewis1@gmail.com"],
+        to: ["sandiplewis@gmail.com"],
+        bcc: ["markplewis1@gmail.com"],
         subject: "sandiplewis.com contact form submission",
         text: message
       })
