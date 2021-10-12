@@ -1,3 +1,4 @@
+// These values are repeated in `lib/constants.js`
 const environments = {
   production: "https://www.sandiplewis.com",
   development: "https://dev.sandiplewis.com",
@@ -11,11 +12,22 @@ const projectUrl = environments[process.env.SANITY_STUDIO_BUILD_ENV] || environm
 export default function resolveProductionUrl(document) {
   const doc = document.displayed || document;
 
-  if (doc._type && doc.slug) {
-    const type = doc._type === "shortStory" ? "short-stories" : `${doc._type}s`;
-    return `${projectUrl}/${type}/${doc.slug.current}`;
-  } else if (doc._type === "homePage") {
+  if (doc._type === "homePage") {
     return `${projectUrl}/`;
+  } else if (doc._type && doc.slug) {
+    let type;
+    switch (doc._type) {
+      case "shortStory":
+        type = "short-stories";
+        break;
+      case "category":
+        type = "categories";
+        break;
+      default:
+        type = `${doc._type}s`;
+        break;
+    }
+    return `${projectUrl}/${type}/${doc.slug.current}`;
   }
   return null;
 }

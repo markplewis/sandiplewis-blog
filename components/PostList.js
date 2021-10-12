@@ -4,43 +4,51 @@ import Link from "next/link";
 import { urlFor } from "lib/sanity";
 
 import { rem } from "utils/units";
+import useMediaQuery from "utils/useMediaQuery";
 
 import Date from "components/Date";
 import styles from "components/PostList.module.css";
 
+const sizes = {
+  mobile: {
+    width: 240,
+    // Possible heights
+    // 3:2 aspect ratio for landscape, 9:14 for portrait
+    landscape: 160,
+    portrait: 374
+  },
+  small: {
+    width: 83,
+    landscape: 55,
+    portrait: 129
+  },
+  large: {
+    width: 120,
+    landscape: 80,
+    portrait: 187
+  }
+};
+
 export default function PostList({
   posts,
   path = "posts",
-  size = "small",
-  orientation = "landscape",
+  size = "small", // "small" or "large"
+  orientation = "landscape", // "landscape" or "portrait"
   showDates = false,
   showBackground = false
 }) {
-  // 9:14 aspect ratio for portrait, 3:2 for landscape
-  const imageWidth = size === "small" ? 83 : 120;
-  let imageHeight;
-  switch (orientation) {
-    case "portrait":
-      imageHeight = size === "small" ? 129 : 187;
-      break;
-    case "landscape":
-      imageHeight = size === "small" ? 55 : 80;
-      break;
-    case "square":
-      imageHeight = imageWidth;
-      break;
-  }
+  const isMinWidth = useMediaQuery(`(min-width: ${rem(480)})`);
+  const imageSize = !isMinWidth ? sizes.mobile : sizes[size];
+  const imageWidth = imageSize.width;
+  const imageHeight = orientation === "square" ? imageWidth : imageSize[orientation];
   return (
-    <ul
-      className={`${styles.postList} ${showBackground && styles.postListPadded} ${
-        size === "small" && styles.postListSmall
-      }`}>
+    <ul className={`${styles.postList} ${showBackground ? styles.postListPadded : ""}`}>
       {posts.map(post => (
         <li key={`${path}-${post?._id}-${post?.slug}`}>
           <Link as={`/${path}/${post?.slug}`} href={`/${path}/[slug]`}>
             <a className={styles.postLink}>
               {post?.image ? (
-                <div className={styles.postImage} style={{ width: rem(imageWidth) }}>
+                <div className={styles.postImage} style={{ maxWidth: rem(imageWidth) }}>
                   <Image
                     src={urlFor(post?.image)
                       .width(imageWidth * 2)

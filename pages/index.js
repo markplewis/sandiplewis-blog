@@ -103,7 +103,12 @@ export default function HomePage({ data: initialData }) {
   // Colours
   const { base: baseColor, comp: compColor } = getPageColors(novel);
 
+  const isMedium = useMediaQuery(`(min-width: ${rem(520)}) and (max-width: ${rem(1149)})`);
   const isWide = useMediaQuery(`(min-width: ${rem(1280)})`);
+  const largePostImages = isMedium || isWide;
+
+  const smallAuthorImage = useMediaQuery(`(min-width: ${rem(1150)}) and (max-width: ${rem(1279)})`);
+  const authorImageSize = smallAuthorImage ? 140 : 175;
 
   return (
     <Layout
@@ -199,8 +204,11 @@ export default function HomePage({ data: initialData }) {
         {posts && posts.length ? (
           <div className={styles.posts}>
             <h2 className={styles.postsHeading}>Recent posts</h2>
-            <PostList posts={posts} size={isWide ? "large" : "small"} orientation="landscape" />
-
+            <PostList
+              posts={posts}
+              size={largePostImages ? "large" : "small"}
+              orientation="landscape"
+            />
             <div className={styles.postsMoreLink}>
               <MoreLink as={"/posts"} href="/posts" text="More posts" />
             </div>
@@ -210,12 +218,14 @@ export default function HomePage({ data: initialData }) {
         {author ? (
           <div className={styles.bio}>
             {author?.image ? (
-              <div className={styles.bioImage}>
+              <div className={styles.bioImage} style={{ maxWidth: rem(authorImageSize) }}>
                 <Image
-                  src={urlFor(author?.image).width(376).height(376).url()}
-                  width={188}
-                  height={188}
-                  sizes="(max-width: 800px) 100vw, 188px"
+                  src={urlFor(author?.image)
+                    .width(authorImageSize * 2)
+                    .height(authorImageSize * 2)
+                    .url()}
+                  width={authorImageSize}
+                  height={authorImageSize}
                   layout="responsive"
                   alt={author?.image?.alt}
                   placeholder="blur"

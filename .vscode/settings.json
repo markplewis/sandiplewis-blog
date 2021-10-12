@@ -5,7 +5,9 @@
     "source.fixAll.eslint": true
   },
   "files.associations": {
-    "*.jsx": "javascriptreact"
+    "*.jsx": "javascriptreact",
+    ".env.local": "shellscript",
+    ".env.local.example": "shellscript"
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
