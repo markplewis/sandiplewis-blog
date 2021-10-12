@@ -25,7 +25,7 @@ Once the environment variables are ready, run the following command to install t
 npm install
 ```
 
-Because this project uses [Lerna](https://lerna.js.org/), running `npm install` in the root directory will subsequently trigger an `npm install` within the `studio` directory, so both applications' dependencies will be installed.
+Running `npm install` in the root directory will subsequently trigger an `npm install` within the `studio` directory, and both applications' dependencies will be installed (see the `postinstall` script in `package.json`).
 
 ### Startup
 
@@ -86,18 +86,6 @@ npm install
 ```
 
 Sanity release notes can be found here: https://github.com/sanity-io/sanity/releases
-
-### Why use Lerna?
-
-This repo contains two separate apps, both of which have dependencies that need to be installed during each Vercel build/deployment. One way to manage this would be to add the following script to the root-level `package.json` file:
-
-```
-"scripts": {
-  "postinstall": "cd studio && npm install"
-}
-```
-
-However, I've decided to manage this process via [Lerna](https://lerna.js.org/) instead. Lerna is often used for managing large monorepos, so it may be a bit overkill for this project, but its ability to manage and link cross-dependencies seems valuable enough to justify its use.
 
 ### CLI documentation
 
