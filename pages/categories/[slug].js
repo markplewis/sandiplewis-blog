@@ -1,6 +1,7 @@
 // import ErrorPage from "next/error";
 // import { useRouter } from "next/router";
 
+import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
@@ -30,8 +31,16 @@ const query = `
   }
 `;
 
-export default function Category({ data: category }) {
+export default function Category({ data: initialData }) {
   // const router = useRouter();
+
+  const { data: category } = usePreviewSubscription(query, {
+    params: {
+      slug: initialData?.slug
+    },
+    initialData,
+    enabled: true
+  });
 
   // return !router.isFallback && !category?.slug ? (
   //   <ErrorPage statusCode={404} />
