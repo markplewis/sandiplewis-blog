@@ -1,6 +1,8 @@
 .previewMessage {
+  margin: 0 calc(var(--column-right-margin) * -1); /* Negate with * -1 */
   padding: 10px;
   background-color: #333;
   color: white;
+  text-align: center;
   grid-column: 1 / -1;
 }

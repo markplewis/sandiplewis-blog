@@ -6,35 +6,31 @@
   background: linear-gradient(100deg, var(--compBgColor) 0%, var(--baseBgColor) 100%);
   opacity: 0.1;
 }
-.page {
-  padding-bottom: 44px;
-  grid-column: 2 / 3;
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 64px;
-  z-index: 1;
-}
 .patternBlock {
   /* Width of share tools minus column margins */
   width: calc(100% - 176px - (var(--column-margin) * 4));
   height: 300px;
-  margin-top: 66px;
   content: "";
   display: block;
   position: absolute;
-  z-index: 1;
 }
-.novel,
-.reviews,
-.shareTools {
+.page {
+  margin: 0 var(--column-left-margin) 0 var(--column-right-margin);
+  padding-bottom: 44px;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 64px;
+}
+.page,
+.shareToolsAbove {
   position: relative;
-  z-index: 1;
 }
-.shareTools {
-  margin-top: 22px;
-  grid-column: 2 / -2;
-  justify-self: flex-end;
+.shareToolsAbove {
+  margin: 22px var(--column-right-margin) 0 var(--column-left-margin);
 }
+
+/* Page content */
+
 .novel {
   border-radius: 10px 0;
   background-color: var(--baseBgColor);
@@ -61,11 +57,6 @@
 .novel :hover:focus {
   outline-color: var(--baseFgColor);
 }
-/* .novel a:hover,
-.novel a:focus,
-.novel a:active {
-  text-decoration-thickness: 2px;
-} */
 .novelImage {
   width: 188px;
 }
@@ -103,11 +94,6 @@
 .bio a:active {
   color: var(--base-font-color);
 }
-/* .bio a:hover,
-.bio a:focus,
-.bio a:active {
-  text-decoration-thickness: 2px;
-} */
 .bioHeading {
   margin-top: 0;
 }
@@ -181,13 +167,10 @@
     margin-right: 0;
   }
   .reviews {
+    margin-top: 22px;
     padding: 22px 0 22px 22px;
     display: flex;
     align-items: center;
-  }
-  .reviews,
-  .shareTools {
-    margin-top: 22px;
   }
 }
 
@@ -205,9 +188,11 @@
   .reviews {
     grid-column: 3 / 4;
   }
-  .shareTools {
+  .shareToolsVertical {
+    margin-top: 22px;
     grid-column: 4 / 5;
     grid-row: 1 / 2;
+    justify-self: flex-end;
   }
   .posts {
     grid-column: 1 / 2;
@@ -219,7 +204,6 @@
     padding-left: 44px;
   }
   .posts {
-    /* padding-right: 72px; */
     padding-right: 44px;
     padding-left: 44px;
   }

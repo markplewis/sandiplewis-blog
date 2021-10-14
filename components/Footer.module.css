@@ -1,19 +1,11 @@
 .footer {
   margin-top: 64px;
-  padding: 44px 0;
-  display: grid;
-  grid-template-columns:
-    max(var(--column-margin), env(safe-area-inset-left))
-    minmax(min-content, max-content)
-    1fr
-    max(var(--column-margin), env(safe-area-inset-right));
+  padding: 32px var(--column-right-margin) 32px var(--column-left-margin);
+  display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
   background: url("/images/footer-illustration.svg") repeat top left;
   background-size: auto 250%;
-}
-.footerInner {
-  grid-column: 2 / -2;
 }
 .footerLink {
   padding: 10px 16px;

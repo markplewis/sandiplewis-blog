@@ -2,11 +2,7 @@
   display: flex;
   gap: 22px;
 }
-.shareToolsAbove {
-  margin-left: 44px;
-}
-.shareToolsBelow {
-  margin-bottom: 22px;
+.shareToolsAlignRight {
   justify-content: flex-end;
 }
 .shareToolsVertical {

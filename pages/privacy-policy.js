@@ -1,7 +1,6 @@
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 
-import commonStyles from "pages/styles/common.module.css";
 import styles from "pages/styles/staticPage.module.css";
 
 // Information:
@@ -18,7 +17,7 @@ import styles from "pages/styles/staticPage.module.css";
 export default function PrivacyPolicy() {
   return (
     <Layout title="Privacy policy" description="Privacy policy">
-      <div className={`${commonStyles.page} ${styles.page}`}>
+      <div className={styles.page}>
         <PageTitle>Privacy Policy</PageTitle>
 
         <div className={styles.pageInner}>

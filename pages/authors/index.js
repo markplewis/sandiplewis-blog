@@ -8,8 +8,7 @@ import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
 
-import commonStyles from "pages/styles/common.module.css";
-import styles from "pages/styles/writingAndPosts.module.css";
+import styles from "pages/styles/contentListing.module.css";
 
 const query = `
   *[_type == "author"][] | order(name asc) {
@@ -34,7 +33,7 @@ export default function Authors({ data: initialData }) {
   // ) : ();
   return (
     <Layout title="Authors" description="Authors">
-      <div className={`${commonStyles.page} ${styles.page}`}>
+      <div className={styles.page}>
         <PageTitle>Authors</PageTitle>
 
         <div className={styles.pageInner}>

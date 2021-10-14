@@ -8,8 +8,7 @@ import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
 
-import commonStyles from "pages/styles/common.module.css";
-import styles from "pages/styles/writingAndPosts.module.css";
+import styles from "pages/styles/contentListing.module.css";
 
 const query = `
   *[_type == "post"][] | order(publishedAt desc) {
@@ -35,7 +34,7 @@ export default function Posts({ data: initialData }) {
   // ) : ();
   return (
     <Layout title="Blog posts" description="A listing of Sandi Plewis' blog posts">
-      <div className={`${commonStyles.page} ${styles.page}`}>
+      <div className={styles.page}>
         <PageTitle>Blog posts</PageTitle>
 
         {/* TODO: implement sort filters and search box */}

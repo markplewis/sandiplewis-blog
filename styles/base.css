@@ -26,6 +26,19 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
   --heading-font-family: "Literata", "Literata fallback", serif;
   --focus-outline-color: steelblue;
   --column-margin: 22px;
+  /* These will likely be overridden */
+  --baseBgColor: #999;
+  --baseFgColor: #fff;
+  --compBgColor: #999;
+  --compFgColor: #fff;
+  /*
+  See: https://webkit.org/blog/7929/designing-websites-for-iphone-x/
+  TODO: viewport-fit=cover doesn't seem to be working in Chrome for iOS:
+  https://bugs.chromium.org/p/chromium/issues/detail?id=1150075
+  https://stackoverflow.com/questions/61527166/ios-chrome-not-respecting-safe-area-inset-for-notch
+  */
+  --column-left-margin: max(var(--column-margin), env(safe-area-inset-left));
+  --column-right-margin: max(var(--column-margin), env(safe-area-inset-right));
 }
 @media (min-width: 768px) {
   :root {
@@ -40,6 +53,11 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
 * {
   line-height: inherit; /* Inherit value from modern-normalize.css */
 }
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
 body {
   font-size: 100%; /* Default is 16px in most browsers */
   font-family: var(--base-font-family);
@@ -47,22 +65,31 @@ body {
   color: var(--base-font-color);
   background-color: var(--base-background-color);
 }
+#__next {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto 1fr auto;
+}
 main {
-  width: 100%;
+  width: 100%; /* Delete this? */
   /* overflow-x: hidden; */
   overflow: hidden;
-  display: grid;
-  /* See: https://webkit.org/blog/7929/designing-websites-for-iphone-x/ */
-  /*
-  TODO: viewport-fit=cover doesn't seem to be working in Chrome for iOS:
-  https://bugs.chromium.org/p/chromium/issues/detail?id=1150075
-  https://stackoverflow.com/questions/61527166/ios-chrome-not-respecting-safe-area-inset-for-notch
-  */
-  grid-template-columns:
-    max(var(--column-margin), env(safe-area-inset-left))
-    1fr
-    max(var(--column-margin), env(safe-area-inset-right));
   position: relative;
+}
+main::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: -10%;
+  width: 120%;
+  height: 700px;
+  transform: rotate(-2deg);
+  background: linear-gradient(100deg, var(--baseBgColor) 0%, var(--compBgColor) 100%);
+  opacity: 0.1;
+}
+main.homePage::before {
+  display: none;
 }
 h1,
 h2,
@@ -107,12 +134,6 @@ blockquote {
 blockquote {
   font-style: italic;
 }
-
-/* @media (min-width: 600px) {
-  :root {
-    --base-background-color: goldenrod;
-  }
-} */
 
 /* See https://css-tricks.com/links-inline-svg-staying-target-events/ */
 a > svg,

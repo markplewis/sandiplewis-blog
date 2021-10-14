@@ -9,8 +9,7 @@ import MoreLink from "components/MoreLink";
 import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
 
-import commonStyles from "pages/styles/common.module.css";
-import styles from "pages/styles/writingAndPosts.module.css";
+import styles from "pages/styles/contentListing.module.css";
 
 // Get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references
@@ -49,7 +48,7 @@ export default function Category({ data: initialData }) {
     <Layout
       title={`Category: ${category?.title}`}
       description={`Blog posts in category: ${category?.title}`}>
-      <div className={`${commonStyles.page} ${styles.page}`}>
+      <div className={styles.page}>
         <PageTitle>{category?.title}</PageTitle>
 
         <div className={styles.pageInner}>

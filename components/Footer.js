@@ -7,11 +7,9 @@ export default function Footer() {
   const router = useRouter();
   return router.pathname !== "/privacy-policy" ? (
     <footer className={styles.footer}>
-      <div className={styles.footerInner}>
-        <Link href="/privacy-policy">
-          <a className={styles.footerLink}>Privacy policy</a>
-        </Link>
-      </div>
+      <Link href="/privacy-policy">
+        <a className={styles.footerLink}>Privacy policy</a>
+      </Link>
     </footer>
   ) : null;
 }

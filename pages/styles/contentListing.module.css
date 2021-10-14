@@ -1,0 +1,21 @@
+.page {
+  margin-left: var(--column-left-margin);
+  margin-right: var(--column-right-margin);
+  position: relative;
+}
+.page h1 {
+  margin: 48px 0;
+  text-align: center;
+}
+.pageInner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.novels,
+.posts {
+  margin: 0 auto;
+}
+.subHeading {
+  margin: 32px 0;
+  text-align: center;
+}

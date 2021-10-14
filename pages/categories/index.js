@@ -8,8 +8,7 @@ import CategoryList from "components/CategoryList";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 
-import commonStyles from "pages/styles/common.module.css";
-import styles from "pages/styles/writingAndPosts.module.css";
+import styles from "pages/styles/contentListing.module.css";
 
 import { colors } from "utils/designTokens/colors";
 import { rem } from "utils/units";
@@ -44,7 +43,7 @@ export default function Categories({ data: initialData }) {
         `}
       </style>
 
-      <div className={`${commonStyles.page} ${styles.page}`}>
+      <div className={styles.page}>
         <PageTitle>Post categories</PageTitle>
 
         <div className={styles.pageInner}>

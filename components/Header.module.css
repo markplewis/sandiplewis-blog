@@ -1,14 +1,12 @@
 .header {
-  display: grid;
-  grid-template-columns:
-    max(var(--column-margin), env(safe-area-inset-left))
-    minmax(min-content, max-content)
-    1fr
-    max(var(--column-margin), env(safe-area-inset-right));
-  align-items: center;
+  padding-left: var(--column-left-margin);
+  padding-right: var(--column-right-margin);
   background-color: #fff;
-  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(min-content, max-content) 1fr;
+  align-items: center;
   position: relative;
+  z-index: 2;
 }
 .nameAndTitle {
   display: flex;
@@ -17,7 +15,7 @@
   column-gap: 16px;
   row-gap: 4px;
   flex-wrap: wrap;
-  grid-column: 2 / 3;
+  grid-column: 1 / 2;
 }
 @media (min-width: 820px) {
   .header {
@@ -52,7 +50,7 @@
   margin: 22px 0 22px 22px;
   padding: 0;
   justify-self: end;
-  grid-column: 3 / 4;
+  grid-column: 2 / 3;
   transition: transform 0.25s ease-out;
 }
 .navMenuButton:hover,
@@ -70,7 +68,7 @@
 .header > .nav {
   margin-left: 44px;
   justify-self: end;
-  grid-column: 3 / 4;
+  grid-column: 2 / 3;
 }
 .header > .nav .navList {
   list-style-type: none;
@@ -101,6 +99,7 @@
 .navMenu {
   width: 100%;
   position: fixed;
+  left: 0;
   z-index: 3;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -153,8 +152,8 @@
 .navMenu .navLink {
   padding-top: 20px;
   padding-bottom: 20px;
-  padding-left: max(var(--column-margin), env(safe-area-inset-left));
-  padding-right: max(var(--column-margin), env(safe-area-inset-right));
+  padding-left: var(--column-left-margin);
+  padding-right: var(--column-right-margin);
   font-size: var(--font-size-4);
   color: #fff;
   text-decoration: none;
@@ -192,8 +191,8 @@
 .navMenu .shareButton {
   width: 100%;
   height: 70px; /* TODO: how to achieve this with padding instead? */
-  padding-left: max(var(--column-margin), env(safe-area-inset-left));
-  padding-right: max(var(--column-margin), env(safe-area-inset-right));
+  padding-left: var(--column-left-margin);
+  padding-right: var(--column-right-margin);
   color: #fff;
   transform: none;
 }

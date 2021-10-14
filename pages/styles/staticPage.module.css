@@ -1,21 +1,10 @@
-.page::before {
-  content: "";
-  position: absolute;
-  top: -50px;
-  left: -10%;
-  width: 120%;
-  height: 700px;
-  transform: rotate(-2deg);
-  background: linear-gradient(100deg, #ccc 0%, #333 100%);
-  opacity: 0.1;
+.page {
+  margin: 0 var(--column-left-margin) 0 var(--column-right-margin);
+  position: relative;
 }
 .page h1 {
   margin: 48px 0;
   text-align: center;
-}
-.page h1,
-.pageInner {
-  position: relative;
 }
 .pageInner {
   max-width: 1280px;
@@ -30,8 +19,3 @@
 .pageInner a:active {
   color: var(--base-font-color);
 }
-/* .pageInner a:hover,
-.pageInner a:focus,
-.pageInner a:active {
-  text-decoration-thickness: 2px;
-} */
