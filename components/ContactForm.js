@@ -120,7 +120,8 @@ export default function ContactForm() {
 
       {!hasSubmitted && (
         <>
-          {/* TODO: replace this with a spinner because it's too jarring? */}
+          {/* TODO: replace this with a spinner because it's too jarring */}
+          {/* TODO: add `aria-live` attribute? */}
           {isSubmitting && <h2>Sending your message...</h2>}
 
           {hasFailed && (

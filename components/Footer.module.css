@@ -13,11 +13,10 @@
   border-radius: 5px;
   font-size: var(--font-size-5);
   color: var(--base-font-color);
-  text-decoration: none;
+  text-decoration-line: none;
 }
 .footerLink:hover,
 .footerLink:focus,
 .footerLink:active {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
+  text-decoration-line: underline;
 }

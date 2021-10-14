@@ -14,12 +14,6 @@
 .credit a {
   color: var(--base-font-color);
 }
-/* .author:hover,
-.author:focus,
-.credit a:hover,
-.credit a:focus {
-  text-decoration: none;
-} */
 .categories {
   display: flex;
   align-items: baseline;

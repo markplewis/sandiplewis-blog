@@ -5,7 +5,7 @@
   font-size: var(--font-size-4);
 }
 .body > *:first-child,
-.body > div > *:first-child {
+.bodyBlock > *:first-child {
   margin-top: 0;
 }
 @media (min-width: 768px) {
@@ -18,6 +18,8 @@
     margin-top: 0;
   }
 }
+/* Safari 15 on macOS isn't respecting the `text-decoration-thickness` rule on `:hover`
+and I haven't been able to fix it. See `base.css`. */
 .body a,
 .body a:visited,
 .body a:hover,
@@ -25,11 +27,6 @@
 .body a:active {
   color: var(--base-font-color);
 }
-/* .body a:hover,
-.body a:focus,
-.body a:active {
-  text-decoration: none;
-} */
 .body h2,
 .body h3,
 .body h4,

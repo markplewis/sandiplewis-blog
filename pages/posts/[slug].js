@@ -144,7 +144,7 @@ export default function Post({ data: initialData }) {
             )}
           </div>
 
-          <div className={styles.hero}>
+          <div className={styles.heroArea}>
             <div
               className={styles.patternBlock}
               style={{

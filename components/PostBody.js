@@ -28,6 +28,7 @@ export default function PostBody({ content }) {
   return (
     <div className={styles.body}>
       <BlockContent
+        className={styles.bodyBlock}
         blocks={content}
         serializers={serializers}
         projectId={config.projectId}

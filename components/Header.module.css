@@ -63,8 +63,6 @@
   margin: 0;
   padding: 10px;
 }
-/* .navMenu {
-} */
 .header > .nav {
   margin-left: 44px;
   justify-self: end;
@@ -84,17 +82,15 @@
 }
 .header > .nav .navItemActive {
   border-top-color: var(--baseBgColor);
-  /* border-top-color: #999; */
-  /* border-image: linear-gradient(100deg, var(--baseBgColor), var(--compBgColor)) 1; */
 }
 .header > .nav .navLink {
   font-size: var(--font-size-4);
   color: var(--base-font-color);
-  text-decoration: none;
+  text-decoration-line: none;
 }
 .header > .nav .navLink:hover,
 .header > .nav .navLink:focus {
-  text-decoration: underline;
+  text-decoration-line: underline;
 }
 .navMenu {
   width: 100%;
@@ -156,12 +152,12 @@
   padding-right: var(--column-right-margin);
   font-size: var(--font-size-4);
   color: #fff;
-  text-decoration: none;
+  text-decoration-line: none;
   display: block;
 }
 .navMenu .navLink:hover,
 .navMenu .navLink:focus {
-  text-decoration: underline;
+  text-decoration-line: underline;
   background-color: #191919;
 }
 
@@ -176,7 +172,7 @@
 }
 .shareButton:hover,
 .shareButton:focus {
-  text-decoration: underline;
+  text-decoration-line: underline;
 }
 .shareButton svg {
   width: 30px;

@@ -156,7 +156,7 @@ in order to avoid having to apply "display: inline-block" to every <a> that wrap
 }
 
 a {
-  text-underline-offset: 1px;
+  text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
 a:hover,
