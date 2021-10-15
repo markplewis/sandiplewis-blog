@@ -45,7 +45,13 @@ const sizes = {
   }
 };
 
-function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, image = {} }) {
+function Layout({
+  children,
+  title = "",
+  description = DEFAULT_META_DESCRIPTION,
+  image = {},
+  className = ""
+}) {
   const debug = useDebug();
   const router = useRouter();
   const url = `${BASE_URL}${router.asPath}`;
@@ -152,7 +158,7 @@ function Layout({ children, title = "", description = DEFAULT_META_DESCRIPTION, 
       <Header>
         <PreviewMessage />
       </Header>
-      <main>{children}</main>
+      <main className={className}>{children}</main>
       <Footer />
     </>
   );

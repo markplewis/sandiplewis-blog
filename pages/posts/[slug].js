@@ -134,13 +134,17 @@ export default function Post({ data: initialData }) {
           `}
         </style>
 
-        <article className={styles.article}>
-          <div className={styles.titleAndShareTools}>
+        <article>
+          <div className={styles.titleArea}>
             <PageTitle className={styles.title}>{post.title}</PageTitle>
-            {isMedium && <ShareTools text={post.title} position="above" />}
+            {isMedium && (
+              <div className={styles.shareToolsAbove}>
+                <ShareTools text={post.title} />
+              </div>
+            )}
           </div>
 
-          <div className={styles.coverImageAndMeta}>
+          <div className={styles.heroArea}>
             <div
               className={styles.patternBlock}
               style={{
@@ -170,7 +174,9 @@ export default function Post({ data: initialData }) {
           <div className={styles.bodyArea}>
             {!isMedium && (
               <>
-                {<ShareTools text={post.title} position="below" />}
+                <div className={styles.shareToolsBelow}>
+                  {<ShareTools text={post.title} align="right" />}
+                </div>
                 <div className={styles.metaBelow}>
                   <PostMeta creditLine={creditLine} post={post} themed={false} />
                 </div>

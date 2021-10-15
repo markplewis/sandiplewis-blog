@@ -8,8 +8,7 @@ import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
 import PostList from "components/PostList";
 
-import commonStyles from "pages/styles/common.module.css";
-import styles from "pages/styles/writingAndPosts.module.css";
+import styles from "pages/styles/contentListing.module.css";
 
 const novelsQuery = `
   *[_type == "novel"][] | order(publishedAt desc) {
@@ -48,7 +47,7 @@ export default function Writing({ data: initialData }) {
   // ) : ();
   return (
     <Layout title="Writing" description="A listing of Sandi Plewis' novels and short stories">
-      <div className={`${commonStyles.page} ${styles.page}`}>
+      <div className={styles.page}>
         <PageTitle>Writing</PageTitle>
 
         <div className={styles.pageInner}>

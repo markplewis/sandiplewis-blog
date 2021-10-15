@@ -1,32 +1,25 @@
-.page {
-  grid-column: 2 / 3;
-}
-.page::before {
-  content: "";
-  position: absolute;
-  top: -50px;
-  left: -10%;
-  width: 120%;
-  height: 700px;
-  transform: rotate(-2deg);
-  background: linear-gradient(100deg, var(--baseBgColor) 0%, var(--compBgColor) 100%);
-  opacity: 0.1;
-}
+/* Layer these elements over top of the gradient background and pattern blocks */
+
 .heroArea,
 .bodyArea {
   position: relative;
-  z-index: 1;
+  /* z-index: 1; */
 }
+
+/* Hero area - overall grid layout */
+
 .heroArea {
-  margin: 0 calc(max(var(--column-margin), env(safe-area-inset-right)) * -1); /* Negate with * -1 */
   display: grid;
 }
 @media (min-width: 1600px) {
   .heroArea {
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: var(--column-left-margin);
+    margin-right: var(--column-right-margin);
   }
 }
+
+/* Hero area - outer elements */
+
 .patternBlock,
 .coverImageAndTitle {
   width: 100%;
@@ -42,10 +35,15 @@
 }
 .coverImageAndTitle {
   margin: 44px 0;
+  padding-left: var(--column-left-margin);
+  padding-right: var(--column-right-margin);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
+/* Hero area - inner elements */
+
 .coverImage {
   width: 188px;
   margin: 0 auto 22px auto;
@@ -60,7 +58,9 @@
 .title {
   margin: 8px 0 0 0;
 }
-/* .bodyArea {
-  grid-column: 2 / -2;
-  grid-row: 4 / 5;
-} */
+
+/* Body area */
+
+.bodyArea {
+  margin: 0 var(--column-left-margin) 0 var(--column-right-margin);
+}

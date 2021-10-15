@@ -114,7 +114,8 @@ export default function HomePage({ data: initialData }) {
     <Layout
       title=""
       description={description}
-      image={{ image: author?.image, portrait: true, crop: true }}>
+      image={{ image: author?.image, portrait: true, crop: true }}
+      className="homePage">
       <style jsx global>
         {`
           body {
@@ -129,8 +130,8 @@ export default function HomePage({ data: initialData }) {
       <div className={styles.gradient}></div>
 
       {!isWide && (
-        <div className={styles.shareTools}>
-          <ShareTools text="Sandi Plewis, Author/Editor" />
+        <div className={styles.shareToolsAbove}>
+          <ShareTools text="Sandi Plewis, Author/Editor" align="right" />
         </div>
       )}
 
@@ -196,7 +197,7 @@ export default function HomePage({ data: initialData }) {
         ) : null}
 
         {isWide && (
-          <div className={styles.shareTools}>
+          <div className={styles.shareToolsVertical}>
             <ShareTools text="Sandi Plewis, Author/Editor" position="vertical" />
           </div>
         )}

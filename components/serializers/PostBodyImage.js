@@ -13,9 +13,6 @@ const PostBodyImage = ({ node }) => {
   const height = node?.asset?.metadata?.dimensions?.height ?? 0;
   const creditLine = processCreditLine(node?.asset?.creditLine);
 
-  // TODO: larger images at mobile breakpoint (when they're still centered)?
-  // Make sure they're still server-rendered though
-
   let orientation = "square";
   if (width > height) {
     orientation = "landscape";
@@ -40,8 +37,6 @@ const PostBodyImage = ({ node }) => {
       imageHeight = alignment === "center" ? 400 : 200;
       break;
   }
-  // TODO: how to get expanded asset object with metadata, etc., like we're doing in `CoverImage`
-  // See this, maybe? https://github.com/sanity-io/block-content-to-react#specifying-image-options
   const image = node.asset ? (
     <Image
       src={urlFor(node.asset)

@@ -1,0 +1,151 @@
+/* Layer these elements over top of the gradient background and pattern blocks */
+
+.heroArea,
+.coverImageAndInfo,
+.bodyArea {
+  position: relative;
+  /* z-index: 1; */
+}
+
+/* Hero area - overall grid layout */
+
+.heroArea {
+  --left-width: var(--column-left-margin);
+  --right-width: var(--column-right-margin);
+  --info-width: auto;
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: var(--left-width) var(--info-width) minmax(auto, 200px) var(--right-width);
+}
+@media (min-width: 1024px) {
+  .heroArea {
+    --left-width: minmax(var(--column-left-margin), 1fr);
+    --right-width: minmax(var(--column-right-margin), 1fr);
+    --info-width: minmax(auto, 640px);
+  }
+}
+@media (min-width: 1600px) {
+  .heroArea {
+    margin-left: var(--column-left-margin);
+    margin-right: var(--column-right-margin);
+  }
+}
+
+/* Hero area - outer elements */
+
+.patternBlock {
+  margin-top: 55px;
+  height: 322px;
+  content: "";
+  display: block;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+.coverImageAndInfo {
+  margin: 22px 0;
+  padding: 44px;
+  border-radius: 10px 0;
+  background-color: var(--baseBgColor);
+  grid-column: 2 / 4;
+  grid-row: 1 / 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 44px;
+}
+.coverImageAndInfo :focus,
+.coverImageAndInfo :hover:focus {
+  outline-color: var(--baseFgColor);
+}
+.patternBlock2 {
+  height: 370px;
+  content: "";
+  display: block;
+  grid-column: 3 / -1;
+  grid-row: 1 / 2;
+}
+@media (min-width: 768px) {
+  .patternBlock {
+    margin-top: 66px;
+  }
+  .coverImageAndInfo {
+    padding-right: 33px; /* -11px to account for image transform */
+    justify-content: flex-start;
+  }
+}
+
+/* Hero area - inner elements */
+
+.coverImage {
+  width: 188px;
+  transform: translate(11px, -11px);
+  background-color: var(--compBgColor);
+  flex-shrink: 0;
+}
+.coverImage > div {
+  transform: translate(-22px, 22px);
+}
+.title {
+  margin-top: 0;
+}
+.info ul,
+.info ol {
+  line-height: 1.8;
+}
+@media (min-width: 768px) {
+  .coverImage {
+    margin-bottom: 22px;
+    transform: translate(11px, 0);
+  }
+}
+
+/* Info - inside hero area */
+
+.infoAbove {
+  color: var(--baseFgColor);
+}
+.infoAbove > div > *:last-child {
+  margin: 0;
+}
+.infoAbove a,
+.infoAbove a:visited,
+.infoAbove a:hover,
+.infoAbove a:focus,
+.infoAbove a:active {
+  color: var(--baseFgColor);
+}
+
+/* Info - below hero area */
+
+.infoBelow {
+  margin: 0 -22px;
+  padding: 22px;
+  background-color: #fff;
+  color: var(--base-font-color);
+}
+.infoBelow a,
+.infoBelow a:visited,
+.infoBelow a:hover,
+.infoBelow a:focus,
+.infoBelow a:active {
+  color: var(--base-font-color);
+}
+
+/* Body area */
+
+.shareToolsBelow {
+  margin-bottom: 22px;
+}
+.bodyArea {
+  margin: 0 var(--column-left-margin) 0 var(--column-right-margin);
+}
+.reviewsHeading {
+  margin-bottom: 44px;
+}
+@media (min-width: 768px) {
+  .reviews {
+    max-width: calc(60ch + 224px);
+    margin: 0 auto;
+    padding: 0 44px;
+  }
+}
