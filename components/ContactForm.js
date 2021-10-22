@@ -45,6 +45,7 @@ async function sendEmail(data) {
 
 // https://www.w3.org/WAI/tutorials/forms/notifications/
 // https://react-hook-form.com/api/useform
+// https://github.com/FriendlyCaptcha/friendly-challenge/issues/50
 
 export default function ContactForm({ onStateChange }) {
   const [state, setState] = useState(FORM_IDLE);
@@ -118,6 +119,15 @@ export default function ContactForm({ onStateChange }) {
       setState(FORM_ERROR);
     }
   };
+
+  let captchaMessage;
+  if (state === FORM_IDLE) {
+    captchaMessage = "This form can’t be submitted until we’ve verified that you’re human.";
+  } else if (state === FORM_VERIFYING) {
+    captchaMessage = "Verifying that you’re human…";
+  } else {
+    captchaMessage = "We’ve verified that you’re human so you may now submit this form.";
+  }
 
   return (
     <div className={styles.formContainer}>
@@ -201,11 +211,7 @@ export default function ContactForm({ onStateChange }) {
                 </p>
               )}
             </div>
-            <p aria-live="polite">
-              {state === FORM_IDLE || state === FORM_VERIFYING
-                ? "The form is disabled while we verify that you're human."
-                : "We've verified that you're human so you may now submit the form."}
-            </p>
+            <p aria-live="polite">{captchaMessage}</p>
             <div className={styles.captcha} aria-hidden="true">
               <FriendlyCaptcha
                 onStarted={onCaptchaStarted}
