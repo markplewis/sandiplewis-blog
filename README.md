@@ -72,16 +72,14 @@ cd studio
 sanity upgrade
 ```
 
-Unfortunately, [until this issue has been resolved](https://github.com/sanity-io/sanity/issues/1510), Sanity will generate a `yarn.lock` file, which will likely be out-of-sync with `package-lock.json`. So, after running `sanity upgrade`, you'll need to perform some cleanup:
+Unfortunately, [until this issue has been resolved](https://github.com/sanity-io/sanity/issues/1510), Sanity will generate a `yarn.lock` file but it will not generate/update `package-lock.json`, so these files may become out-of-sync with one another as well as with `package.json`. Therefore, after running `sanity upgrade`, you'll need to perform some cleanup:
 
 ```bash
-# Remove superfluous yarn.lock files
-rm yarn.lock
-rm studio/yarn.lock
+# Remove superfluous "yarn.lock" files
+rm yarn.lock studio/yarn.lock
 
-# Update package-lock.json to match package.json again
-npm install
-cd studio
+# Update "package-lock.json" to match "package.json" again
+# (the "postinstall" hook should subsequently run "npm install" within the "studio" folder)
 npm install
 ```
 

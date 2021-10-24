@@ -1,14 +1,23 @@
 import DOMPurify from "dompurify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaExclamationCircle } from "react-icons/fa";
 
 import FriendlyCaptcha from "components/FriendlyCaptcha";
+import Spinner from "components/Spinner";
 
 import { emailRegex } from "utils/forms";
 import useDebug from "utils/useDebug";
 
 import styles from "components/ContactForm.module.css";
+
+// Lifecycle types (in order of occurance)
+export const FORM_IDLE = "idle";
+export const FORM_VERIFYING = "verifying";
+export const FORM_ENABLED = "enabled";
+export const FORM_SUBMITTING = "submitting";
+export const FORM_SUBMITTED = "submitted";
+export const FORM_ERROR = "error";
 
 // async function saveMessage(data) {
 //   let response = await fetch("/api/createContactFormSubmission", {
@@ -34,12 +43,14 @@ async function sendEmail(data) {
   }
 }
 
-export default function ContactForm() {
+// https://www.w3.org/WAI/tutorials/forms/notifications/
+// https://react-hook-form.com/api/useform
+// https://github.com/FriendlyCaptcha/friendly-challenge/issues/50
+
+export default function ContactForm({ onStateChange }) {
+  const [state, setState] = useState(FORM_IDLE);
   const [formData, setFormData] = useState();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [hasFailed, setHasFailed] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -48,19 +59,33 @@ export default function ContactForm() {
 
   const debug = useDebug();
 
+  useEffect(() => {
+    onStateChange(state);
+  }, [onStateChange, state]);
+
+  const onCaptchaStarted = () => {
+    debug && console.log("Captcha started");
+    setState(FORM_VERIFYING);
+  };
+
+  const onCaptchaReady = () => {
+    debug && console.log("Captcha ready");
+  };
+
   const onCaptchaSuccess = () => {
-    debug && console.log("Captcha was solved. The form can be submitted.");
-    setIsEnabled(true);
+    debug && console.log("Captcha solved");
+    setState(FORM_ENABLED);
   };
 
   const onCaptchaError = err => {
-    debug && console.log("There was an error when trying to solve the Captcha.");
+    debug && console.log("Captcha could not be solved");
     debug && console.error(err);
-    setIsEnabled(false);
+    // Enable the form regardless, in order to provide a better user experience
+    setState(FORM_ENABLED);
   };
 
   const onSubmit = async data => {
-    setIsSubmitting(true);
+    setState(FORM_SUBMITTING);
     setFormData(data);
 
     try {
@@ -71,14 +96,12 @@ export default function ContactForm() {
       });
       sendEmail(sanitizedData)
         .catch(e => {
-          setIsSubmitting(false);
-          setHasFailed(true);
+          setState(FORM_ERROR);
           debug && console.error(e);
         })
         .then(response => {
           debug && console.log(response);
-          setIsSubmitting(false);
-          setHasSubmitted(true);
+          setState(FORM_SUBMITTED);
         });
       // Promise.allSettled([saveMessage(sanitizedData), sendEmail(sanitizedData)]).then(results => {
       //   const success = results.every(result => result.status === "fulfilled");
@@ -93,15 +116,24 @@ export default function ContactForm() {
     } catch (err) {
       debug && console.error("Form submission error:", err);
       setFormData(err);
+      setState(FORM_ERROR);
     }
   };
 
+  let captchaMessage;
+  if (state === FORM_IDLE) {
+    captchaMessage = "This form can’t be submitted until we’ve verified that you’re human.";
+  } else if (state === FORM_VERIFYING) {
+    captchaMessage = "Verifying that you’re human…";
+  } else {
+    captchaMessage = "We’ve verified that you’re human so you may now submit this form.";
+  }
+
   return (
     <div className={styles.formContainer}>
-      {hasSubmitted && (
+      {state === FORM_SUBMITTED && (
         <>
-          <h2>Your message has been sent</h2>
-          <p>Thanks for reaching out!</p>
+          <p>Thanks for contacting Sandi!</p>
           {debug && (
             <ul>
               <li>
@@ -118,19 +150,11 @@ export default function ContactForm() {
         </>
       )}
 
-      {!hasSubmitted && (
+      {state !== FORM_SUBMITTED && (
         <>
-          {/* TODO: replace this with a spinner because it's too jarring */}
-          {/* TODO: add `aria-live` attribute? */}
-          {isSubmitting && <h2>Sending your message...</h2>}
-
-          {hasFailed && (
-            <>
-              <h2>Oops!</h2>
-              <p>An error occurred and your message could not be sent.</p>
-            </>
+          {state === FORM_ERROR && (
+            <p>An error occurred and your message could not be sent. Please try again.</p>
           )}
-
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.fieldGroup}>
               <label htmlFor="name">Name</label>
@@ -144,7 +168,7 @@ export default function ContactForm() {
                 id="name"
               />
               {errors.name && (
-                <p className={styles.error} id="name-error">
+                <p className={styles.error} id="name-error" aria-live="polite">
                   <FaExclamationCircle />
                   {errors.name.message}
                 </p>
@@ -165,7 +189,7 @@ export default function ContactForm() {
                 id="email"
               />
               {errors.email && (
-                <p className={styles.error} id="email-error">
+                <p className={styles.error} id="email-error" aria-live="polite">
                   <FaExclamationCircle />
                   {errors.email.message}
                 </p>
@@ -181,14 +205,20 @@ export default function ContactForm() {
                 id="message"
                 rows="8"></textarea>
               {errors.message && (
-                <p className={styles.error} id="message-error">
+                <p className={styles.error} id="message-error" aria-live="polite">
                   <FaExclamationCircle />
                   {errors.message.message}
                 </p>
               )}
             </div>
-            <div className={styles.captcha}>
-              <FriendlyCaptcha onSuccess={onCaptchaSuccess} onError={onCaptchaError} />
+            <p aria-live="polite">{captchaMessage}</p>
+            <div className={styles.captcha} aria-hidden="true">
+              <FriendlyCaptcha
+                onStarted={onCaptchaStarted}
+                onReady={onCaptchaReady}
+                onSuccess={onCaptchaSuccess}
+                onError={onCaptchaError}
+              />
             </div>
             {/* <input
               className={`u-button-appearance-none ${styles.submitButton}`}
@@ -199,17 +229,30 @@ export default function ContactForm() {
             <button
               className={`u-button-appearance-none ${styles.submitButton}`}
               type="submit"
-              disabled={!isEnabled || isSubmitting}>
-              <span>Submit</span>
-              <svg
-                className={styles.submitButtonSVG}
-                // fill={fgColor}
-                role="img"
-                pointerEvents="none"
-                focusable={false}
-                aria-hidden={true}>
-                <use xlinkHref="#icon-arrow-right" />
-              </svg>
+              disabled={
+                state === FORM_IDLE ||
+                state === FORM_VERIFYING ||
+                state === FORM_SUBMITTING ||
+                state === FORM_ERROR
+              }>
+              {state === FORM_SUBMITTING ? (
+                <>
+                  <span>Submitting</span>
+                  <Spinner />
+                </>
+              ) : (
+                <>
+                  <span>Submit</span>
+                  <svg
+                    className={styles.submitButtonSVG}
+                    role="img"
+                    pointerEvents="none"
+                    focusable={false}
+                    aria-hidden={true}>
+                    <use xlinkHref="#icon-arrow-right" />
+                  </svg>
+                </>
+              )}
             </button>
           </form>
         </>
