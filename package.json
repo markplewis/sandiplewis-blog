@@ -44,6 +44,7 @@
     "mailgun.js": "^3.7.0",
     "modern-normalize": "^1.1.0",
     "next": "^11.1.2",
+    "next-plausible": "^3.0.1",
     "next-sanity": "^0.4.0",
     "nprogress": "^0.2.0",
     "react": "^17.0.2",
