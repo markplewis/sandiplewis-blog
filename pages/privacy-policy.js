@@ -35,10 +35,10 @@ export default function PrivacyPolicy() {
           </p>
           <p>
             This website’s contact form sends an email immediately upon submission and the submitted
-            data is not retained thereafter. The “anti-robot verification” feature is a
+            data is not retained thereafter. Its “anti-robot verification” feature is a
             spam-prevention service provided by{" "}
             <a href="https://friendlycaptcha.com/">Friendly Captcha</a>. This service does not
-            collect any information about the users of the websites on which it operates.
+            collect any information about its users.
           </p>
         </div>
       </div>
