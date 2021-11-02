@@ -23,22 +23,22 @@ export default function PrivacyPolicy() {
         <div className={styles.pageInner}>
           <p>Last updated: November 1, 2021</p>
           <p>
-            This website does not collect or store any personally identifiable information (PII)
-            about its users. It uses a privacy-friendly Google Analytics alternative called{" "}
-            <a href="https://plausible.io/">Plausible</a> to collect basic, anonymized traffic data.
-            This helps us better understand which blog posts are receiving the most views, etc.
+            This website uses a privacy-friendly Google Analytics alternative called{" "}
+            <a href="https://plausible.io/">Plausible</a> to collect anonymized traffic data, in
+            order to help us better understand which pages are receiving the most views, etc. This
+            website does not collect any personally identifiable information (PII) about its users.
           </p>
           <p>
             The social media share buttons on this website are simple, direct links to their
-            respective social media platforms (i.e. Twitter and Facebook). Consequently, no
-            third-party tracking code is added to the page by these companies or their affiliates.
+            respective platforms (i.e. Twitter and Facebook). Consequently, no third-party tracking
+            code is added to the page by these companies or their affiliates.
           </p>
           <p>
             This website’s contact form sends an email immediately upon submission and the submitted
             data is not retained thereafter. Its “anti-robot verification” feature is a
             spam-prevention service provided by{" "}
-            <a href="https://friendlycaptcha.com/">Friendly Captcha</a>. This service does not
-            collect any information about its users.
+            <a href="https://friendlycaptcha.com/">Friendly Captcha</a>, which does not collect any
+            information about its users.
           </p>
         </div>
       </div>
