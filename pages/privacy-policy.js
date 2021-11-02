@@ -21,11 +21,12 @@ export default function PrivacyPolicy() {
         <PageTitle>Privacy Policy</PageTitle>
 
         <div className={styles.pageInner}>
-          <p>Last updated: September 25, 2021</p>
+          <p>Last updated: November 1, 2021</p>
           <p>
-            This website does not collect or store any personal data about its users. It doesn’t use
-            cookies, analytics tools such as Google Analytics, social media share buttons, nor any
-            other method to track the behaviour or locations of its users.
+            This website does not collect or store any personally identifiable information (PII)
+            about its users. It uses a privacy-friendly Google Analytics alternative called{" "}
+            <a href="https://plausible.io/">Plausible</a> to collect basic, anonymized traffic data.
+            This helps us better understand which blog posts are receiving the most views, etc.
           </p>
           <p>
             The social media share buttons on this website are simple, direct links to their
@@ -34,13 +35,10 @@ export default function PrivacyPolicy() {
           </p>
           <p>
             This website’s contact form sends an email immediately upon submission and the submitted
-            data is not retained thereafter.
-          </p>
-          <p>
-            The “anti-robot verification” feature of this website’s contact form is a
+            data is not retained thereafter. Its “anti-robot verification” feature is a
             spam-prevention service provided by{" "}
             <a href="https://friendlycaptcha.com/">Friendly Captcha</a>. This service does not
-            collect any information about the users of the websites’ on which it operates.
+            collect any information about its users.
           </p>
         </div>
       </div>
