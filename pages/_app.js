@@ -1,7 +1,9 @@
 import AbortController from "abort-controller";
+import PlausibleProvider from "next-plausible";
 import Router from "next/router";
 import NProgress from "nprogress";
 // import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { BASE_URL, envProd } from "lib/constants";
 import { AppProvider } from "utils/useApp";
 
 // Global styles
@@ -25,17 +27,31 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 // A custom App component. See: https://nextjs.org/docs/advanced-features/custom-app
 
+// TODO: in Next.js 11, it isn't possible to proxy the Plausible script on statically-generated
+// pages, but this may be possible via Next.js 12's middleware. So, we'll have to monitor the
+// `next-plausible` package for updates.
+// https://github.com/4lejandrito/next-plausible#proxy-the-analytics-script
+// https://nextjs.org/docs/middleware
+
 function MyApp({ Component, pageProps }) {
+  const domain = BASE_URL.split("//").pop();
   return (
-    // See `CommentForm` for the commented out ReCaptcha implementation
-    // <GoogleReCaptchaProvider
-    //   reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
-    //   scriptProps={{ async: true, defer: true }}>
-    <AppProvider>
-      <Component {...pageProps} />
-    </AppProvider>
-    // </GoogleReCaptchaProvider>
+    <PlausibleProvider domain={domain} enabled={envProd}>
+      <AppProvider>
+        <Component {...pageProps} />
+      </AppProvider>
+    </PlausibleProvider>
   );
+  // return (
+  //   // See `CommentForm` for the commented out ReCaptcha implementation
+  //   <GoogleReCaptchaProvider
+  //     reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
+  //     scriptProps={{ async: true, defer: true }}>
+  //     <AppProvider>
+  //       <Component {...pageProps} />
+  //     </AppProvider>
+  //   </GoogleReCaptchaProvider>
+  // );
 }
 
 // Only uncomment this method if you have blocking data requirements for

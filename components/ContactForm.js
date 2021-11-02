@@ -121,11 +121,9 @@ export default function ContactForm({ onStateChange }) {
   };
 
   let captchaMessage;
-  if (state === FORM_IDLE) {
-    captchaMessage = "This form can’t be submitted until we’ve verified that you’re human.";
-  } else if (state === FORM_VERIFYING) {
+  if (state === FORM_VERIFYING) {
     captchaMessage = "Verifying that you’re human…";
-  } else {
+  } else if (state !== FORM_IDLE) {
     captchaMessage = "We’ve verified that you’re human so you may now submit this form.";
   }
 
@@ -211,7 +209,7 @@ export default function ContactForm({ onStateChange }) {
                 </p>
               )}
             </div>
-            <p aria-live="polite">{captchaMessage}</p>
+            {captchaMessage && <p aria-live="polite">{captchaMessage}</p>}
             <div className={styles.captcha} aria-hidden="true">
               <FriendlyCaptcha
                 onStarted={onCaptchaStarted}
