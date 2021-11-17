@@ -261,9 +261,6 @@ export default function HomePage({ data: initialData }) {
   );
 }
 
-// See: https://nextjs.org/docs/basic-features/data-fetching
-// See: https://youtu.be/f1rF9YKm1Ms
-
 export async function getStaticProps() {
   const novelAndHomePage = await client.fetch(featuredNovelAndHomePageQuery);
   const reviews = await client.fetch(featuredReviewsQuery);

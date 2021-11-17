@@ -12,8 +12,6 @@ import styles from "pages/styles/staticPage.module.css";
 // which you are Processing it, and how Users may request deletion of that data."
 // - https://developers.facebook.com/terms
 
-// TODO: explain this in privacy policy: https://www.tunnelbear.com/blog/why-we-created-our-own-social-media-buttons-on-our-website/
-
 export default function PrivacyPolicy() {
   return (
     <Layout title="Privacy policy" description="Privacy policy">
@@ -45,6 +43,3 @@ export default function PrivacyPolicy() {
     </Layout>
   );
 }
-
-// macOS curly quotes key bindings: https://mybyways.com/blog/visual-studio-code-key-bindings-for-curly-quotes
-// TODO: how to make VSCode automatically insert these, or maybe format them via an extension?

@@ -1,5 +1,12 @@
-// See: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
+// ------------------------------------------------------------------------------------ //
+// The contents of this file have been commented out because comment functionality
+// has been disabled
+// ------------------------------------------------------------------------------------ //
 
+// This schema is a "singleton". See:
+// https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
+
+/*
 const SettingsSchema = {
   name: "settings",
   title: "Settings",
@@ -24,3 +31,4 @@ const SettingsSchema = {
   }
 };
 export default SettingsSchema;
+*/

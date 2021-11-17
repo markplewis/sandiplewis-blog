@@ -1,6 +1,3 @@
-// import ErrorPage from "next/error";
-// import { useRouter } from "next/router";
-
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -14,6 +11,7 @@ import styles from "pages/styles/contentListing.module.css";
 // Get posts in this category
 // See: https://css-tricks.com/how-to-make-taxonomy-pages-with-gatsby-and-sanity-io/#querying-sanitys-references
 // TODO: paginate posts
+
 const query = `
   *[_type == "category" && slug.current == $slug][0] {
     _id,
@@ -31,8 +29,6 @@ const query = `
 `;
 
 export default function Category({ data: initialData }) {
-  // const router = useRouter();
-
   const { data: category } = usePreviewSubscription(query, {
     params: {
       slug: initialData?.slug
@@ -41,9 +37,6 @@ export default function Category({ data: initialData }) {
     enabled: true
   });
 
-  // return !router.isFallback && !category?.slug ? (
-  //   <ErrorPage statusCode={404} />
-  // ) : ();
   return (
     <Layout
       title={`Category: ${category?.title}`}
@@ -65,7 +58,6 @@ export default function Category({ data: initialData }) {
               />
             </>
           ) : null}
-
           <p>
             <MoreLink as="/categories" href="/categories" text="More categories" align="center" />
           </p>
@@ -81,7 +73,7 @@ export async function getStaticProps({ params }) {
   });
   if (!data) {
     return {
-      notFound: true // Return a 404 status and page
+      notFound: true
     };
   }
   return {

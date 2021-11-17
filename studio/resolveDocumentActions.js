@@ -10,7 +10,7 @@ const DoNothingAction = () => null;
 
 // Remove certain Document Actions from the menu, for specific document types
 // See: https://www.sanity.io/docs/document-actions
-// `__experimental_actions` is deprecated: https://www.sanity.io/docs/ui-affordances-for-actions
+// (`__experimental_actions` is deprecated: https://www.sanity.io/docs/ui-affordances-for-actions)
 
 export default function resolveDocumentActions(props) {
   return defaultResolve(props).map(Action => {

@@ -1,3 +1,9 @@
+// ------------------------------------------------------------------------------------ //
+// The contents of this file have been commented out because we've replaced
+// Google ReCaptcha with Friendly Captcha
+// ------------------------------------------------------------------------------------ //
+
+/*
 export default async function verifyReCaptcha(req, res) {
   const { token } = JSON.parse(req.body);
   try {
@@ -12,3 +18,4 @@ export default async function verifyReCaptcha(req, res) {
     return res.status(500).json({ message: "reCAPTCHA verification error", err });
   }
 }
+*/

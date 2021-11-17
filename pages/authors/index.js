@@ -1,6 +1,3 @@
-// import ErrorPage from "next/error";
-// import { useRouter } from "next/router";
-
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -21,16 +18,11 @@ const query = `
 `;
 
 export default function Authors({ data: initialData }) {
-  // const router = useRouter();
-
   const { data: authors } = usePreviewSubscription(query, {
     initialData,
     enabled: true
   });
 
-  // return !router.isFallback && !authors ? (
-  //   <ErrorPage statusCode={404} />
-  // ) : ();
   return (
     <Layout title="Authors" description="Authors">
       <div className={styles.page}>

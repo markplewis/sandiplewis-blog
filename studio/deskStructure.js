@@ -92,6 +92,7 @@ const DeskStructure = () =>
               return listItem;
           }
         })
+      // The settings page has been disabled:
       // S.listItem()
       //   .title("Settings")
       //   .icon(HiOutlineCog)

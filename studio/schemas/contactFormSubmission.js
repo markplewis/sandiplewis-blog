@@ -1,3 +1,9 @@
+// ------------------------------------------------------------------------------------ //
+// The contents of this file have been commented out because we're no longer storing
+// contact form submissions in our Sanity content lake
+// ------------------------------------------------------------------------------------ //
+
+/*
 const ContactFormSubmissionSchema = {
   name: "contactFormSubmission",
   title: "Contact form submission",
@@ -36,3 +42,4 @@ const ContactFormSubmissionSchema = {
   }
 };
 export default ContactFormSubmissionSchema;
+*/

@@ -1,15 +1,9 @@
 import { AiOutlineLine, AiOutlinePaperClip } from "react-icons/ai";
 
-/**
- * This is the schema definition for the rich text fields used for
- * for this blog studio. When you import it in schemas.js it can be
- * reused in other parts of the studio with:
- *  {
- *    name: 'someName',
- *    title: 'Some title',
- *    type: 'blockContent'
- *  }
- */
+// This is the schema definition for the rich text fields in our application. When this schema
+// is imported into `schema.js`, it can be referenced by `name` in other document schemas, for
+// example: `fields: [{ name: "biography", title: "Biography", type: "blockContent" }]`
+
 const BlockContentSchema = {
   title: "Block Content",
   name: "blockContent",
@@ -18,10 +12,9 @@ const BlockContentSchema = {
     {
       title: "Block",
       type: "block",
-      // Styles let you set what your user can mark up blocks with. These
-      // correspond with HTML tags, but you can set any title or value
-      // you want and decide how you want to deal with it where you want to
-      // use your content. https://www.sanity.io/docs/configuration
+      // Styles let you define how your users can mark up blocks. The following styles correspond to
+      // HTML elements, but you can define any title or value you want, and decide how to deal with
+      // it however you like. See: https://www.sanity.io/docs/configuration
       styles: [
         { title: "Normal", value: "normal" },
         { title: "Heading 2", value: "h2" },
@@ -35,17 +28,17 @@ const BlockContentSchema = {
         { title: "Bullet", value: "bullet" },
         { title: "Numbered", value: "number" }
       ],
-      // Marks let you mark up inline text in the block editor.
+      // Marks let you mark up inline text in the block editor
       marks: {
         // Decorators usually describe a single property – e.g. a typographic
-        // preference or highlighting by editors.
+        // preference or highlighting by editors
         decorators: [
           { title: "Strong", value: "strong" },
           { title: "Emphasis", value: "em" },
           { title: "Underline", value: "underline" },
           { title: "Strike", value: "strike-through" }
         ],
-        // Annotations can be any object structure – e.g. a link or a footnote.
+        // Annotations can be any object structure – e.g. a link or a footnote
         annotations: [
           {
             title: "URL",
@@ -94,9 +87,8 @@ const BlockContentSchema = {
         ]
       }
     },
-    // You can add additional types here. Note that you can't use
-    // primitive types such as 'string' and 'number' in the same array
-    // as a block type.
+    // You can add additional types here. Note that you can't use primitive types such as
+    // `string` and `number` in the same array as a block type.
     {
       type: "image",
       options: { hotspot: true },
