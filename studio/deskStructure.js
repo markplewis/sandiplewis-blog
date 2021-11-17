@@ -8,8 +8,6 @@ import {
   HiOutlineBookOpen,
   HiOutlineUser,
   HiOutlineDocumentText,
-  // HiOutlineCog,
-  HiOutlineChat,
   HiOutlineFolderOpen,
   HiOutlineStar
 } from "react-icons/hi";
@@ -67,7 +65,6 @@ const DeskStructure = () =>
         ),
       ...S.documentTypeListItems()
         .filter(listItem => {
-          // return !["homePage", "settings"].includes(listItem.getId());
           return listItem.getId() !== "homePage";
         })
         .map(listItem => {
@@ -76,10 +73,6 @@ const DeskStructure = () =>
               return splitPaneViews(listItem, "Authors", "author", HiOutlineUser);
             case "category":
               return splitPaneViews(listItem, "Categories", "category", HiOutlineFolderOpen);
-            case "comment":
-              return listItem.title("Comments").icon(HiOutlineChat);
-            case "contactFormSubmission":
-              return listItem.title("Contact form").icon(HiOutlineChat);
             case "novel":
               return splitPaneViews(listItem, "Novels", "novel", HiOutlineBookOpen);
             case "shortStory":
@@ -92,11 +85,6 @@ const DeskStructure = () =>
               return listItem;
           }
         })
-      // The settings page has been disabled:
-      // S.listItem()
-      //   .title("Settings")
-      //   .icon(HiOutlineCog)
-      //   .child(S.document().documentId("settings").schemaType("settings"))
     ]);
 
 export default DeskStructure;

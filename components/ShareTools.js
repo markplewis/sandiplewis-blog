@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { BASE_URL } from "lib/constants";
+import { BASE_URL } from "env/constants";
 
 import styles from "components/ShareTools.module.css";
 

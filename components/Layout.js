@@ -8,7 +8,7 @@ import Header from "components/Header";
 import PreviewMessage from "components/PreviewMessage";
 import SkipLink from "components/SkipLink";
 
-import { BASE_URL, DEFAULT_META_DESCRIPTION, env, envProd, SITE_TITLE } from "lib/constants";
+import { BASE_URL, DEFAULT_META_DESCRIPTION, env, envProd, SITE_TITLE } from "env/constants";
 import { urlFor } from "lib/sanity";
 
 import useDebug from "utils/useDebug";

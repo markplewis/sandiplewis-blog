@@ -19,19 +19,6 @@ export const FORM_SUBMITTING = "submitting";
 export const FORM_SUBMITTED = "submitted";
 export const FORM_ERROR = "error";
 
-// This function has been commented out becuase we're no longer storing
-// contact form submissions in our Sanity content lake
-//
-// async function saveMessage(data) {
-//   let response = await fetch("/api/createContactFormSubmission", {
-//     method: "POST",
-//     body: data,
-//     type: "application/json"
-//   });
-//   response = await response.json();
-//   return response;
-// }
-
 async function sendEmail(data) {
   try {
     let response = await fetch("/api/sendEmail", {
@@ -106,16 +93,6 @@ export default function ContactForm({ onStateChange }) {
           debug && console.log(response);
           setState(FORM_SUBMITTED);
         });
-      // Promise.allSettled([saveMessage(sanitizedData), sendEmail(sanitizedData)]).then(results => {
-      //   const success = results.every(result => result.status === "fulfilled");
-      //   setIsSubmitting(false);
-      //   if (success) {
-      //     setHasSubmitted(true);
-      //   } else {
-      //     setHasFailed(true);
-      //     debug && console.log(results);
-      //   }
-      // });
     } catch (err) {
       debug && console.error("Form submission error:", err);
       setFormData(err);

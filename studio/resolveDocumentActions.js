@@ -14,7 +14,6 @@ const DoNothingAction = () => null;
 
 export default function resolveDocumentActions(props) {
   return defaultResolve(props).map(Action => {
-    // const types = ["homePage", "settings"];
     const types = ["homePage"];
     const disallowedActions = [CreateAction, DeleteAction, DuplicateAction, UnpublishAction];
     return types.includes[props.type] && disallowedActions.includes(Action)

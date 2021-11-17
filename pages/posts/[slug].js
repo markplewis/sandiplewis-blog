@@ -1,8 +1,6 @@
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
-// import Comments from "components/Comments";
-// import CommentForm from "components/CommentForm";
 import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
@@ -55,32 +53,7 @@ const postQuery = `
   }
 `;
 
-// Add this to the above Groq query in order to fetch the post's comments:
-// "comments": *[
-//   _type == "comment" &&
-//   post._ref == ^._id &&
-//   approved == true
-// ] {
-//   _id,
-//   name,
-//   email,
-//   comment,
-//   _createdAt
-// }
-
-// Comments have been disabled but I've left the code commented out for reference
-// const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
-
 export default function Post({ data: initialData }) {
-  // If we wanted to, we could use Next's cookie-based preview mode
-  // instead or Sanity's live subscription-based preview feature:
-  // https://nextjs.org/docs/advanced-features/preview-mode#fetch-preview-data
-
-  // Sanity's subscription-based preview feature:
-  // https://github.com/sanity-io/next-sanity#live-real-time-preview
-  // https://www.npmjs.com/package/next-sanity/v/0.1.4
-  // https://www.sanity.io/blog/live-preview-with-nextjs
-
   const { data: post } = usePreviewSubscription(postQuery, {
     params: {
       slug: initialData?.post?.slug
@@ -88,11 +61,6 @@ export default function Post({ data: initialData }) {
     initialData: initialData?.post,
     enabled: true
   });
-
-  // const { data: commentsEnabled } = usePreviewSubscription(commentsEnabledQuery, {
-  //   initialData: initialData?.commentsEnabled,
-  //   enabled: true
-  // });
 
   const isWide = useMediaQuery(`(min-width: ${rem(1024)})`);
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
@@ -178,13 +146,6 @@ export default function Post({ data: initialData }) {
             {post?.body && <PostBody content={post.body} />}
           </div>
         </article>
-
-        {/* {commentsEnabled ? (
-          <>
-            <Comments comments={post.comments} />
-            <CommentForm _id={post._id} />
-          </>
-        ) : null} */}
       </>
     </Layout>
   );
@@ -192,12 +153,11 @@ export default function Post({ data: initialData }) {
 
 // This function gets called at build time on the server side ("Static Generation"). It may be
 // called again, via a serverless function ("Incremental Static Regeneration"), if revalidation
-// is enabled and a new request comes in (see below). Documentation:
+// is enabled and a new request comes in (see below). See:
 // https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
 // https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
 
 export async function getStaticProps({ params }) {
-  // const commentsEnabled = await client.fetch(commentsEnabledQuery);
   const post = await client.fetch(postQuery, {
     slug: params.slug
   });
@@ -210,7 +170,6 @@ export async function getStaticProps({ params }) {
     props: {
       data: {
         post
-        // commentsEnabled
       }
     },
     // When `revalidate` is `false` (its default value) the page will be cached as built until your
@@ -225,7 +184,7 @@ export async function getStaticProps({ params }) {
 // called again, via a serverless function ("Incremental Static Regeneration"), if the requested
 // path has not been generated yet (i.e. when new posts are published after a build). Without this
 // mechanism in place, the site would have to be rebuilt every time a new post is published.
-// Documentation: https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
+// See: https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
 
 export async function getStaticPaths() {
   // Pre-render only these paths at build time

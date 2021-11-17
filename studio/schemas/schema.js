@@ -12,11 +12,6 @@ import shortStory from "./shortStory";
 import post from "./post";
 import review from "./review";
 
-// The following schemas are not being used but I've left the code commented out for reference
-// import comment from "./comment";
-// import contactFormSubmission from "./contactFormSubmission";
-// import settings from "./settings";
-
 // Give our schema to the builder and provide the results to Sanity
 export default createSchema({
   name: "default",
@@ -33,8 +28,5 @@ export default createSchema({
     review,
     author,
     blockContent
-    // contactFormSubmission,
-    // comment,
-    // settings
   ])
 });

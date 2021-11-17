@@ -2,8 +2,7 @@ import AbortController from "abort-controller";
 import PlausibleProvider from "next-plausible";
 import Router from "next/router";
 import NProgress from "nprogress";
-// import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-import { BASE_URL, envProd } from "lib/constants";
+import { BASE_URL, envProd } from "env/constants";
 import { AppProvider } from "utils/useApp";
 
 // Global styles
@@ -43,22 +42,13 @@ function MyApp({ Component, pageProps }) {
       </AppProvider>
     </PlausibleProvider>
   );
-  // I've replaced Google ReCaptcha with Friendly Captcha but I'm leaving this commented out for reference
-  // return (
-  //   // See `CommentForm` for the commented out ReCaptcha implementation
-  //   <GoogleReCaptchaProvider
-  //     reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
-  //     scriptProps={{ async: true, defer: true }}>
-  //     <AppProvider>
-  //       <Component {...pageProps} />
-  //     </AppProvider>
-  //   </GoogleReCaptchaProvider>
-  // );
 }
 
-// Only uncomment this method if you have blocking data requirements for every single page in your
-// application. This disables the ability to perform automatic static optimization, causing every
-// page in your app to be server-side rendered.
+/**
+ * Only uncomment this method if you have blocking data requirements for every single page in your
+ * application. This disables the ability to perform automatic static optimization, causing every
+ * page in your app to be server-side rendered.
+ */
 // MyApp.getInitialProps = async appContext => {
 //   // Calls page's `getInitialProps` and fills `appProps.pageProps`
 //   const appProps = await MyApp.getInitialProps(appContext);

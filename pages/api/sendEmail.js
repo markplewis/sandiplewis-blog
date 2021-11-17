@@ -1,6 +1,6 @@
 import formData from "form-data";
 import Mailgun from "mailgun.js";
-import { envProd } from "lib/constants";
+import { envProd } from "env/constants";
 
 // Email best practices:
 // https://help.mailgun.com/hc/en-us/articles/4401814149147-Adding-A-Reply-To-Address
