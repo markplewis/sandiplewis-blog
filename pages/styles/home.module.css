@@ -104,7 +104,7 @@
   background-color: var(--compBgColor);
   border-bottom-left-radius: 50px;
 }
-.bioImage > div {
+.bioImage > span {
   transform: translate(-16px, 16px);
   box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.1);
   border-radius: 100%;
