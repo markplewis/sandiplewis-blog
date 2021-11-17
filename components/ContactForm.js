@@ -19,6 +19,9 @@ export const FORM_SUBMITTING = "submitting";
 export const FORM_SUBMITTED = "submitted";
 export const FORM_ERROR = "error";
 
+// This function has been commented out becuase we're no longer storing
+// contact form submissions in our Sanity content lake
+//
 // async function saveMessage(data) {
 //   let response = await fetch("/api/createContactFormSubmission", {
 //     method: "POST",
@@ -172,6 +175,7 @@ export default function ContactForm({ onStateChange }) {
                 </p>
               )}
             </div>
+
             <div className={styles.fieldGroup}>
               <label htmlFor="email">Email</label>
               <input
@@ -193,6 +197,7 @@ export default function ContactForm({ onStateChange }) {
                 </p>
               )}
             </div>
+
             <div className={styles.fieldGroup}>
               <label htmlFor="message">Message</label>
               <textarea
@@ -209,7 +214,9 @@ export default function ContactForm({ onStateChange }) {
                 </p>
               )}
             </div>
+
             {captchaMessage && <p aria-live="polite">{captchaMessage}</p>}
+
             <div className={styles.captcha} aria-hidden="true">
               <FriendlyCaptcha
                 onStarted={onCaptchaStarted}
@@ -218,12 +225,7 @@ export default function ContactForm({ onStateChange }) {
                 onError={onCaptchaError}
               />
             </div>
-            {/* <input
-              className={`u-button-appearance-none ${styles.submitButton}`}
-              type="submit"
-              value="Submit"
-              disabled={!isEnabled || isSubmitting}
-            /> */}
+
             <button
               className={`u-button-appearance-none ${styles.submitButton}`}
               type="submit"

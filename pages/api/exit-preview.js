@@ -1,6 +1,13 @@
 // ------------------------------------------------------------------------------------ //
 // The contents of this file have been commented out because we're using Sanity's live
-// subscription-based preview feature instead of Next's cookie-based preview mode
+// subscription-based preview feature instead of Next's cookie-based preview mode.
+//
+// Sanity previews:
+// - https://www.sanity.io/docs/preview-content-on-site
+// - https://github.com/sanity-io/next-sanity#live-real-time-preview
+//
+// Next previews:
+// - https://nextjs.org/docs/advanced-features/preview-mode
 // ------------------------------------------------------------------------------------ //
 
 /*

@@ -1,6 +1,3 @@
-// import ErrorPage from "next/error";
-// import { useRouter } from "next/router";
-
 import { usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
@@ -22,8 +19,6 @@ import { rem } from "utils/units";
 import styles from "pages/styles/post.module.css";
 
 // This page uses a dynamic route. See: https://nextjs.org/docs/routing/dynamic-routes
-
-// const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
 
 const postQuery = `
   *[_type == "post" && slug.current == $slug][0] {
@@ -56,29 +51,33 @@ const postQuery = `
         }
       }
     },
-    description,
-    "comments": *[
-      _type == "comment" &&
-      post._ref == ^._id &&
-      approved == true
-    ] {
-      _id,
-      name,
-      email,
-      comment,
-      _createdAt
-    }
+    description
   }
 `;
 
-export default function Post({ data: initialData }) {
-  // const router = useRouter();
+// Add this to the above Groq query in order to fetch the post's comments:
+// "comments": *[
+//   _type == "comment" &&
+//   post._ref == ^._id &&
+//   approved == true
+// ] {
+//   _id,
+//   name,
+//   email,
+//   comment,
+//   _createdAt
+// }
 
+// Comments have been disabled but I've left the code commented out for reference
+// const commentsEnabledQuery = `*[_type == "settings"][0].commentsEnabled`;
+
+export default function Post({ data: initialData }) {
   // If we wanted to, we could use Next's cookie-based preview mode
   // instead or Sanity's live subscription-based preview feature:
   // https://nextjs.org/docs/advanced-features/preview-mode#fetch-preview-data
 
-  // Documentation and references:
+  // Sanity's subscription-based preview feature:
+  // https://github.com/sanity-io/next-sanity#live-real-time-preview
   // https://www.npmjs.com/package/next-sanity/v/0.1.4
   // https://www.sanity.io/blog/live-preview-with-nextjs
 
@@ -110,17 +109,11 @@ export default function Post({ data: initialData }) {
 
   const creditLine = processCreditLine(post?.image?.creditLine);
 
-  // return !router.isFallback && !post?.slug ? (
-  //   <ErrorPage statusCode={404} />
-  // ) : ();
   return (
     <Layout
       title={post?.title}
       description={post?.description}
       image={{ image: post?.image, portrait: false, crop: true }}>
-      {/* {router.isFallback ? (
-        <PageTitle>Loading…</PageTitle>
-      ) : ()} */}
       <>
         {/* https://nextjs.org/blog/styling-next-with-styled-jsx */}
         <style jsx global>
@@ -197,20 +190,17 @@ export default function Post({ data: initialData }) {
   );
 }
 
-// Incremental Static Regeneration (ISR)
+// This function gets called at build time on the server side ("Static Generation"). It may be
+// called again, via a serverless function ("Incremental Static Regeneration"), if revalidation
+// is enabled and a new request comes in (see below). Documentation:
+// https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
 // https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
 
-// Static Generation: Fetch data at build time
-// https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
-
-// This function gets called at build time on the server side. It may be called again,
-// on a serverless function, if revalidation is enabled and a new request comes in.
 export async function getStaticProps({ params }) {
+  // const commentsEnabled = await client.fetch(commentsEnabledQuery);
   const post = await client.fetch(postQuery, {
     slug: params.slug
   });
-  // const commentsEnabled = await client.fetch(commentsEnabledQuery);
-
   if (!post) {
     return {
       notFound: true // Return a 404 status and page
@@ -223,19 +213,20 @@ export async function getStaticProps({ params }) {
         // commentsEnabled
       }
     },
-    // When `revalidate` is `false` (its default value) the page will be cached as built
-    // until your next build. Otherwise, Next.js will attempt to re-generate the page when:
-    // - A request comes in
-    // - At most once every 10 seconds
+    // When `revalidate` is `false` (its default value) the page will be cached as built until your
+    // next build. Otherwise, Next.js will attempt to re-generate the page when a request comes in,
+    // once every X seconds (at most).
     revalidate: 10 // In seconds
   };
 }
 
-// Static Generation: Specify dynamic routes to pre-render pages based on data
-// https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
+// Specify dynamic routes to pre-render pages based on data.
+// This function gets called at build time on the server side ("Static Generation"). It may be
+// called again, via a serverless function ("Incremental Static Regeneration"), if the requested
+// path has not been generated yet (i.e. when new posts are published after a build). Without this
+// mechanism in place, the site would have to be rebuilt every time a new post is published.
+// Documentation: https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
 
-// This function gets called at build time on the server side. It may be called again,
-// on a serverless function, if the path has not been generated.
 export async function getStaticPaths() {
   // Pre-render only these paths at build time
   const paths = await client.fetch(
@@ -244,9 +235,13 @@ export async function getStaticPaths() {
   // `fallback: blocking` will server-render pages on demand if the path
   // wasn't statically pre-rendered (i.e. didn't exist at build time)
   // https://nextjs.org/docs/basic-features/data-fetching#fallback-blocking
+  // https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required
   return {
     paths,
-    // https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required
     fallback: "blocking"
   };
 }
+
+// More information about CSR (Client-Side Rendering), SSR (Server-Side Rendering),
+// SSG (Static-Site Generation), and ISR (Incremental Static Regeneration):
+// https://youtu.be/f1rF9YKm1Ms

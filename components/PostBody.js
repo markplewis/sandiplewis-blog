@@ -6,6 +6,7 @@ import PostBodyImage from "components/serializers/PostBodyImage";
 
 import styles from "components/PostBody.module.css";
 
+// TODO: organize/explain all of these links:
 // https://www.sanity.io/docs/image-url
 // https://www.sanity.io/docs/presenting-block-text
 // https://github.com/sanity-io/block-content-to-react

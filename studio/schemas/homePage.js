@@ -1,6 +1,7 @@
 import descriptionField from "../fields/description";
 
-// See: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
+// This schema is a "singleton". See:
+// https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
 
 const HomePageSchema = {
   name: "homePage",

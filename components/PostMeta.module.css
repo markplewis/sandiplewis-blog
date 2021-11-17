@@ -25,14 +25,9 @@
   background-color: var(--base-font-color);
   color: #fff;
 }
-/* TODO
-.tags {
-}
-*/
 .metaThemed {
   height: 100%;
   color: var(--compFgColor);
-  /* text-shadow: 0px 2px 1px rgb(0, 0, 0, 10%); */
 }
 .metaThemed .author {
   color: var(--compFgColor);

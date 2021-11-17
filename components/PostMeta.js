@@ -24,11 +24,6 @@ export default function PostMeta({ creditLine, post, themed = false }) {
         </div>
       ) : null}
 
-      {/* TODO */}
-      {/* {post?.tags && post.tags.length ? (
-        <p className={styles.tags}>Tags: {post.tags.map(tag => tag.label).join(", ")}</p>
-      ) : null} */}
-
       {creditLine && (
         <p className={styles.credit} dangerouslySetInnerHTML={{ __html: `Photo: ${creditLine}` }} />
       )}

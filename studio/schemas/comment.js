@@ -1,3 +1,9 @@
+// ------------------------------------------------------------------------------------ //
+// The contents of this file have been commented out because comment functionality
+// has been disabled
+// ------------------------------------------------------------------------------------ //
+
+/*
 const CommentSchema = {
   name: "comment",
   type: "document",
@@ -42,3 +48,4 @@ const CommentSchema = {
   }
 };
 export default CommentSchema;
+*/

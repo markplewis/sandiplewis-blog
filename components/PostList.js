@@ -80,9 +80,6 @@ export default function PostList({
           </Link>
         </li>
       ))}
-      {/* Hack to keep cards properly aligned on `/writing` page,
-      when viewport is between `1322px` and `1349px` wide */}
-      {/* {posts.length < 2 && <li aria-hidden="true"></li>} */}
     </ul>
   );
 }
