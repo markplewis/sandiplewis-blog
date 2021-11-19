@@ -6,6 +6,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 module.exports = withBundleAnalyzer({
+  eslint: {
+    dirs: ["components", "env", "lib", "pages"]
+  },
   images: {
     // These apply globally. It doesn't seem possible to specify different sizes per image.
     // https://nextjs.org/docs/basic-features/image-optimization#device-sizes

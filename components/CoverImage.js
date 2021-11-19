@@ -4,6 +4,10 @@ import ColorSwatches from "components/ColorSwatches";
 import { urlFor } from "lib/sanity";
 import useDebug from "utils/useDebug";
 
+// https://www.sanity.io/docs/presenting-images
+// https://nextjs.org/docs/basic-features/image-optimization
+// https://nextjs.org/docs/api-reference/next/image
+
 export default function CoverImage({ className, title, image, slug, width = 1240, height = 540 }) {
   const debug = useDebug();
   const swatches = debug ? <ColorSwatches palette={image?.palette} /> : null;

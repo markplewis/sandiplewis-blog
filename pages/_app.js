@@ -11,8 +11,6 @@ import "nprogress/nprogress.css";
 import "styles/base.css";
 import "styles/typography.css";
 
-// This is our custom App component. See: https://nextjs.org/docs/advanced-features/custom-app
-
 // Polyfill required until mailgun fixes the following issue or Vercel allows us to use Node 15+
 // See: https://github.com/mailgun/mailgun-js/issues/101
 if (!global.AbortController) {

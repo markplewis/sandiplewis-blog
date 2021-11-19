@@ -3,8 +3,6 @@ import PageTitle from "components/PageTitle";
 
 import styles from "pages/styles/staticPage.module.css";
 
-// See: https://nextjs.org/docs/advanced-features/custom-error-page
-
 export default function Custom500() {
   return (
     <Layout title="500 error" description="A server-side error occurred">

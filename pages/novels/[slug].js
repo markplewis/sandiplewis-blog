@@ -1,9 +1,3 @@
-import BlockContent from "@sanity/block-content-to-react";
-
-import config from "lib/config";
-import { usePreviewSubscription } from "lib/sanity";
-import { client } from "lib/sanity.server";
-
 import CoverImage from "components/CoverImage";
 import Layout from "components/Layout";
 import PageTitle from "components/PageTitle";
@@ -12,11 +6,14 @@ import ReviewList from "components/ReviewList";
 import InternalLink from "components/serializers/InternalLink";
 import ShareTools from "components/ShareTools";
 
-import { getPageColors } from "utils/color";
-import useMediaQuery from "utils/useMediaQuery";
-import { rem } from "utils/units";
+import { PortableText, usePreviewSubscription } from "lib/sanity";
+import { client } from "lib/sanity.server";
 
 import styles from "pages/styles/writing.module.css";
+
+import { getPageColors } from "utils/color";
+import { rem } from "utils/units";
+import useMediaQuery from "utils/useMediaQuery";
 
 const query = `
   *[_type == "novel" && slug.current == $slug][0] {
@@ -85,12 +82,7 @@ export default function Novel({ data: initialData }) {
   const overview = novel?.overview ? (
     <>
       <PageTitle className={styles.title}>{novel?.title}</PageTitle>
-      <BlockContent
-        blocks={novel?.overview}
-        serializers={serializers}
-        projectId={config.projectId}
-        dataset={config.dataset}
-      />
+      <PortableText blocks={novel?.overview} serializers={serializers} />
     </>
   ) : null;
 

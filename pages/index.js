@@ -1,10 +1,7 @@
-import BlockContent from "@sanity/block-content-to-react";
-
 import Image from "next/image";
 import Link from "next/link";
 
-import config from "lib/config";
-import { urlFor, usePreviewSubscription } from "lib/sanity";
+import { PortableText, urlFor, usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import Layout from "components/Layout";
@@ -171,12 +168,7 @@ export default function HomePage({ data: initialData }) {
               <PageTitle>{novel?.title}</PageTitle>
 
               {novel?.overview ? (
-                <BlockContent
-                  blocks={novel?.overview}
-                  serializers={serializers}
-                  projectId={config.projectId}
-                  dataset={config.dataset}
-                />
+                <PortableText blocks={novel?.overview} serializers={serializers} />
               ) : null}
 
               <MoreLink
@@ -240,12 +232,7 @@ export default function HomePage({ data: initialData }) {
               <h2 className={styles.bioHeading}>Sandi Plewis</h2>
 
               {author?.shortBiography ? (
-                <BlockContent
-                  blocks={author?.shortBiography}
-                  serializers={serializers}
-                  projectId={config.projectId}
-                  dataset={config.dataset}
-                />
+                <PortableText blocks={author?.shortBiography} serializers={serializers} />
               ) : null}
 
               <MoreLink

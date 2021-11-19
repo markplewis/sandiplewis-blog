@@ -3,8 +3,6 @@ import PageTitle from "components/PageTitle";
 
 import styles from "pages/styles/staticPage.module.css";
 
-// See: https://nextjs.org/docs/advanced-features/custom-error-page
-
 export default function Custom404() {
   return (
     <Layout title="404 error" description="The page you are looking for could not be found">

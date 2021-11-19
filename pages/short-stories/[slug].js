@@ -1,7 +1,4 @@
-import BlockContent from "@sanity/block-content-to-react";
-
-import config from "lib/config";
-import { usePreviewSubscription } from "lib/sanity";
+import { PortableText, usePreviewSubscription } from "lib/sanity";
 import { client } from "lib/sanity.server";
 
 import CoverImage from "components/CoverImage";
@@ -83,12 +80,7 @@ export default function ShortStory({ data: initialData }) {
   const overview = shortStory?.overview ? (
     <>
       <PageTitle className={styles.title}>{shortStory?.title}</PageTitle>
-      <BlockContent
-        blocks={shortStory?.overview}
-        serializers={serializers}
-        projectId={config.projectId}
-        dataset={config.dataset}
-      />
+      <PortableText blocks={shortStory?.overview} serializers={serializers} />
     </>
   ) : null;
 

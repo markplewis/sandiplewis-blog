@@ -1,8 +1,8 @@
-import BlockContent from "@sanity/block-content-to-react";
-import config from "lib/config";
 import InternalLink from "components/serializers/InternalLink";
 import LineBreak from "components/serializers/LineBreak";
 import PostBodyImage from "components/serializers/PostBodyImage";
+
+import { PortableText } from "lib/sanity";
 
 import styles from "components/PostBody.module.css";
 
@@ -28,13 +28,7 @@ const serializers = {
 export default function PostBody({ content }) {
   return (
     <div className={styles.body}>
-      <BlockContent
-        className={styles.bodyBlock}
-        blocks={content}
-        serializers={serializers}
-        projectId={config.projectId}
-        dataset={config.dataset}
-      />
+      <PortableText className={styles.bodyBlock} blocks={content} serializers={serializers} />
     </div>
   );
 }
