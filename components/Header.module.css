@@ -81,7 +81,7 @@
   border-top: 12px solid transparent;
 }
 .header > .nav .navItemActive {
-  border-top-color: var(--baseBgColor);
+  border-top-color: var(--primaryBgColor);
 }
 .header > .nav .navLink {
   font-size: var(--font-size-4);

@@ -7,7 +7,7 @@ import PageTitle from "components/PageTitle";
 
 import styles from "pages/styles/contentListing.module.css";
 
-import { colors } from "utils/designTokens/colors";
+import { colorTokens as colors } from "utils/designTokens/colors";
 import { rem } from "utils/units";
 
 const query = `
@@ -29,8 +29,8 @@ export default function Categories({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --compBgColor: ${colors?.white?.hsl};
-            --compFgColor: ${colors?.black?.hsl};
+            --secondaryBgColor: ${colors?.white?.hsl};
+            --secondaryFgColor: ${colors?.black?.hsl};
           }
         `}
       </style>

@@ -18,8 +18,8 @@
   transition: transform 0.25s ease-out;
 }
 .categoryThemed {
-  background-color: var(--compFgColor);
-  color: var(--compBgColor);
+  background-color: var(--secondaryFgColor);
+  color: var(--secondaryBgColor);
 }
 .categoryListCentered {
   justify-content: center;

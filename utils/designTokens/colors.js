@@ -26,7 +26,7 @@ function generateCSSValues(color) {
   };
 }
 
-export const colors = {
+export const colorTokens = {
   white: generateCSSValues(white),
   black: generateCSSValues(black)
 };

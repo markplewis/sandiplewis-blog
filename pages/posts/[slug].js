@@ -9,7 +9,7 @@ import PostMeta from "components/PostMeta";
 import ShareTools from "components/ShareTools";
 
 import { getPageColors } from "utils/color";
-// import { colors } from "utils/designTokens/colors";
+// import { colorTokens as colors } from "utils/designTokens/colors";
 import { processCreditLine } from "utils/strings";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
@@ -73,7 +73,7 @@ export default function Post({ data: initialData }) {
   };
 
   // Colours
-  const { base: baseColor, comp: compColor } = getPageColors(post);
+  const pageColors = getPageColors(post);
 
   const creditLine = processCreditLine(post?.image?.creditLine);
 
@@ -87,10 +87,10 @@ export default function Post({ data: initialData }) {
         <style jsx global>
           {`
             body {
-              --baseBgColor: ${baseColor?.background?.hsl};
-              --baseFgColor: ${baseColor?.foreground?.hsl};
-              --compBgColor: ${compColor?.background?.hsl};
-              --compFgColor: ${compColor?.foreground?.hsl};
+              --primaryBgColor: ${pageColors?.primary?.background?.hsl};
+              --primaryFgColor: ${pageColors?.primary?.foreground?.hsl};
+              --secondaryBgColor: ${pageColors?.secondary?.background?.hsl};
+              --secondaryFgColor: ${pageColors?.secondary?.foreground?.hsl};
             }
           `}
         </style>

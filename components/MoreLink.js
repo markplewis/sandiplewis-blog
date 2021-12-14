@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "components/MoreLink.module.css";
-import { colors } from "utils/designTokens/colors";
+import { colorTokens as colors } from "utils/designTokens/colors";
 
 export default function MoreLink({
   as,

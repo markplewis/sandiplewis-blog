@@ -27,18 +27,18 @@
 }
 .metaThemed {
   height: 100%;
-  color: var(--compFgColor);
+  color: var(--secondaryFgColor);
 }
 .metaThemed .author {
-  color: var(--compFgColor);
+  color: var(--secondaryFgColor);
 }
 .metaThemed .credit {
   margin: auto 0 66px 0;
 }
 .metaThemed .credit a {
-  color: var(--compFgColor);
+  color: var(--secondaryFgColor);
 }
 .metaThemed :focus,
 .metaThemed :hover:focus {
-  outline-color: var(--compFgColor);
+  outline-color: var(--secondaryFgColor);
 }

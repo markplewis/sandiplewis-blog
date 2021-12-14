@@ -77,7 +77,7 @@ export default function Novel({ data: initialData }) {
   const isMedium = useMediaQuery(`(min-width: ${rem(768)})`);
 
   // Colours
-  const { base: baseColor, comp: compColor } = getPageColors(novel);
+  const pageColors = getPageColors(novel);
 
   const overview = novel?.overview ? (
     <>
@@ -94,10 +94,10 @@ export default function Novel({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --baseBgColor: ${baseColor?.background?.hsl};
-            --baseFgColor: ${baseColor?.foreground?.hsl};
-            --compBgColor: ${compColor?.background?.hsl};
-            --compFgColor: ${compColor?.foreground?.hsl};
+            --primaryBgColor: ${pageColors?.primary?.background?.hsl};
+            --primaryFgColor: ${pageColors?.primary?.foreground?.hsl};
+            --secondaryBgColor: ${pageColors?.secondary?.background?.hsl};
+            --secondaryFgColor: ${pageColors?.secondary?.foreground?.hsl};
           }
         `}
       </style>
@@ -106,7 +106,7 @@ export default function Novel({ data: initialData }) {
         <div
           className={styles.patternBlock}
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${compColor?.background?.hex?.replace(
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${pageColors?.secondary?.background?.hex?.replace(
               "#",
               "%23"
             )}' fill-opacity='0.6' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
@@ -128,7 +128,7 @@ export default function Novel({ data: initialData }) {
         <div
           className={styles.patternBlock2}
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='${compColor?.background?.hex?.replace(
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='${pageColors?.secondary?.background?.hex?.replace(
               "#",
               "%23"
             )}' fill-opacity='0.6' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`
