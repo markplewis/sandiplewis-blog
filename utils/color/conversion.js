@@ -1,6 +1,40 @@
 // https://css-tricks.com/converting-color-spaces-in-javascript/#hex-to-hsl
 // https://www.sarasoueidan.com/blog/hex-rgb-to-hsl/#hsl-and-color-harmonies
-// https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
+
+export function hexToHSL(H) {
+  let { r, g, b } = hexToRGB(H);
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  let cmin = Math.min(r, g, b);
+  let cmax = Math.max(r, g, b);
+  let delta = cmax - cmin;
+  let h = 0;
+  let s = 0;
+  let l = 0;
+
+  if (delta == 0) {
+    h = 0;
+  } else if (cmax == r) {
+    h = ((g - b) / delta) % 6;
+  } else if (cmax == g) {
+    h = (b - r) / delta + 2;
+  } else {
+    h = (r - g) / delta + 4;
+  }
+  h = Math.round(h * 60);
+
+  if (h < 0) {
+    h += 360;
+  }
+  l = (cmax + cmin) / 2;
+  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+  s = +(s * 100).toFixed(1);
+  l = +(l * 100).toFixed(1);
+
+  return { h, s, l };
+}
 
 export function hexToLongHex(H) {
   let r = 0;
@@ -40,41 +74,6 @@ export function hexToRGB(H) {
   }
   // Prepend the variables with + to convert them from strings back to numbers
   return { r: +r, g: +g, b: +b };
-}
-
-export function hexToHSL(H) {
-  let { r, g, b } = hexToRGB(H);
-  r /= 255;
-  g /= 255;
-  b /= 255;
-
-  let cmin = Math.min(r, g, b);
-  let cmax = Math.max(r, g, b);
-  let delta = cmax - cmin;
-  let h = 0;
-  let s = 0;
-  let l = 0;
-
-  if (delta == 0) {
-    h = 0;
-  } else if (cmax == r) {
-    h = ((g - b) / delta) % 6;
-  } else if (cmax == g) {
-    h = (b - r) / delta + 2;
-  } else {
-    h = (r - g) / delta + 4;
-  }
-  h = Math.round(h * 60);
-
-  if (h < 0) {
-    h += 360;
-  }
-  l = (cmax + cmin) / 2;
-  s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
-  s = +(s * 100).toFixed(1);
-  l = +(l * 100).toFixed(1);
-
-  return { h, s, l };
 }
 
 export function HSLToRGB(h, s, l) {
@@ -125,6 +124,23 @@ export function HSLToRGB(h, s, l) {
   return { r, g, b };
 }
 
+/**
+ * Calculate the luminance of an RGB colour
+ * @see https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
+ * @see https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors/9733420#9733420
+ * @param {Number} r - Red
+ * @param {Number} g - Green
+ * @param {Number} b - Blue
+ * @returns {Number} Between 0 (black) and 1 (white)
+ */
+export function luminance(r, g, b) {
+  let a = [r, g, b].map(v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  });
+  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+
 export function RGBToHex(r, g, b) {
   r = r.toString(16);
   g = g.toString(16);
@@ -135,12 +151,4 @@ export function RGBToHex(r, g, b) {
   if (b.length == 1) b = "0" + b;
 
   return hexToLongHex(`#${r}${g}${b}`);
-}
-
-export function luminance(r, g, b) {
-  let a = [r, g, b].map(v => {
-    v /= 255;
-    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-  });
-  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
 }

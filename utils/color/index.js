@@ -1,5 +1,6 @@
 import { colorTokens } from "utils/designTokens/colors";
 import { hexToHSL, hexToNumber, HSLToRGB, luminance, RGBToHex } from "utils/color/conversion";
+import { colorContrastRatio, colorContrastSmallTextAAA } from "utils/color/wcag2";
 
 const defaultColors = {
   primary: {
@@ -31,14 +32,6 @@ function generateColorFromHSL(h, s, l) {
   };
 }
 
-// AA  large text - 3:1
-// AA  small text - 4.5:1
-// AAA large text - 4.5:1
-// AAA small text - 7:1
-const wcag2ContrastRatioResults = num => {
-  return [num < 1 / 3, num < 1 / 4.5, num < 1 / 7].filter(v => v);
-};
-
 function generateAccessibleColor(originalColor, testColor = null, increment = false) {
   if (!testColor) {
     testColor = originalColor;
@@ -57,10 +50,9 @@ function generateAccessibleColor(originalColor, testColor = null, increment = fa
   // console.log(`${increment ? "+" : "-"} try: ${l}`);
 
   const newColor = generateColorFromHSL(testColor.h, testColor.s, l);
-  const { float } = wcag2ContrastRatio(originalColor.luminance, newColor.luminance);
-  const results = wcag2ContrastRatioResults(float);
+  const contrast = colorContrastRatio(originalColor.luminance, newColor.luminance);
 
-  if (results.length < 3) {
+  if (colorContrastSmallTextAAA(contrast)) {
     return generateAccessibleColor(originalColor, newColor, increment);
   } else {
     // console.log(`${increment ? "+" : "-"} success: ${parseFloat(newColor.l)}`);
@@ -68,31 +60,10 @@ function generateAccessibleColor(originalColor, testColor = null, increment = fa
   }
 }
 
-// https://stackoverflow.com/a/11832950/1243086
-// https://sciencing.com/convert-fraction-ratio-8430467.html
-
-/**
- * TODO
- * @param {Number} lum1 - Luminence 1
- * @param {Number} lum2 - Luminence 2
- * @returns {Object}
- */
-function wcag2ContrastRatio(lum1, lum2) {
-  const num1 = lum2 > lum1 ? lum1 + 0.05 : lum2 + 0.05;
-  const num2 = lum2 > lum1 ? lum2 + 0.05 : lum1 + 0.05;
-  return {
-    ratio: `${Math.round((num2 / num1 + Number.EPSILON) * 100) / 100}:${num1 / num1}`,
-    float: Math.round((num1 / num2 + Number.EPSILON) * 100) / 100
-  };
-}
-
 function generateForegroundColor(color) {
-  const { float: blackForegroundContrast } = wcag2ContrastRatio(0, color.luminance);
-  const { float: whiteForegroundContrast } = wcag2ContrastRatio(1, color.luminance);
-
-  const darkForegroundPreferred =
-    wcag2ContrastRatioResults(blackForegroundContrast).length >
-    wcag2ContrastRatioResults(whiteForegroundContrast).length;
+  const blackForegroundContrast = colorContrastRatio(0, color.luminance);
+  const whiteForegroundContrast = colorContrastRatio(1, color.luminance);
+  const darkForegroundPreferred = blackForegroundContrast > whiteForegroundContrast;
 
   const foreground = darkForegroundPreferred
     ? generateAccessibleColor(color, generateColorFromHSL(color.h, color.s, 10)) // Nearly black

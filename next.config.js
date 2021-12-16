@@ -7,7 +7,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 module.exports = withBundleAnalyzer({
   eslint: {
-    dirs: ["components", "env", "lib", "pages"]
+    dirs: ["components", "env", "lib", "pages", "utils"]
   },
   images: {
     // These apply globally. It doesn't seem possible to specify different sizes per image.
