@@ -14,10 +14,12 @@
     "build": "Vercel CI build command: creates optimized production builds of both applications (Sanity Studio and Next.js)",
     "sanity-build": "Builds the current Sanity configuration to a static bundle",
     "next-analyze": "Runs Webpack Bundle Analyzer",
+    "prepare": "Installs Husky on 'npm install' and 'npm publish'",
     "postinstall": "Runs `npm install` inside of the `studio` directory",
     "check": "Checks for outdated NPM packages",
     "lint": "Runs ESLint",
-    "test": "Watches files and re-runs Jest tests when they change"
+    "test": "Runs Jest tests",
+    "test-watch": "Watches files and re-runs Jest tests when they change"
   },
   "scripts": {
     "start": "concurrently -k -c cyan,yellow -n sanity,next \"npm:sanity-start\" \"next dev\"",
@@ -26,10 +28,12 @@
     "build": "npm run sanity-build && pwd && next build",
     "sanity-build": "cd studio && sanity build ../public/studio -y && cd ..",
     "next-analyze": "ANALYZE=true next build",
+    "prepare": "husky install",
     "postinstall": "cd studio && npm install && cd ..",
     "check": "npx npm-check -s -u",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest --cache",
+    "test-watch": "jest --watch"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^12.0.7",
@@ -64,6 +68,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-testing-library": "^5.0.1",
+    "husky": "^7.0.4",
     "jest": "^27.4.5",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^7.0.2",
