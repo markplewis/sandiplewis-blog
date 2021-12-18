@@ -41,6 +41,7 @@
     "@sanity/client": "^2.21.10",
     "@sanity/image-url": "^1.0.1",
     "abort-controller": "^3.0.0",
+    "apca-w3": "0.0.98-g-4g.3",
     "classnames": "^2.2.6",
     "concurrently": "^6.4.0",
     "date-fns": "^2.27.0",

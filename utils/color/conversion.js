@@ -125,7 +125,7 @@ export function HSLToRGB(h, s, l) {
 }
 
 /**
- * Calculate the luminance of an RGB colour
+ * Calculate the luminance of an RGB color
  * @see https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
  * @see https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors/9733420#9733420
  * @param {Number} r - Red

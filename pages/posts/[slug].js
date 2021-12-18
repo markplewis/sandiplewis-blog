@@ -72,7 +72,6 @@ export default function Post({ data: initialData }) {
     height: cinemaRatio ? 531 : 667
   };
 
-  // Colours
   const pageColors = getPageColors(post);
 
   const creditLine = processCreditLine(post?.image?.creditLine);
@@ -87,10 +86,14 @@ export default function Post({ data: initialData }) {
         <style jsx global>
           {`
             body {
-              --primaryBgColor: ${pageColors?.primary?.background?.hsl};
-              --primaryFgColor: ${pageColors?.primary?.foreground?.hsl};
-              --secondaryBgColor: ${pageColors?.secondary?.background?.hsl};
-              --secondaryFgColor: ${pageColors?.secondary?.foreground?.hsl};
+              --primarySmTextBg: ${pageColors?.primarySmTextBg?.hsl};
+              --primarySmTextFg: ${pageColors?.primarySmTextFg?.hsl};
+              --primaryLgTextBg: ${pageColors?.primaryLgTextBg?.hsl};
+              --primaryLgTextFg: ${pageColors?.primaryLgTextFg?.hsl};
+              --secondarySmTextBg: ${pageColors?.secondarySmTextBg?.hsl};
+              --secondarySmTextFg: ${pageColors?.secondarySmTextFg?.hsl};
+              --secondaryLgTextBg: ${pageColors?.secondaryLgTextBg?.hsl};
+              --secondaryLgTextFg: ${pageColors?.secondaryLgTextFg?.hsl};
             }
           `}
         </style>

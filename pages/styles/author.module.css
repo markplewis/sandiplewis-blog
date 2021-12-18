@@ -48,7 +48,7 @@
   width: 188px;
   margin: 0 auto 22px auto;
   transform: translate(11px, 0);
-  background-color: var(--secondaryBgColor);
+  background-color: var(--secondarySmTextBg);
   flex-shrink: 0;
 }
 .coverImage > span {

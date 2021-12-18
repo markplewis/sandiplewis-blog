@@ -74,7 +74,7 @@ function Layout({
         // .fit("crop") // This is the default?
         .url();
     } else {
-      // Fit portrait images into a square shape by filling in the background with a solid colour
+      // Fit portrait images into a square shape by filling in the background with a solid color
       twitterImageURL = urlFor(image.image)
         .ignoreImageParams() // Workaround for https://github.com/sanity-io/sanity/issues/524
         .width(sizes.twitter.portrait.width)

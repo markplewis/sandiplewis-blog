@@ -14,7 +14,7 @@
   height: 35px;
   font-size: 100px;
   /* background-color: #ccc; */
-  color: var(--secondaryBgColor);
+  color: var(--secondaryLgTextBg);
   display: block;
   position: absolute;
 }

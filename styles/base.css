@@ -27,10 +27,14 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
   --focus-outline-color: steelblue;
   --column-margin: 22px;
   /* These will likely be overridden */
-  --primaryBgColor: #999;
-  --primaryFgColor: #fff;
-  --secondaryBgColor: #999;
-  --secondaryFgColor: #fff;
+  --primarySmTextBg: #999;
+  --primarySmTextFg: #fff;
+  --primaryLgTextBg: #999;
+  --primaryLgTextFg: #fff;
+  --secondarySmTextBg: #999;
+  --secondarySmTextFg: #fff;
+  --secondaryLgTextBg: #999;
+  --secondaryLgTextFg: #fff;
   /*
   See: https://webkit.org/blog/7929/designing-websites-for-iphone-x/
   TODO: viewport-fit=cover doesn't seem to be working in Chrome for iOS:
@@ -85,7 +89,7 @@ main::before {
   width: 120%;
   height: 700px;
   transform: rotate(-2deg);
-  background: linear-gradient(100deg, var(--primaryBgColor) 0%, var(--secondaryBgColor) 100%);
+  background: linear-gradient(100deg, var(--primaryLgTextBg) 0%, var(--secondaryLgTextBg) 100%);
   opacity: 0.1;
 }
 main.homePage::before {

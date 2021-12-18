@@ -97,7 +97,6 @@ export default function HomePage({ data: initialData }) {
 
   const { novel, description = "" } = novelAndHomePage;
 
-  // Colours
   const pageColors = getPageColors(novel);
 
   const isMedium = useMediaQuery(`(min-width: ${rem(520)}) and (max-width: ${rem(1149)})`);
@@ -116,10 +115,14 @@ export default function HomePage({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --primaryBgColor: ${pageColors?.primary?.background?.hsl};
-            --primaryFgColor: ${pageColors?.primary?.foreground?.hsl};
-            --secondaryBgColor: ${pageColors?.secondary?.background?.hsl};
-            --secondaryFgColor: ${pageColors?.secondary?.foreground?.hsl};
+            --primarySmTextBg: ${pageColors?.primarySmTextBg?.hsl};
+            --primarySmTextFg: ${pageColors?.primarySmTextFg?.hsl};
+            --primaryLgTextBg: ${pageColors?.primaryLgTextBg?.hsl};
+            --primaryLgTextFg: ${pageColors?.primaryLgTextFg?.hsl};
+            --secondarySmTextBg: ${pageColors?.secondarySmTextBg?.hsl};
+            --secondarySmTextFg: ${pageColors?.secondarySmTextFg?.hsl};
+            --secondaryLgTextBg: ${pageColors?.secondaryLgTextBg?.hsl};
+            --secondaryLgTextFg: ${pageColors?.secondaryLgTextFg?.hsl};
           }
         `}
       </style>
@@ -135,7 +138,7 @@ export default function HomePage({ data: initialData }) {
       <div
         className={styles.patternBlock}
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${pageColors?.secondary?.background?.hex?.replace(
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg' fill='${pageColors?.secondaryLgTextBg?.hex?.replace(
             "#",
             "%23"
           )}' fill-opacity='0.6' fill-rule='evenodd' clip-rule='evenodd' stroke-linejoin='round' stroke-miterlimit='2'%3E%3Cpath d='M4 0h2L0 6V4l4-4zM6 4v2H4l2-2z'/%3E%3C/svg%3E")`
@@ -175,8 +178,8 @@ export default function HomePage({ data: initialData }) {
                 as={`/novels/${novel?.slug}`}
                 href="/novels/[slug]"
                 text="More information"
-                fgColor={pageColors?.secondary?.foreground?.hsl}
-                bgColor={pageColors?.secondary?.background?.hsl}
+                fgColor={pageColors?.secondarySmTextFg?.hsl}
+                bgColor={pageColors?.secondarySmTextBg?.hsl}
               />
             </div>
           </div>

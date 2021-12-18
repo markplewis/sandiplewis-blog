@@ -4,9 +4,9 @@
  * Converting fractions to ratios: https://sciencing.com/convert-fraction-ratio-8430467.html
  * @param {Number} lum1 - Luminence 1
  * @param {Number} lum2 - Luminence 2
- * @returns {Number} Colour contrast ratio
+ * @returns {Number} Color contrast (float)
  */
-export function colorContrastRatio(lum1, lum2) {
+export function contrastWCAG2(lum1, lum2) {
   const brightest = Math.max(lum1, lum2);
   const darkest = Math.min(lum1, lum2);
   const contrast = (brightest + 0.05) / (darkest + 0.05);
@@ -21,38 +21,22 @@ export function colorContrastRatio(lum1, lum2) {
   // };
 }
 
+// Progressively more strict
+const contrastRatios = [
+  3, // 3:1 (AA large text)
+  4.5, // 4.5:1 (AA small text and AAA large text)
+  7 // 7:1 (AAA small text)
+];
+
 /**
  * AA large text - 3:1
- * @param {Number} num - Colour contrast ratio
- * @returns {Number}
- */
-export function colorContrastLargeTextAA(num) {
-  return num < 1 / 3; // 0.33
-}
-
-/**
  * AA small text - 4.5:1
- * @param {Number} num - Colour contrast ratio
- * @returns {Number}
- */
-export function colorContrastSmallTextAA(num) {
-  return num < 1 / 4.5; // 0.22
-}
-
-/**
  * AAA large text - 4.5:1
- * @param {Number} num - Colour contrast ratio
- * @returns {Number}
- */
-export function colorContrastLargeTextAAA(num) {
-  return num < 1 / 4.5; // 0.22
-}
-
-/**
  * AAA small text - 7:1
- * @param {Number} num - Colour contrast ratio
- * @returns {Number}
+ * @param {Number} contrast - Color contrast (float)
+ * @param {String} requirement
+ * @returns {Boolean} Whether it has sufficient contrast
  */
-export function colorContrastSmallTextAAA(num) {
-  return num < 1 / 7; // 0.14
+export function contrastTestWCAG2(contrast, level = 2) {
+  return contrast >= contrastRatios[level];
 }

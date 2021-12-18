@@ -1,5 +1,7 @@
+import { luminance } from "utils/color/conversion";
+
 const white = {
-  hex: "#fff",
+  hex: "#ffffff",
   r: 255,
   g: 255,
   b: 255,
@@ -8,8 +10,8 @@ const white = {
   l: 100
 };
 
-const black = {
-  hex: "#333",
+const darkGray = {
+  hex: "#333333",
   r: 51,
   g: 51,
   b: 51,
@@ -18,15 +20,15 @@ const black = {
   l: 20
 };
 
-function generateCSSValues(color) {
+function addLuminenceProperty(color) {
   return {
     ...color,
     hsl: `hsl(${color.h}deg, ${color.s}%, ${color.l}%)`,
-    rgb: `rgb(${color.r}, ${color.g}, ${color.b})`
+    luminance: luminance(color.r, color.g, color.b)
   };
 }
 
 export const colorTokens = {
-  white: generateCSSValues(white),
-  black: generateCSSValues(black)
+  white: addLuminenceProperty(white),
+  darkGray: addLuminenceProperty(darkGray)
 };

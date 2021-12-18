@@ -29,8 +29,8 @@ export default function Categories({ data: initialData }) {
       <style jsx global>
         {`
           body {
-            --secondaryBgColor: ${colors?.white?.hsl};
-            --secondaryFgColor: ${colors?.black?.hsl};
+            --secondarySmTextBg: ${colors?.white?.hsl};
+            --secondarySmTextFg: ${colors?.darkGray?.hsl};
           }
         `}
       </style>

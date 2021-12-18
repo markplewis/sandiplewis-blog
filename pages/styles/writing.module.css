@@ -45,7 +45,7 @@
   margin: 22px 0;
   padding: 44px;
   border-radius: 10px 0;
-  background-color: var(--primaryBgColor);
+  background-color: var(--primarySmTextBg);
   grid-column: 2 / 4;
   grid-row: 1 / 2;
   display: flex;
@@ -55,7 +55,7 @@
 }
 .coverImageAndInfo :focus,
 .coverImageAndInfo :hover:focus {
-  outline-color: var(--primaryFgColor);
+  outline-color: var(--primarySmTextFg);
 }
 .patternBlock2 {
   height: 370px;
@@ -79,7 +79,7 @@
 .coverImage {
   width: 188px;
   transform: translate(11px, -11px);
-  background-color: var(--secondaryBgColor);
+  background-color: var(--secondaryLgTextBg);
   flex-shrink: 0;
 }
 .coverImage > span {
@@ -102,7 +102,7 @@
 /* Info - inside hero area */
 
 .infoAbove {
-  color: var(--primaryFgColor);
+  color: var(--primarySmTextFg);
 }
 .infoAbove > div > *:last-child {
   margin: 0;
@@ -112,7 +112,7 @@
 .infoAbove a:hover,
 .infoAbove a:focus,
 .infoAbove a:active {
-  color: var(--primaryFgColor);
+  color: var(--primarySmTextFg);
 }
 
 /* Info - below hero area */
