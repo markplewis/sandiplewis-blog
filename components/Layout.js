@@ -11,6 +11,7 @@ import SkipLink from "components/SkipLink";
 import { BASE_URL, DEFAULT_META_DESCRIPTION, env, envProd, SITE_TITLE } from "env/constants";
 import { urlFor } from "lib/sanity";
 
+import { darkGray, white } from "utils/color/tokens";
 import useDebug from "utils/useDebug";
 
 // See: https://nextjs.org/docs/basic-features/layouts
@@ -158,7 +159,25 @@ function Layout({
       <Header>
         <PreviewMessage />
       </Header>
-      <main className={className}>{children}</main>
+      <main className={className}>
+        <style jsx global>
+          {`
+            :root {
+              --base-background-color: ${white};
+              --base-font-color: ${darkGray};
+              --primaryBgHigh: ${darkGray};
+              --primaryBgLow: ${darkGray};
+              --primaryFgHigh: ${white};
+              --primaryFgLow: ${white};
+              --secondaryBgHigh: ${darkGray};
+              --secondaryBgLow: ${darkGray};
+              --secondaryFgHigh: ${white};
+              --secondaryFgLow: ${white};
+            }
+          `}
+        </style>
+        {children}
+      </main>
       <Footer />
     </>
   );

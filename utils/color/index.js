@@ -1,18 +1,6 @@
 import { contrastAPCA, contrastTestAPCA } from "utils/color/apca";
-import { colorTokens } from "utils/designTokens/colors";
 import { hexToHSL, HSLToRGB, luminance, RGBToHex } from "utils/color/conversion";
 import { contrastWCAG2, contrastTestWCAG2 } from "utils/color/wcag2";
-
-const defaultColors = {
-  primary: {
-    background: colorTokens.darkGray,
-    foreground: colorTokens.white
-  },
-  secondary: {
-    background: colorTokens.white,
-    foreground: colorTokens.darkGray
-  }
-};
 
 export function generateColorFromHSL(h, s, l) {
   const { r, g, b } = HSLToRGB(h, s, l);
@@ -31,34 +19,40 @@ export function generateColorFromHSL(h, s, l) {
 /**
  * TODO
  * @param {Object} bgColor - Background color
- * @returns {Object}
+ * @returns {Object} Forground color and whether to progressively darken or lighten that color later
  */
-export function generateBaseForegroundColor(bgColor) {
+export function generateForegroundColor(bgColor) {
   const blackFgContrast = contrastWCAG2(0, bgColor.luminance); // Black foreground
   const whiteFgContrast = contrastWCAG2(1, bgColor.luminance); // White foreground
-  const darken = blackFgContrast > whiteFgContrast;
+  const isDark = blackFgContrast > whiteFgContrast; // Dark foreground on light background
   return {
-    // A darker version of the background colour or pure white
-    color: darken ? bgColor : generateColorFromHSL(bgColor.h, bgColor.s, 100),
-    darkened: darken
+    // Plan on generating a darker version of the background colour or use pure white
+    color: isDark ? bgColor : generateColorFromHSL(bgColor.h, bgColor.s, 100),
+    isDark
   };
 }
 
-function generateContrastPageColors(bgColor, level) {
-  const { color, darkened } = generateBaseForegroundColor(bgColor);
-  return generateContrastColors(color, bgColor, true, darkened, level);
+/**
+ * TODO
+ * @param {Object} bgColor - Color object
+ * @param {Number} level - Color contrast strictness level
+ * @returns {Object} Balanced foreground and background colors, and their relative contrast
+ */
+function generateColorSet(bgColor, level) {
+  const { color, isDark } = generateForegroundColor(bgColor);
+  return balanceColorContrast(color, bgColor, true, isDark, level);
 }
 
 /**
  * @param {Object} fgColor - Foreground color
  * @param {Object} bgColor - Background color
- * @param {Boolean} transformFg - Whether to lighten/darken the foreground or background color
- * @param {Boolean} darken - Whether to progressively darken or lighten the color
- * @param {Number} level -
- * @param {Boolean} useAPCA - Whether to use the APCA color contrast algorithm or the WCAG 2 one
- * @returns {Object}
+ * @param {Boolean} transformFg - Whether to use the foreground or background as the target color
+ * @param {Boolean} darken - Whether to progressively darken or lighten the target color
+ * @param {Number} level - Color contrast strictness level
+ * @param {Boolean} useAPCA - Whether to use the APCA color contrast algorithm or WCAG 2
+ * @returns {Object} Balanced foreground and background colors, and their relative contrast
  */
-export function generateContrastColors(
+export function balanceColorContrast(
   fgColor,
   bgColor,
   transformFg = true,
@@ -71,12 +65,13 @@ export function generateContrastColors(
   let contrast;
   let passedContrastTest = false;
 
+  // Lighten or darken the target color
   if (darken && currentL - 1 >= 0) {
-    l = currentL - 1; // Darken
+    l = currentL - 1;
   } else if (!darken && currentL + 1 <= 100) {
-    l = currentL + 1; // Lighten
+    l = currentL + 1;
   } else {
-    // Luminance has bottomed out at zero (black) or topped out at 100 (white)
+    // Lightness has bottomed out at zero (black) or topped out at 100 (white), so test the contrast
     if (useAPCA) {
       contrast = contrastAPCA(fgColor.hex, bgColor.hex);
       passedContrastTest = contrastTestAPCA(contrast, level);
@@ -88,9 +83,9 @@ export function generateContrastColors(
     // start lightening/darkening the background color
     if (!passedContrastTest && transformFg) {
       // console.log(`${darken ? "-" : "+"} foreground luminance maxed out`);
-      return generateContrastColors(fgColor, bgColor, false, !darken, level, useAPCA);
+      return balanceColorContrast(fgColor, bgColor, false, !darken, level, useAPCA);
     }
-    // If both foreground and background colors have maxxed out
+    // If both foreground and background colors have maxxed out then this is the best we can do
     // console.log(`${darken ? "-" : "+"} background luminance maxed out`);
     return {
       foreground: fgColor,
@@ -100,6 +95,7 @@ export function generateContrastColors(
   }
   // console.log(`${darken ? "-" : "+"} try: ${l}`);
 
+  // Test the contrast of the newly-generated color
   const newFgColor = transformFg ? generateColorFromHSL(fgColor.h, fgColor.s, l) : fgColor;
   const newBgColor = transformFg ? bgColor : generateColorFromHSL(bgColor.h, bgColor.s, l);
 
@@ -113,7 +109,7 @@ export function generateContrastColors(
 
   if (!passedContrastTest) {
     // Try again, darkening or lightening the color until it's accessible
-    return generateContrastColors(newFgColor, newBgColor, transformFg, darken, level, useAPCA);
+    return balanceColorContrast(newFgColor, newBgColor, transformFg, darken, level, useAPCA);
   } else {
     // console.log(`${darken ? "-" : "+"} success: ${parseFloat(newColor.l)}`);
     return {
@@ -133,6 +129,11 @@ export function generateComplimentaryColorFromHSL(h, s, l) {
   return generateColorFromHSL(hVal, s, l);
 }
 
+/**
+ * Generate color objects from the page's primary and secondary hex colors
+ * @param {Object} colors - Primary and secondary hex colors
+ * @returns {Object} Primary and secondary color objects
+ */
 function generateBackgroundColors({ primaryHex, secondaryHex = null }) {
   const primaryHSL = hexToHSL(primaryHex);
   const primary = generateColorFromHSL(primaryHSL.h, primaryHSL.s, primaryHSL.l);
@@ -143,23 +144,10 @@ function generateBackgroundColors({ primaryHex, secondaryHex = null }) {
     const secondaryHSL = hexToHSL(secondaryHex);
     secondary = generateColorFromHSL(secondaryHSL.h, secondaryHSL.s, secondaryHSL.l);
   } else {
+    // Generated complimentary color
     secondary = generateComplimentaryColorFromHSL(primaryHSL.h, primaryHSL.s, primaryHSL.l);
   }
   return { primary, secondary };
-}
-
-function generatePageColors(documentColors) {
-  const backgroundColors = generateBackgroundColors(documentColors);
-  return {
-    primary: {
-      largeText: generateContrastPageColors(backgroundColors.primary, 1),
-      smallText: generateContrastPageColors(backgroundColors.primary, 2)
-    },
-    secondary: {
-      largeText: generateContrastPageColors(backgroundColors.secondary, 1),
-      smallText: generateContrastPageColors(backgroundColors.secondary, 2)
-    }
-  };
 }
 
 /**
@@ -189,30 +177,60 @@ function getDocumentColors(doc) {
   return null;
 }
 
-function simplifyColor(color) {
-  return {
-    hex: color.hex,
-    hsl: `hsl(${color.h}deg, ${color.s}%, ${color.l}%)`
-  };
-}
+// function simplifyColorSet(colorSet) {
+//   return {
+//     foreground: colorSet.foreground.hex,
+//     background: colorSet.background.hex,
+//     contrast: colorSet.contrast
+//   };
+// }
 
 /**
  * TODO
  * @param {Object} doc - A Sanity document (https://www.sanity.io/docs/document-type)
- * @returns {Object} in format:
- * {primary: {background: {}, foreground: {}}, secondary: {background: {}, foreground: {}}}
+ * @returns {Object}
  */
 export function getPageColors(doc) {
-  const documentColors = getDocumentColors(doc);
-  const colors = documentColors ? generatePageColors(documentColors) : defaultColors;
+  const docColors = getDocumentColors(doc);
+  const { primary, secondary } = generateBackgroundColors(docColors);
+  const primaryLowContrast = generateColorSet(primary, 1);
+  const primaryHighContrast = generateColorSet(primary, 2);
+  const secondaryLowContrast = generateColorSet(secondary, 1);
+  const secondaryHighContrast = generateColorSet(secondary, 2);
+
+  // console.log("page colors", {
+  //   primaryLow: simplifyColorSet(primaryLowContrast),
+  //   primaryHigh: simplifyColorSet(primaryHighContrast),
+  //   secondaryLow: simplifyColorSet(secondaryLowContrast),
+  //   secondaryHigh: simplifyColorSet(secondaryHighContrast)
+  // });
+  const primaryBgHigh = primaryHighContrast.background.hex;
+  const primaryBgLow = primaryLowContrast.background.hex;
+  const primaryFgHigh = primaryHighContrast.foreground.hex;
+  const primaryFgLow = primaryLowContrast.foreground.hex;
+  const secondaryBgHigh = secondaryHighContrast.background.hex;
+  const secondaryBgLow = secondaryLowContrast.background.hex;
+  const secondaryFgHigh = secondaryHighContrast.foreground.hex;
+  const secondaryFgLow = secondaryLowContrast.foreground.hex;
+
   return {
-    primarySmTextBg: simplifyColor(colors?.primary?.smallText?.background),
-    primarySmTextFg: simplifyColor(colors?.primary?.smallText?.foreground),
-    primaryLgTextBg: simplifyColor(colors?.primary?.largeText?.background),
-    primaryLgTextFg: simplifyColor(colors?.primary?.largeText?.foreground),
-    secondarySmTextBg: simplifyColor(colors?.secondary?.smallText?.background),
-    secondarySmTextFg: simplifyColor(colors?.secondary?.smallText?.foreground),
-    secondaryLgTextBg: simplifyColor(colors?.secondary?.largeText?.background),
-    secondaryLgTextFg: simplifyColor(colors?.secondary?.largeText?.foreground)
+    primaryBgHigh,
+    primaryBgLow,
+    primaryFgHigh,
+    primaryFgLow,
+    secondaryBgHigh,
+    secondaryBgLow,
+    secondaryFgHigh,
+    secondaryFgLow,
+    css: `
+      --primaryBgHigh: ${primaryBgHigh};
+      --primaryBgLow: ${primaryBgLow};
+      --primaryFgHigh: ${primaryFgHigh};
+      --primaryFgLow: ${primaryFgLow};
+      --secondaryBgHigh: ${secondaryBgHigh};
+      --secondaryBgLow: ${secondaryBgLow};
+      --secondaryFgHigh: ${secondaryFgHigh};
+      --secondaryFgLow: ${secondaryFgLow};
+    `
   };
 }

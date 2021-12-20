@@ -19,22 +19,10 @@ See also: https://www.smashingmagazine.com/2021/05/reduce-font-loading-impact-cs
   src: local("Times New Roman");
 }
 :root {
-  /* TODO: import these values from `utils/designTokens/colors.js` */
-  --base-background-color: #fff;
-  --base-font-color: #333;
   --base-font-family: "Open Sans", "Open Sans fallback", Verdana, sans-serif;
   --heading-font-family: "Literata", "Literata fallback", serif;
   --focus-outline-color: steelblue;
   --column-margin: 22px;
-  /* These will likely be overridden */
-  --primarySmTextBg: #999;
-  --primarySmTextFg: #fff;
-  --primaryLgTextBg: #999;
-  --primaryLgTextFg: #fff;
-  --secondarySmTextBg: #999;
-  --secondarySmTextFg: #fff;
-  --secondaryLgTextBg: #999;
-  --secondaryLgTextFg: #fff;
   /*
   See: https://webkit.org/blog/7929/designing-websites-for-iphone-x/
   TODO: viewport-fit=cover doesn't seem to be working in Chrome for iOS:
@@ -89,7 +77,7 @@ main::before {
   width: 120%;
   height: 700px;
   transform: rotate(-2deg);
-  background: linear-gradient(100deg, var(--primaryLgTextBg) 0%, var(--secondaryLgTextBg) 100%);
+  background: linear-gradient(100deg, var(--primaryBgLow) 0%, var(--secondaryBgLow) 100%);
   opacity: 0.1;
 }
 main.homePage::before {

@@ -9,7 +9,6 @@ import PostMeta from "components/PostMeta";
 import ShareTools from "components/ShareTools";
 
 import { getPageColors } from "utils/color";
-// import { colorTokens as colors } from "utils/designTokens/colors";
 import { processCreditLine } from "utils/strings";
 import useMediaQuery from "utils/useMediaQuery";
 import { rem } from "utils/units";
@@ -86,14 +85,7 @@ export default function Post({ data: initialData }) {
         <style jsx global>
           {`
             body {
-              --primarySmTextBg: ${pageColors?.primarySmTextBg?.hsl};
-              --primarySmTextFg: ${pageColors?.primarySmTextFg?.hsl};
-              --primaryLgTextBg: ${pageColors?.primaryLgTextBg?.hsl};
-              --primaryLgTextFg: ${pageColors?.primaryLgTextFg?.hsl};
-              --secondarySmTextBg: ${pageColors?.secondarySmTextBg?.hsl};
-              --secondarySmTextFg: ${pageColors?.secondarySmTextFg?.hsl};
-              --secondaryLgTextBg: ${pageColors?.secondaryLgTextBg?.hsl};
-              --secondaryLgTextFg: ${pageColors?.secondaryLgTextFg?.hsl};
+              ${pageColors.css}
             }
           `}
         </style>

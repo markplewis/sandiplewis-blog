@@ -1,14 +1,14 @@
 import Link from "next/link";
 import styles from "components/MoreLink.module.css";
-import { colorTokens as colors } from "utils/designTokens/colors";
+import { darkGray, white } from "utils/color/tokens";
 
 export default function MoreLink({
   as,
   href,
   text,
   align = "end",
-  fgColor = colors?.white?.hsl,
-  bgColor = colors?.darkGray?.hsl
+  fgColor = white,
+  bgColor = darkGray
 }) {
   let alignClass;
   switch (align) {
