@@ -2,6 +2,8 @@ import { contrastAPCA, contrastTestAPCA } from "utils/color/apca";
 import { hexToHSL, HSLToRGB, luminance, RGBToHex } from "utils/color/conversion";
 import { contrastWCAG2, contrastTestWCAG2 } from "utils/color/wcag2";
 
+const USE_APCA = true;
+
 export function generateColorFromHSL(h, s, l) {
   const { r, g, b } = HSLToRGB(h, s, l);
   return {
@@ -16,20 +18,19 @@ export function generateColorFromHSL(h, s, l) {
   };
 }
 
-/**
- * TODO
- * @param {Object} bgColor - Background color
- * @returns {Object} Forground color and whether to progressively darken or lighten that color later
- */
-export function generateForegroundColor(bgColor) {
-  const blackFgContrast = contrastWCAG2(0, bgColor.luminance); // Black foreground
-  const whiteFgContrast = contrastWCAG2(1, bgColor.luminance); // White foreground
-  const isDark = blackFgContrast > whiteFgContrast; // Dark foreground on light background
-  return {
-    // Plan on generating a darker version of the background colour or use pure white
-    color: isDark ? bgColor : generateColorFromHSL(bgColor.h, bgColor.s, 100),
-    isDark
-  };
+export function darkForegroundHasHigherContrast(color, useAPCA = USE_APCA) {
+  // Black foreground
+  const blackFgContrast = useAPCA
+    ? contrastAPCA("#000000", color.hex)
+    : contrastWCAG2(0, color.luminance);
+
+  // White foreground
+  const whiteFgContrast = useAPCA
+    ? contrastAPCA("#ffffff", color.hex)
+    : contrastWCAG2(1, color.luminance);
+
+  // Dark foreground has higher contrast than light foreground
+  return blackFgContrast > whiteFgContrast;
 }
 
 /**
@@ -39,27 +40,31 @@ export function generateForegroundColor(bgColor) {
  * @returns {Object} Balanced foreground and background colors, and their relative contrast
  */
 function generateColorSet(bgColor, level) {
-  const { color, isDark } = generateForegroundColor(bgColor);
-  return balanceColorContrast(color, bgColor, true, isDark, level);
+  const fgShouldBeDark = darkForegroundHasHigherContrast(bgColor);
+  // Foreground color will ultimately be a darker version of the background color or pure white
+  const fgColor = fgShouldBeDark ? bgColor : generateColorFromHSL(bgColor.h, bgColor.s, 100);
+  return balanceColorContrast(fgColor, bgColor, level);
 }
 
 /**
  * @param {Object} fgColor - Foreground color
  * @param {Object} bgColor - Background color
- * @param {Boolean} transformFg - Whether to use the foreground or background as the target color
- * @param {Boolean} darken - Whether to progressively darken or lighten the target color
  * @param {Number} level - Color contrast strictness level
  * @param {Boolean} useAPCA - Whether to use the APCA color contrast algorithm or WCAG 2
+ * @param {Boolean} _transformFg - Whether to use the foreground or background as the target color
+ * @param {Boolean|null} _darken - Whether to progressively darken or lighten the target color
  * @returns {Object} Balanced foreground and background colors, and their relative contrast
  */
 export function balanceColorContrast(
   fgColor,
   bgColor,
-  transformFg = true,
-  darken = false,
-  level = 1,
-  useAPCA = true
+  level = 2,
+  useAPCA = USE_APCA,
+  _transformFg = true,
+  _darken = null
 ) {
+  const transformFg = _transformFg;
+  const darken = _darken === null ? darkForegroundHasHigherContrast(bgColor, useAPCA) : _darken;
   const currentL = transformFg ? parseFloat(fgColor.l) : parseFloat(bgColor.l);
   let l;
   let contrast;
@@ -83,7 +88,7 @@ export function balanceColorContrast(
     // start lightening/darkening the background color
     if (!passedContrastTest && transformFg) {
       // console.log(`${darken ? "-" : "+"} foreground luminance maxed out`);
-      return balanceColorContrast(fgColor, bgColor, false, !darken, level, useAPCA);
+      return balanceColorContrast(fgColor, bgColor, level, useAPCA, false, !darken);
     }
     // If both foreground and background colors have maxxed out then this is the best we can do
     // console.log(`${darken ? "-" : "+"} background luminance maxed out`);
@@ -109,7 +114,7 @@ export function balanceColorContrast(
 
   if (!passedContrastTest) {
     // Try again, darkening or lightening the color until it's accessible
-    return balanceColorContrast(newFgColor, newBgColor, transformFg, darken, level, useAPCA);
+    return balanceColorContrast(newFgColor, newBgColor, level, useAPCA, transformFg, darken);
   } else {
     // console.log(`${darken ? "-" : "+"} success: ${parseFloat(newColor.l)}`);
     return {

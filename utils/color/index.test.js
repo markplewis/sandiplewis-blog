@@ -1,139 +1,179 @@
 import {
-  generateForegroundColor,
+  balanceColorContrast,
+  darkForegroundHasHigherContrast,
   generateColorFromHSL,
-  generateComplimentaryColorFromHSL,
-  balanceColorContrast
+  generateComplimentaryColorFromHSL
 } from "utils/color";
 
-const blue = {
-  hex: "#58a6ff",
+const darkBlue = {
+  hex: "#0960c3",
   h: 212,
-  s: 100,
-  l: 67.3,
-  r: 88,
-  g: 166,
-  b: 255,
-  luminance: 0.36567143337890545
+  s: 91,
+  l: 40,
+  r: 9,
+  g: 96,
+  b: 195,
+  luminance: 0.12363949622213677
 };
 
-const blueDarkened = {
-  hex: "#00152e",
-  h: 212,
-  s: 100,
-  l: 9,
-  r: 0,
-  g: 21,
-  b: 46,
-  luminance: 0.007335876093656568
+const lightBlue = {
+  hex: "#a1cdf7",
+  h: 209,
+  s: 84,
+  l: 80,
+  r: 161,
+  g: 205,
+  b: 247,
+  luminance: 0.579551106861918
 };
 
-const blueDarkBase = {
-  hex: "#001833",
-  h: 212,
-  s: 100,
-  l: 10,
-  r: 0,
-  g: 24,
-  b: 51,
-  luminance: 0.008922842930246207
-};
-
-const red = {
-  hex: "#7d0707",
-  h: 0,
-  s: 89,
-  l: 26,
-  r: 125,
-  g: 7,
-  b: 7,
-  luminance: 0.04527271938450586
-};
-
-const redLightened = {
-  hex: "#fcd4d4",
-  h: 0,
-  s: 89,
-  l: 91,
-  r: 252,
-  g: 212,
-  b: 212,
-  luminance: 0.7253587998645402
-};
-
-const redLightBase = {
-  hex: "#fccfcf",
-  h: 0,
-  s: 89,
-  l: 90,
-  r: 252,
-  g: 207,
-  b: 207,
-  luminance: 0.6982608811436574
-};
-
-describe("generateForegroundColor", () => {
-  it("should generate dark blue foreground color, starting from an edge color", () => {
-    const actual = generateForegroundColor(blue, false);
-    const expected = { color: blueDarkBase, isDark: true };
+describe("balanceColorContrast - APCA algorithm", () => {
+  // Original: https://www.myndex.com/APCA/?BG=a1cdf7&TXT=0960c3&DEV=98G4g&BUF=APCA-G
+  // Final: https://www.myndex.com/APCA/?BG=a1cdf7&TXT=000205&DEV=98G4g&BUF=APCA-G
+  it("should generate accessible color combination when dark foreground is preferred", () => {
+    const actual = balanceColorContrast(darkBlue, lightBlue, 2, true);
+    const expected = {
+      // A darkened version of `darkBlue`
+      foreground: {
+        hex: "#000205",
+        h: 212,
+        s: 91,
+        l: 1,
+        r: 0,
+        g: 2,
+        b: 5,
+        luminance: 0.0005437382383293875
+      },
+      background: lightBlue,
+      contrast: 75
+    };
     expect(actual).toEqual(expected);
   });
-  it("should generate light red foreground color, starting from an edge color", () => {
-    const actual = generateForegroundColor(red, false);
-    const expected = { color: redLightBase, isDark: false };
+
+  // Original: https://www.myndex.com/APCA/?BG=0960c3&TXT=a1cdf7&DEV=98G4g&BUF=APCA-G
+  // Final: https://www.myndex.com/APCA/?BG=0960c3&TXT=e8f3fd&DEV=98G4g&BUF=APCA-G
+  it("should generate accessible color combination when light foreground is preferred", () => {
+    const actual = balanceColorContrast(lightBlue, darkBlue, 2, true);
+    const expected = {
+      // A lightened version of `lightBlue`
+      foreground: {
+        hex: "#e8f3fd",
+        h: 209,
+        s: 84,
+        l: 95,
+        r: 232,
+        g: 243,
+        b: 253,
+        luminance: 0.8834883812478093
+      },
+      background: darkBlue,
+      contrast: 76
+    };
     expect(actual).toEqual(expected);
   });
 });
 
-describe("generateColorFromHSL", () => {
-  it("should generate a blue color object from HSL values", () => {
-    const actual = generateColorFromHSL(blue.h, blue.s, blue.l);
-    const expected = blue;
+describe("balanceColorContrast - WCAG 2 algorithm", () => {
+  // Original: https://webaim.org/resources/contrastchecker/?fcolor=0960C3&bcolor=A1CDF7
+  // Final: https://webaim.org/resources/contrastchecker/?fcolor=053770&bcolor=A1CDF7
+  it("should generate accessible color combination when dark foreground is preferred", () => {
+    const actual = balanceColorContrast(darkBlue, lightBlue, 2, false);
+    const expected = {
+      // A darkened version of `darkBlue`
+      foreground: {
+        hex: "#053770",
+        h: 212,
+        s: 91,
+        l: 23,
+        r: 5,
+        g: 55,
+        b: 112,
+        luminance: 0.03934493666964804
+      },
+      background: lightBlue,
+      contrast: 7.05
+    };
     expect(actual).toEqual(expected);
   });
-  it("should generate a red color object from HSL values", () => {
-    const actual = generateColorFromHSL(red.h, red.s, red.l);
-    const expected = red;
+
+  // Original: https://webaim.org/resources/contrastchecker/?fcolor=A1CDF7&bcolor=0960C3
+  // Final: https://webaim.org/resources/contrastchecker/?fcolor=FFFFFF&bcolor=0856Af
+  it("should generate accessible color combination when light foreground is preferred", () => {
+    const actual = balanceColorContrast(lightBlue, darkBlue, 2, false);
+    const expected = {
+      // A lightened version of `lightBlue`
+      foreground: {
+        hex: "#ffffff",
+        h: 209,
+        s: 84,
+        l: 100,
+        r: 255,
+        g: 255,
+        b: 255,
+        luminance: 1
+      },
+      // A darkened version of `darkBlue`
+      background: {
+        hex: "#0856af",
+        h: 212,
+        s: 91,
+        l: 36,
+        r: 8,
+        g: 86,
+        b: 175,
+        luminance: 0.09802346277709478
+      },
+      contrast: 7.09
+    };
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe("darkForegroundHasHigherContrast - APCA algorithm", () => {
+  it("should be false for dark color", () => {
+    expect(darkForegroundHasHigherContrast(darkBlue, true)).toEqual(false);
+  });
+  it("should be true for light color", () => {
+    expect(darkForegroundHasHigherContrast(lightBlue, true)).toEqual(true);
+  });
+});
+
+describe("darkForegroundHasHigherContrast - WCAG 2 algorithm", () => {
+  it("should be false for dark color", () => {
+    expect(darkForegroundHasHigherContrast(darkBlue, false)).toEqual(false);
+  });
+  it("should be true for light color", () => {
+    expect(darkForegroundHasHigherContrast(lightBlue, false)).toEqual(true);
+  });
+});
+
+describe("generateColorFromHSL", () => {
+  it("should generate dark blue color object from HSL values", () => {
+    const actual = generateColorFromHSL(darkBlue.h, darkBlue.s, darkBlue.l);
+    const expected = darkBlue;
+    expect(actual).toEqual(expected);
+  });
+  it("should generate light blue color object from HSL values", () => {
+    const actual = generateColorFromHSL(lightBlue.h, lightBlue.s, lightBlue.l);
+    const expected = lightBlue;
     expect(actual).toEqual(expected);
   });
 });
 
 describe("generateComplimentaryColorFromHSL", () => {
-  it("should generate complimentary color for blue", () => {
-    const actual = generateComplimentaryColorFromHSL(blue.h, blue.s, blue.l);
+  // Comparison: https://webaim.org/resources/contrastchecker/?fcolor=0960C3&bcolor=C36C09
+  it("should generate complimentary color", () => {
+    const actual = generateComplimentaryColorFromHSL(darkBlue.h, darkBlue.s, darkBlue.l);
     const expected = {
-      hex: "#ffb158",
+      hex: "#c36c09",
       h: 32,
-      s: 100,
-      l: 67.3,
-      r: 255,
-      g: 177,
-      b: 88,
-      luminance: 0.5340886171946676
+      s: 91,
+      l: 40,
+      r: 195,
+      g: 108,
+      b: 9,
+      luminance: 0.22346949399375896
     };
     expect(actual).toEqual(expected);
   });
-});
-
-describe("balanceColorContrast", () => {
-  it("should generate accessible dark foreground color using WCAG 2 algorithm", () => {
-    const actual = balanceColorContrast(blueDarkBase, blue, true, true, 1, false);
-    const expected = {
-      foreground: blueDarkened,
-      background: blue,
-      contrast: 7.25
-    };
-    expect(actual).toEqual(expected);
-  });
-  it("should generate accessible light foreground color using WCAG 2 algorithm", () => {
-    const actual = balanceColorContrast(redLightBase, red, true, false, 1, false);
-    const expected = {
-      foreground: redLightened,
-      background: red,
-      contrast: 8.14
-    };
-    expect(actual).toEqual(expected);
-  });
-  // it("should fail to generate accessible light foreground color", () => {
-  //   TODO: how to write this?
-  // });
 });

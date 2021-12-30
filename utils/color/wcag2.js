@@ -29,10 +29,7 @@ const contrastRatios = [
 ];
 
 /**
- * AA large text - 3:1
- * AA small text - 4.5:1
- * AAA large text - 4.5:1
- * AAA small text - 7:1
+ * TODO
  * @param {Number} contrast - Color contrast (float)
  * @param {String} requirement
  * @returns {Boolean} Whether it has sufficient contrast
