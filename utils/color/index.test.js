@@ -1,8 +1,8 @@
 import {
-  generateBaseForegroundColor,
+  generateForegroundColor,
   generateColorFromHSL,
   generateComplimentaryColorFromHSL,
-  generateContrastColors
+  balanceColorContrast
 } from "utils/color";
 
 const blue = {
@@ -71,15 +71,15 @@ const redLightBase = {
   luminance: 0.6982608811436574
 };
 
-describe("generateBaseForegroundColor", () => {
+describe("generateForegroundColor", () => {
   it("should generate dark blue foreground color, starting from an edge color", () => {
-    const actual = generateBaseForegroundColor(blue, false);
-    const expected = { color: blueDarkBase, darkened: true };
+    const actual = generateForegroundColor(blue, false);
+    const expected = { color: blueDarkBase, isDark: true };
     expect(actual).toEqual(expected);
   });
   it("should generate light red foreground color, starting from an edge color", () => {
-    const actual = generateBaseForegroundColor(red, false);
-    const expected = { color: redLightBase, darkened: false };
+    const actual = generateForegroundColor(red, false);
+    const expected = { color: redLightBase, isDark: false };
     expect(actual).toEqual(expected);
   });
 });
@@ -114,9 +114,9 @@ describe("generateComplimentaryColorFromHSL", () => {
   });
 });
 
-describe("generateContrastColors", () => {
+describe("balanceColorContrast", () => {
   it("should generate accessible dark foreground color using WCAG 2 algorithm", () => {
-    const actual = generateContrastColors(blueDarkBase, blue, true, true, false);
+    const actual = balanceColorContrast(blueDarkBase, blue, true, true, 1, false);
     const expected = {
       foreground: blueDarkened,
       background: blue,
@@ -125,7 +125,7 @@ describe("generateContrastColors", () => {
     expect(actual).toEqual(expected);
   });
   it("should generate accessible light foreground color using WCAG 2 algorithm", () => {
-    const actual = generateContrastColors(redLightBase, red, true, false, false);
+    const actual = balanceColorContrast(redLightBase, red, true, false, 1, false);
     const expected = {
       foreground: redLightened,
       background: red,
