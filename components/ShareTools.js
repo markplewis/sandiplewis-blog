@@ -11,7 +11,7 @@ function encodeUrlParams(params = {}) {
     .join("&");
 }
 
-export default function ShareTools({ text, position, align }) {
+export default function ShareTools({ text, position = "", align = "" }) {
   const router = useRouter();
   const url = `${BASE_URL}${router.asPath}`;
   const positionClass = position === "vertical" ? styles.shareToolsVertical : "";

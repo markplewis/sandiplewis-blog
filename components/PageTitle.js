@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useApp } from "utils/useApp";
 
-export default function PageTitle({ className, children }) {
+export default function PageTitle({ className = "", children }) {
   const { dispatchApp } = useApp();
   const skipLinkTargetRef = useRef(null);
 

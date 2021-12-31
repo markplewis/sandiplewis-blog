@@ -2,8 +2,16 @@ import { contrastAPCA, contrastTestAPCA } from "utils/color/apca";
 import { hexToHSL, HSLToRGB, luminance, RGBToHex } from "utils/color/conversion";
 import { contrastWCAG2, contrastTestWCAG2 } from "utils/color/wcag2";
 
+// Whether to use the APCA color contrast algorithm or the older WCAG 2 algorithm
 const USE_APCA = true;
 
+/**
+ * Returns a color object
+ * @param {Number} h - Hue
+ * @param {Number} s - Saturation
+ * @param {Number} l - Lightness
+ * @returns {Object}
+ */
 export function generateColorFromHSL(h, s, l) {
   const { r, g, b } = HSLToRGB(h, s, l);
   return {
@@ -18,6 +26,12 @@ export function generateColorFromHSL(h, s, l) {
   };
 }
 
+/**
+ * Determines whether the given background color has higher contrast when overlaid with black or white foreground text
+ * @param {Object} color - Color object
+ * @param {Boolean} useAPCA - Whether to use the APCA or WCAG 2 color contrast algorithm
+ * @returns {Boolean}
+ */
 export function darkForegroundHasHigherContrast(color, useAPCA = USE_APCA) {
   // Black foreground
   const blackFgContrast = useAPCA
@@ -29,14 +43,14 @@ export function darkForegroundHasHigherContrast(color, useAPCA = USE_APCA) {
     ? contrastAPCA("#ffffff", color.hex)
     : contrastWCAG2(1, color.luminance);
 
-  // Dark foreground has higher contrast than light foreground
+  // Does black foreground have higher contrast than white foreground?
   return blackFgContrast > whiteFgContrast;
 }
 
 /**
  * TODO
  * @param {Object} bgColor - Color object
- * @param {Number} level - Color contrast strictness level
+ * @param {Number} level - Color contrast strictness level, where 0 is the lowest and 2 is the highest
  * @returns {Object} Balanced foreground and background colors, and their relative contrast
  */
 function generateColorSet(bgColor, level) {
