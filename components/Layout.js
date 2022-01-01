@@ -50,7 +50,7 @@ function Layout({
   children,
   title = "",
   description = DEFAULT_META_DESCRIPTION,
-  image = {},
+  image = null,
   className = ""
 }) {
   const debug = useDebug();
@@ -188,6 +188,9 @@ function Layout({
 Layout.displayName = "Layout";
 Layout.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  description: PropTypes.string
+  title: PropTypes.string,
+  description: PropTypes.string,
+  image: PropTypes.object,
+  className: PropTypes.string
 };
 export default Layout;

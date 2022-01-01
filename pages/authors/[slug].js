@@ -82,7 +82,6 @@ export default function Author({ data: initialData }) {
             className={styles.coverImage}
             image={author?.image}
             title={author?.name}
-            url={author?.image}
             width={376}
             height={376}
           />

@@ -3,6 +3,7 @@ const nextJest = require("next/jest");
 // See: https://nextjs.org/docs/testing#jest-and-react-testing-library
 // And: https://github.com/vercel/next.js/tree/canary/examples/with-jest
 
+// @ts-ignore
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
   dir: "./"

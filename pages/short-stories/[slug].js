@@ -111,7 +111,6 @@ export default function ShortStory({ data: initialData }) {
             className={styles.coverImage}
             image={shortStory?.image}
             title={shortStory?.title}
-            url={shortStory?.image}
             width={376}
             height={600}
           />

@@ -111,7 +111,6 @@ export default function Post({ data: initialData }) {
               className={styles.coverImage}
               image={post.image}
               title={post.title}
-              url={post.image}
               width={imageSize.width}
               height={imageSize.height}
             />

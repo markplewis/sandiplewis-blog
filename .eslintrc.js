@@ -30,6 +30,8 @@ module.exports = {
   rules: {
     "prettier/prettier": "error",
     "arrow-body-style": "off",
-    "prefer-arrow-callback": "off"
+    "prefer-arrow-callback": "off",
+    // See: https://www.sanity.io/docs/parts#e778915da57f
+    "import/no-unresolved": [2, { ignore: ["^(all|part):"] }]
   }
 };

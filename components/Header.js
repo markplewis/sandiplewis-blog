@@ -19,9 +19,9 @@ export default function Header({ children }) {
   const isMedium = useMediaQuery(`(min-width: ${rem(820)})`);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuHidden, setMenuHidden] = useState(true);
-  const menuButtonRef = useRef();
-  const menuRef = useRef();
-  const headerRef = useRef();
+  const menuButtonRef = useRef(null);
+  const menuRef = useRef(null);
+  const headerRef = useRef(null);
   const [headerHeight, setHeaderHeight] = useState(0);
 
   // Adjust menu height and position to accommodate header

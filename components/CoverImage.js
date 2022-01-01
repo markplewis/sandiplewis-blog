@@ -6,7 +6,14 @@ import { urlFor } from "lib/sanity";
 // https://nextjs.org/docs/basic-features/image-optimization
 // https://nextjs.org/docs/api-reference/next/image
 
-export default function CoverImage({ className, title, image, slug, width = 1240, height = 540 }) {
+export default function CoverImage({
+  className,
+  title,
+  image,
+  slug = null,
+  width = 1240,
+  height = 540
+}) {
   // See: https://nextjs.org/docs/api-reference/next/image
   // Can't produce <picture> elements (no art direction)
   const img = (

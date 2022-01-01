@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 const FriendlyCaptcha = ({ onStarted, onReady, onSuccess, onError }) => {
   const container = useRef();
   const widget = useRef();
-  const [widgetModule, setWidgetModule] = useState();
+  const [widgetModule, setWidgetModule] = useState(null);
 
   // Must use dynamic import (see: https://github.com/FriendlyCaptcha/friendly-challenge/issues/29)
   useEffect(() => {

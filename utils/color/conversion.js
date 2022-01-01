@@ -1,8 +1,13 @@
 // https://css-tricks.com/converting-color-spaces-in-javascript/#hex-to-hsl
 // https://www.sarasoueidan.com/blog/hex-rgb-to-hsl/#hsl-and-color-harmonies
 
-export function hexToHSL(H) {
-  let { r, g, b } = hexToRGB(H);
+/**
+ * Converts the provided hex color into HSL format
+ * @param {String} hex - Hex color
+ * @returns {Object}
+ */
+export function hexToHSL(hex) {
+  let { r, g, b } = hexToRGB(hex);
   r /= 255;
   g /= 255;
   b /= 255;
@@ -36,46 +41,69 @@ export function hexToHSL(H) {
   return { h, s, l };
 }
 
-export function hexToLongHex(H) {
-  let r = 0;
-  let g = 0;
-  let b = 0;
+/**
+ * Ensures that the provided hex color is six digits long
+ * @param {String} hex - Hex color
+ * @returns {String}
+ */
+export function hexToLongHex(hex) {
+  let r;
+  let g;
+  let b;
 
-  if (H.length == 4) {
-    r = H[1] + H[1];
-    g = H[2] + H[2];
-    b = H[3] + H[3];
-  } else if (H.length == 7) {
-    r = H[1] + H[2];
-    g = H[3] + H[4];
-    b = H[5] + H[6];
+  if (hex.length === 4) {
+    r = hex[1] + hex[1];
+    g = hex[2] + hex[2];
+    b = hex[3] + hex[3];
+  } else if (hex.length === 7) {
+    r = hex[1] + hex[2];
+    g = hex[3] + hex[4];
+    b = hex[5] + hex[6];
   }
   return `#${r}${g}${b}`;
 }
 
-export function hexToNumber(H) {
-  const hex = H.replace("#", "0x");
-  return parseInt(hex, 16); // or +hex
+/**
+ * Converts the provided hex color into its numerical equivalent
+ * @param {String} hex - Hex color
+ * @returns {Number}
+ */
+export function hexToNumber(hex) {
+  const h = hex.replace("#", "0x");
+  return parseInt(h, 16); // Or we could use `+h` instead
 }
 
-export function hexToRGB(H) {
-  let r = 0;
-  let g = 0;
-  let b = 0;
+/**
+ * Converts the provided hex color into RGB format
+ * @param {String} hex - Hex color
+ * @returns {Object}
+ */
+export function hexToRGB(hex) {
+  let r;
+  let g;
+  let b;
 
-  if (H.length == 4) {
-    r = "0x" + H[1] + H[1];
-    g = "0x" + H[2] + H[2];
-    b = "0x" + H[3] + H[3];
-  } else if (H.length == 7) {
-    r = "0x" + H[1] + H[2];
-    g = "0x" + H[3] + H[4];
-    b = "0x" + H[5] + H[6];
+  if (hex.length === 4) {
+    r = "0x" + hex[1] + hex[1];
+    g = "0x" + hex[2] + hex[2];
+    b = "0x" + hex[3] + hex[3];
+  } else if (hex.length === 7) {
+    r = "0x" + hex[1] + hex[2];
+    g = "0x" + hex[3] + hex[4];
+    b = "0x" + hex[5] + hex[6];
   }
-  // Prepend the variables with + to convert them from strings back to numbers
+  // Prepend the variables with + to convert them from strings to numbers
+  // (or we could use `parseInt(r, 16)` instead)
   return { r: +r, g: +g, b: +b };
 }
 
+/**
+ * Converts the provided HSL color into RGB format
+ * @param {Number} h - Hue
+ * @param {Number} s - Saturation
+ * @param {Number} l - Lightness
+ * @returns {Object}
+ */
 export function HSLToRGB(h, s, l) {
   // Ensure that hue value is positive
   // if (h < 0) {
@@ -125,7 +153,7 @@ export function HSLToRGB(h, s, l) {
 }
 
 /**
- * Calculate the luminance of an RGB color
+ * Calculates the luminance of the provided RGB color
  * @see https://dev.to/alvaromontoro/building-your-own-color-contrast-checker-4j7o
  * @see https://stackoverflow.com/questions/9733288/how-to-programmatically-calculate-the-contrast-ratio-between-two-colors/9733420#9733420
  * @param {Number} r - Red
@@ -141,14 +169,22 @@ export function luminance(r, g, b) {
   return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
 }
 
+/**
+ * Converts the provided RGB color into hex format
+ * @param {Number} r - Red
+ * @param {Number} g - Green
+ * @param {Number} b - Blue
+ * @returns {String}
+ */
 export function RGBToHex(r, g, b) {
-  r = r.toString(16);
-  g = g.toString(16);
-  b = b.toString(16);
+  let rr = r.toString(16);
+  let gg = g.toString(16);
+  let bb = b.toString(16);
 
-  if (r.length == 1) r = "0" + r;
-  if (g.length == 1) g = "0" + g;
-  if (b.length == 1) b = "0" + b;
+  // Zero padding
+  if (rr.length === 1) rr = `0${rr}`;
+  if (gg.length === 1) gg = `0${gg}`;
+  if (bb.length === 1) bb = `0${bb}`;
 
-  return hexToLongHex(`#${r}${g}${b}`);
+  return hexToLongHex(`#${rr}${gg}${bb}`);
 }

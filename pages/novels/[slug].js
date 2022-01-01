@@ -113,7 +113,6 @@ export default function Novel({ data: initialData }) {
             className={styles.coverImage}
             image={novel?.image}
             title={novel?.title}
-            url={novel?.image}
             width={376}
             height={600}
           />
@@ -144,7 +143,7 @@ export default function Novel({ data: initialData }) {
         {novel?.reviews?.length ? (
           <div className={styles.reviews}>
             <h2 className={styles.reviewsHeading}>Reviews</h2>
-            <ReviewList reviews={novel.reviews} headings="h3" />
+            <ReviewList reviews={novel.reviews} headingLevel={3} />
           </div>
         ) : null}
       </div>
