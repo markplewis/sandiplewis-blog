@@ -31,7 +31,7 @@ const contrastRatios = [
 /**
  * TODO
  * @param {Number} contrast - Color contrast (float)
- * @param {String} requirement
+ * @param {Number} level
  * @returns {Boolean} Whether it has sufficient contrast
  */
 export function contrastTestWCAG2(contrast, level = 2) {

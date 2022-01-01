@@ -21,10 +21,13 @@ export const FORM_ERROR = "error";
 
 async function sendEmail(data) {
   try {
+    // See: https://nextjs.org/blog/next-9-4#improved-built-in-fetch-support
     let response = await fetch("/api/sendEmail", {
       method: "POST",
       body: data,
-      type: "application/json"
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
     response = await response.json();
     return response;
@@ -39,7 +42,7 @@ async function sendEmail(data) {
 
 export default function ContactForm({ onStateChange }) {
   const [state, setState] = useState(FORM_IDLE);
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState(null);
 
   const {
     register,
@@ -183,7 +186,7 @@ export default function ContactForm({ onStateChange }) {
                 aria-invalid={errors.message ? true : null}
                 aria-describedby={errors.message ? "message-error" : null}
                 id="message"
-                rows="8"></textarea>
+                rows={8}></textarea>
               {errors.message && (
                 <p className={styles.error} id="message-error" aria-live="polite">
                   <FaExclamationCircle />

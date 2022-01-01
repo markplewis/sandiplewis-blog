@@ -6,6 +6,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 module.exports = withBundleAnalyzer({
+  reactStrictMode: true,
   eslint: {
     dirs: ["components", "env", "lib", "pages", "utils"]
   },

@@ -1,6 +1,6 @@
 import { isValid, parseISO, format } from "date-fns";
 
-export default function Date({ className, dateString }) {
+export default function Date({ className = "", dateString }) {
   if (!isValid(parseISO(dateString))) {
     return "No date";
   }

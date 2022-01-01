@@ -149,8 +149,11 @@ function Layout({
         {facebookImageURL && imageOrientation && (
           <>
             <meta property="og:image" content={facebookImageURL} />
-            <meta property="og:image:width" content={sizes.facebook[imageOrientation].width} />
-            <meta property="og:image:height" content={sizes.facebook[imageOrientation].height} />
+            <meta property="og:image:width" content={`${sizes.facebook[imageOrientation].width}`} />
+            <meta
+              property="og:image:height"
+              content={`${sizes.facebook[imageOrientation].height}`}
+            />
           </>
         )}
         {facebookImageURL && imageAlt && <meta name="og:image:alt" content={imageAlt} />}

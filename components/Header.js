@@ -40,24 +40,14 @@ export default function Header({ children }) {
 
   const setContentHidden = useCallback(
     hidden => {
-      dispatchApp({
-        type: "UPDATE",
-        payload: {
-          bodyContentHidden: hidden
-        }
-      });
+      dispatchApp({ bodyContentHidden: hidden });
     },
     [dispatchApp]
   );
 
   // Lock scrolling while menu is open
   useEffect(() => {
-    dispatchApp({
-      type: "UPDATE",
-      payload: {
-        bodyScrollLocked: menuOpen && !isMedium
-      }
-    });
+    dispatchApp({ bodyScrollLocked: menuOpen && !isMedium });
   }, [dispatchApp, isMedium, menuOpen]);
 
   const openMenu = () => {

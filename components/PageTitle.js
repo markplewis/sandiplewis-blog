@@ -6,12 +6,7 @@ export default function PageTitle({ className = "", children }) {
   const skipLinkTargetRef = useRef(null);
 
   useEffect(() => {
-    dispatchApp({
-      type: "UPDATE",
-      payload: {
-        skipLinkTargetRef
-      }
-    });
+    dispatchApp({ skipLinkTargetRef });
   }, [dispatchApp]);
 
   return (
