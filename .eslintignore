@@ -1,5 +1,4 @@
-.next
-.vscode
-build
-node_modules
-public/studio
+/.next
+/.vscode
+/node_modules
+/public/studio

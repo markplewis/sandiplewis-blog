@@ -1,8 +1,6 @@
-/.github
 /.next
 /.vscode
-/build
 /node_modules
-/package.json
-/package-lock.json
 /public/studio
+package.json
+package-lock.json
