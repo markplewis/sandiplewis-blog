@@ -49,9 +49,9 @@ const featuredNovelAndHomePageQuery = `*[_type == "homePage"][0] {
 const featuredReviewsQuery = `*[_type == "homePage"][0].reviews[]->{review, author, title, _id}`;
 
 function getRecentPostsQuery(limit) {
-  return `*[_type == "post"][0..${
+  return `*[_type == "post"] | order(publishedAt desc){title, 'slug': slug.current, image, description, _id} [0..${
     limit - 1
-  }] | order(publishedAt desc){title, 'slug': slug.current, image, description, _id}`;
+  }]`;
 }
 const recentPostsQuery = getRecentPostsQuery(3);
 

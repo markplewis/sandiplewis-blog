@@ -162,9 +162,7 @@ export async function getStaticProps({ params }) {
   }
   return {
     props: {
-      data: {
-        post
-      }
+      data: { post }
     },
     // When `revalidate` is `false` (its default value) the page will be cached as built until your
     // next build. Otherwise, Next.js will attempt to re-generate the page when a request comes in,
@@ -177,7 +175,7 @@ export async function getStaticProps({ params }) {
 // This function gets called at build time on the server side ("Static Generation"). It may be
 // called again, via a serverless function ("Incremental Static Regeneration"), if the requested
 // path has not been generated yet (i.e. when new posts are published after a build). Without this
-// mechanism in place, the site would have to be rebuilt every time a new post is published.
+// mechanism in place, the site would need to be rebuilt every time a new post is published.
 // See: https://nextjs.org/docs/basic-features/data-fetching#getstaticpaths-static-generation
 
 export async function getStaticPaths() {
