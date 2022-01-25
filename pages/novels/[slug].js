@@ -153,15 +153,9 @@ export default function Novel({ data: initialData }) {
 
 export async function getStaticProps({ params }) {
   const data = await client.fetch(query, { slug: params.slug });
-  if (!data) {
-    return {
-      notFound: true
-    };
-  }
   return {
-    props: {
-      data
-    },
+    props: { data },
+    notFound: !data,
     revalidate: 10
   };
 }

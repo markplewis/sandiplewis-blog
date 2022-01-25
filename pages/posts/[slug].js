@@ -148,22 +148,19 @@ export default function Post({ data: initialData }) {
 // This function gets called at build time on the server side ("Static Generation"). It may be
 // called again, via a serverless function ("Incremental Static Regeneration"), if revalidation
 // is enabled and a new request comes in (see below). See:
-// https://nextjs.org/docs/basic-features/data-fetching#getstaticprops-static-generation
-// https://nextjs.org/docs/basic-features/data-fetching#incremental-static-regeneration
+// https://nextjs.org/docs/basic-features/data-fetching/get-static-props
+// https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration
 
 export async function getStaticProps({ params }) {
   const post = await client.fetch(postQuery, {
     slug: params.slug
   });
-  if (!post) {
-    return {
-      notFound: true // Return a 404 status and page
-    };
-  }
   return {
     props: {
       data: { post }
     },
+    // Return a 404 status and page if the post doesn't exist yet or no longer exists
+    notFound: !post,
     // When `revalidate` is `false` (its default value) the page will be cached as built until your
     // next build. Otherwise, Next.js will attempt to re-generate the page when a request comes in,
     // once every X seconds (at most).

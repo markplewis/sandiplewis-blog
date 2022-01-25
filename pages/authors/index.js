@@ -45,9 +45,7 @@ export default function Authors({ data: initialData }) {
 export async function getStaticProps() {
   const data = await client.fetch(query);
   return {
-    props: {
-      data
-    },
+    props: { data },
     revalidate: 10
   };
 }
