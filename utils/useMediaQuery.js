@@ -14,15 +14,9 @@ export default function useMediaQuery(query) {
     const listener = () => {
       setMatches(media.matches);
     };
-    // For Safari 13 and below
-    const isModernBrowser = window.matchMedia("all").addEventListener;
-    if (!isModernBrowser) {
-      media.addListener(listener);
-      return () => media.removeListener(listener);
-    } else {
-      media.addEventListener("change", listener);
-      return () => media.removeEventListener("change", listener);
-    }
+    media.addEventListener("change", listener);
+
+    return () => media.removeEventListener("change", listener);
   }, [matches, query]);
 
   return matches;

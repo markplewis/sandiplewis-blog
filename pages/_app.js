@@ -26,6 +26,17 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
+const polyfillFeatures = [
+  "default",
+  "es2015",
+  "es2016",
+  "es2017",
+  "MediaQueryList.prototype.addEventListener",
+  "MediaQueryList.prototype.removeEventListener"
+].join("%2C");
+
+const polyfillService = `https://polyfill.io/v3/polyfill.min.js?features=${polyfillFeatures}&flags=gated`;
+
 // TODO: in Next.js 11, it isn't possible to proxy the Plausible script on statically-generated
 // pages, but this may be possible via Next.js 12's middleware. So, we'll have to monitor the
 // `next-plausible` package for updates.
@@ -37,10 +48,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <PlausibleProvider domain={domain} enabled={envProd}>
       <AppProvider>
-        <Script
-          src="https://polyfill.io/v3/polyfill.min.js?features=default"
-          strategy="beforeInteractive"
-        />
+        <Script src={polyfillService} strategy="beforeInteractive" />
         <Component {...pageProps} />
       </AppProvider>
     </PlausibleProvider>
