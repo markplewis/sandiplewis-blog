@@ -1,6 +1,7 @@
 import AbortController from "abort-controller";
 import PlausibleProvider from "next-plausible";
 import Router from "next/router";
+import Script from "next/script";
 import NProgress from "nprogress";
 import { BASE_URL, envProd } from "env/constants";
 import { AppProvider } from "utils/useApp";
@@ -36,6 +37,10 @@ function MyApp({ Component, pageProps }) {
   return (
     <PlausibleProvider domain={domain} enabled={envProd}>
       <AppProvider>
+        <Script
+          src="https://polyfill.io/v3/polyfill.min.js?features=default"
+          strategy="beforeInteractive"
+        />
         <Component {...pageProps} />
       </AppProvider>
     </PlausibleProvider>
