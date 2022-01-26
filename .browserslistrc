@@ -1,0 +1,9 @@
+last 4 versions
+not ie <= 11
+
+# See: https://github.com/browserslist/browserslist and https://browserslist.dev/
+
+# Can't use `not dead` until this issue has been resolved:
+# https://github.com/sanity-io/sanity/issues/1237
+
+# Can't use `> 1%` becuase Safari has low usage numbers

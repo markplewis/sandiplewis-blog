@@ -7,7 +7,6 @@
   "author": "Mark Plewis <mplewis1@gmail.com>",
   "repository": "github:markplewis/sandiplewis-blog",
   "license": "UNLICENSED",
-  "browserslist": ["last 4 versions", "not ie <= 11"],
   "scriptsComments": {
     "start": "Starts both applications (Sanity Studio and Next.js) in development mode",
     "sanity-start": "Starts Sanity Studio's development server (the `sanity start` command runs within the `studio` folder)",
