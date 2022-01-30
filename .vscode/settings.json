@@ -9,6 +9,9 @@
     ".env.local": "shellscript",
     ".env.local.example": "shellscript"
   },
+  "json.schemas": [{
+    "$schema": "https://json.schemastore.org/jsconfig"
+  }],
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
